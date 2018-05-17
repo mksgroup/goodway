@@ -35,11 +35,6 @@
     </dependencyManagement>
 
     <modules>
-        <module>eureka-service</module>
-        <module>vehicle-service</module>
-		<module>order-service</module>
-        <module>user-service</module>
-        <module>requesting-service</module>
 		<module>app</module>
     </modules>
 
