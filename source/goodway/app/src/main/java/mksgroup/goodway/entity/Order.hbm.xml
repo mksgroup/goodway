@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated May 15, 2018 5:31:38 PM by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+ <class name="mksgroup.goodway.entity.Order" table="ORDER">
+  <id name="id" type="java.lang.Integer">
+   <column name="ID"/>
+   <generator class="identity"/>
+  </id>
+  <property generated="never" lazy="false" name="name" type="java.lang.String">
+   <column name="NAME"/>
+  </property>
+  <property generated="never" lazy="false" name="createdDate" type="java.util.Date">
+   <column name="CREATEDDATE"/>
+  </property>
+  <property generated="never" lazy="false" name="deliveryDate" type="java.util.Date">
+   <column name="DELIVERYDATE"/>
+  </property>
+  <list lazy="true" name="products" table="PRODUCT">
+   <key>
+    <column name="ID"/>
+   </key>
+   <list-index base="0"/>
+   <one-to-many class="mksgroup.goodway.entity.Product"/>
+  </list>
+  <many-to-one class="mksgroup.goodway.entity.Address" fetch="join" name="address">
+   <column name="ADDRESS"/>
+  </many-to-one>
+ </class>
+</hibernate-mapping>
