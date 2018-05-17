@@ -2,22 +2,36 @@ package mksgroup.goodway.entity;
 
 import java.io.Serializable;
 
-public class Vehicle implements Serializable {
-    private Integer id;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "goodway_vehicel")
+public class Vehicle implements Serializable {
+    @Id
+    @GeneratedValue
+    @Column(name = "id", nullable = false)
+    private Long id;
+
+    @Column(name = "name", length = 128, nullable = false)
     private String name;
 
     /** Thể tích có thể vận chuyển. Đơn vị cm^2 */
+    @Column(name = "volume", nullable = false)
     private double volume;
 
     /** Loading capacity: tải trọng có thể vận chuyển. */
+    @Column(name = "capacity", nullable = false)
     private double capacity;
 
     /**
      * Get value of id.
      * @return the id
      */
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -25,7 +39,7 @@ public class Vehicle implements Serializable {
      * Set the value for id.
      * @param id the id to set
      */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

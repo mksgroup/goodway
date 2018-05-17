@@ -1,4 +1,4 @@
-package mksgroup.goodway.domain.valueobject;
+package mksgroup.goodway.app.domain.valueobject;
 
 import mksgroup.goodway.entity.Vehicle;
 

@@ -26,10 +26,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -62,38 +58,8 @@ class VehicleRestControllerTest {
     
     @Value("${local.server.port}")
     private int port;
-    /**
-     * [Give the description for method].
-     * @throws java.lang.Exception
-     */
-    @BeforeAll
-    static void setUpBeforeClass() throws Exception {
-    }
 
-    /**
-     * [Give the description for method].
-     * @throws java.lang.Exception
-     */
-    @AfterAll
-    static void tearDownAfterClass() throws Exception {
-    }
-
-    /**
-     * [Give the description for method].
-     * @throws java.lang.Exception
-     */
-    @BeforeEach
-    void setUp() throws Exception {
-    }
-
-    /**
-     * [Give the description for method].
-     * @throws java.lang.Exception
-     */
-    @AfterEach
-    void tearDown() throws Exception {
-    }
-
+  
     /**
      * Test method for {@link mksgroup.goodway.app.restcontroler.VehicleRestController#add(mksgroup.goodway.domain.valueobject.VehicleVO)}.
      */
