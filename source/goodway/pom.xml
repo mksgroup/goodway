@@ -37,8 +37,10 @@
     <modules>
         <module>eureka-service</module>
         <module>vehicle-service</module>
+		<module>order-service</module>
         <module>user-service</module>
         <module>requesting-service</module>
+		<module>app</module>
     </modules>
 
     <!-- Build step is required to include the spring boot artifacts in generated jars -->
