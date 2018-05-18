@@ -9,9 +9,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "goodway_vehicel")
+@Table(name = "goodway_vehicle")
 public class Vehicle implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1771888441368721319L;
+
+	@Id
     @GeneratedValue
     @Column(name = "id", nullable = false)
     private Long id;
