@@ -25,6 +25,7 @@
 
     <modules>
 		<module>app</module>
+		<module>goodway-core</module>
     </modules>
 
     <!-- Build step is required to include the spring boot artifacts in generated jars -->
