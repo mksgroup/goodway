@@ -1,120 +1,185 @@
-/**
- * Copyright (C) 2018 MKSGROUP - All Rights Reserved.
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
  */
 package mksgroup.goodway.entity;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
 /**
- * Sản phẩm đã đóng gói để giao hàng.
- * @author ThachLN
+ *
+ * @author ADMIN
  */
+@Entity
+@Table(name = "product")
 public class Product implements Serializable {
-    private Integer id;
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+    @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "description", nullable = false)
+    private String description;
+
+    @Column(name = "price", nullable = false)
+    private float price;
+
+    @Column(name = "quantity", nullable = true)
+    private int quantity;
+    @Column(name = "logo", nullable = false)
+    private String logo;
     
     /** Thể tích đã đóng gói. length × width × height. Đơn vị mỗi cạnh là m.*/
+    @Column(name = "height", nullable = true)
     private double height;
+    @Column(name = "width", nullable = true)
     private double width;
+    @Column(name = "length", nullable = true)
     private double length;
     
     /** Trọng lượng đã đóng gói. Đơn vị tính là kg. */
+    
+    @Column(name = "weight", nullable = true)
     private double weight;
 
-    /**
-    * Get value of id.
-    * @return the id
-    */
-    public Integer getId() {
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "product")
+    private List<OrderDetail> listOrderDetail;
+
+    
+    
+    public Product() {
+    	
+    	
+    	
+    }
+    
+    
+    
+
+    public double getHeight() {
+		return height;
+	}
+
+
+
+
+	public void setHeight(double height) {
+		this.height = height;
+	}
+
+
+
+
+	public double getWidth() {
+		return width;
+	}
+
+
+
+
+	public void setWidth(double width) {
+		this.width = width;
+	}
+
+
+
+
+	public double getLength() {
+		return length;
+	}
+
+
+
+
+	public void setLength(double length) {
+		this.length = length;
+	}
+
+
+
+
+	public double getWeight() {
+		return weight;
+	}
+
+
+
+
+	public void setWeight(double weight) {
+		this.weight = weight;
+	}
+
+
+
+
+	public Long getId() {
         return id;
     }
 
-    /**
-     * Set the value for id.
-     * @param id the id to set
-     */
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-    * Get value of name.
-    * @return the name
-    */
     public String getName() {
         return name;
     }
 
-    /**
-     * Set the value for name.
-     * @param name the name to set
-     */
     public void setName(String name) {
         this.name = name;
     }
 
-    /**
-    * Get value of height.
-    * @return the height
-    */
-    public double getHeight() {
-        return height;
+    public String getDescription() {
+        return description;
     }
 
-    /**
-     * Set the value for height.
-     * @param height the height to set
-     */
-    public void setHeight(double height) {
-        this.height = height;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    /**
-    * Get value of width.
-    * @return the width
-    */
-    public double getWidth() {
-        return width;
+    public float getPrice() {
+        return price;
     }
 
-    /**
-     * Set the value for width.
-     * @param width the width to set
-     */
-    public void setWidth(double width) {
-        this.width = width;
+    public void setPrice(float price) {
+        this.price = price;
     }
 
-    /**
-    * Get value of length.
-    * @return the length
-    */
-    public double getLength() {
-        return length;
+    public String getLogo() {
+        return logo;
     }
 
-    /**
-     * Set the value for length.
-     * @param length the length to set
-     */
-    public void setLength(double length) {
-        this.length = length;
+    public void setLogo(String logo) {
+        this.logo = logo;
     }
 
-    /**
-    * Get value of weight.
-    * @return the weight
-    */
-    public double getWeight() {
-        return weight;
+    public List<OrderDetail> getListOrderDetail() {
+        return listOrderDetail;
     }
 
-    /**
-     * Set the value for weight.
-     * @param weight the weight to set
-     */
-    public void setWeight(double weight) {
-        this.weight = weight;
+    public void setListOrderDetail(List<OrderDetail> listOrderDetail) {
+        this.listOrderDetail = listOrderDetail;
     }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
 }
