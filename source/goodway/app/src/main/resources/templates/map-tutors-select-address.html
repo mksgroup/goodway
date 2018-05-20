@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Goodway</title>
+
+    <div th:replace="fragments/header :: header-css-js"/>
+
+    <style>
+      #map {
+        height: 600px;
+        width: 100%;
+       }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    Danh sách các địa điểm giao hàng
+                  </div>
+                  <div class="scroll-container">
+                      <div id="addressTable">
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+            <div id="map" class="map-responsive"></div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+<!-- /.container -->
+<!-- Refer: https://developers.google.com/maps/documentation/javascript/adding-a-google-map -->
+    <script>
+      var i = 0;
+      var label;
+      var geocoder;
+      var map;
+      var gmarkers = [];
+      function initMap() {
+        var hcm = {lat: 12.300, lng: 107.600};
+        var geocoder = new google.maps.Geocoder();
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: hcm
+        });
+        var marker = new google.maps.Marker({
+          position: hcm,
+          map: map
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+            });
+        }
+        map.addListener('click', function(e) {
+        	label = labels[i % labels.length];
+
+            if (i / labels.length >= 1) {
+            	label += Math.round(i / labels.length); 
+            }
+
+            placeMarkerAndPanTo(e.latLng, map, label);
+
+            // Debug
+            console.log("Location " + i + ": " + e.latLng + " with label " + label);
+
+            // https://developers.google.com/maps/documentation/javascript/geocoding
+            // Convert location (lat, lng) into address
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({'location': e.latLng}, function(results, status) {
+                if (status === 'OK') {
+                  if (results[0]) {
+                    console.log(results[0].formatted_address);
+                    newAddress(e.latLng.lat(), e.latLng.lng(), results[0].formatted_address);
+                  } else {
+                	  console.log('No results found');
+                  }
+                } else {
+                	console.log('Geocoder failed due to: ' + status);
+                }
+              });
+
+            i++;
+
+            
+        });
+      }
+
+      function placeMarkerAndPanTo(latLng, map, label) {
+    	  var marker = new google.maps.Marker({
+    	    position: latLng,
+            label: label,
+    	    map: map
+    	  });
+    	  map.panTo(latLng);
+
+          // Save to array of makers
+    	  gmarkers.push(marker);
+    	}
+    </script>
+    
+
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+    </script>
+
+    <!-- Scripts for table. Refer: https://docs.handsontable.com/3.0.0/tutorial-quick-start.html -->
+    <script>
+        var data = [
+        ];
+
+        var container = document.getElementById('addressTable');
+        var hot = new Handsontable(container, {
+          data: data,
+          colHeaders: ["STT", "Nhãn", "Địa điểm", "X(latitude)", "Y(longitude)"],
+          autoRowSize: true,
+          tableClassName: ['table', 'table-hover', 'table-striped'],
+          contextMenu: ['remove_row'],
+          afterChange: function(changes, source) {
+              if (changes != null) {
+                  // Change [row, col, old value, new value]
+                  // Refer: https://docs.handsontable.com/pro/3.0.0/Hooks.html#event:afterChange
+                  var newAddress = changes[0][3];
+                  var editingLabel = changes[0][1];
+                  var index = changes[0][0];
+
+                  console.log("changes=" + changes);
+                  console.log("source=" + source);
+                  console.log("New Address:" + newAddress + "; label " + editingLabel);
+    
+                  // Update location
+                  var geocoder = new google.maps.Geocoder();
+                  geocoder.geocode( { 'address': newAddress}, function(results, status) {
+                      if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+
+                        // Update the position of the corresponding marker.
+                        var marker = gmarkers[index];
+                        marker.setPosition(results[0].geometry.location);
+                      } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                        
+                      }
+                    });
+              } // if
+
+          },
+          afterRemoveRow: function (index, amount) {
+              console.log("Removed row index " + index);
+
+              var deletedMarker = gmarkers[index];
+              // Set Center of the Map at the deleted marker
+              var latLng = deletedMarker.getPosition(); // returns LatLng object
+
+              map.setCenter(latLng);
+
+              // Delete the corresponding marker from the map
+              deletedMarker.setMap(null);
+          }
+        });
+    
+        function newAddress(lat, lng, address) {
+            console.log("lat, lng, address = " + lat + "," + lng + ": "+  address);
+   
+            data.push([i, label, address, lat, lng]);
+            hot.loadData(data);
+            hot.render();
+            
+        }
+    </script>
+</body>
+</html>

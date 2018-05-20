@@ -12,13 +12,8 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @author ThachLN
  */
 @Controller
-public class HomeController {
+public class AddressController {
     /** For logging. */
-    private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AddressController.class);
 
-    @GetMapping("/")
-    String home() {
-        LOG.info("Processing /");
-        return "home";
-    }
 }

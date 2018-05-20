@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author ADMIN
  */
 @Entity
-@Table(name = "product")
+@Table(name = "goodyway_product")
 public class Product implements Serializable {
 
     @Id

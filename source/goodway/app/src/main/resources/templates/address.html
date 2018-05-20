@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Goodway</title>
+
+    <div th:replace="fragments/header :: header-css-js"/>
+
+    <style>
+      #map {
+        height: 400px;
+        width: 100%;
+       }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+         <div class="jumbotron">
+            Các địa chỉ giao hàng đã chọn:
+         </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+         <div id="map" class="map-responsive"></div>
+    </div>
+</div>
+<!-- /.container -->
+<!-- Refer: https://developers.google.com/maps/documentation/javascript/adding-a-google-map -->
+    <script>
+      function initMap() {
+        var uluru = {lat: -25.363, lng: 131.044};
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 4,
+          center: uluru
+        });
+        var marker = new google.maps.Marker({
+          position: uluru,
+          map: map
+        });
+      }
+    </script>
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+    </script>
+    
+<div th:replace="fragments/footer :: footer"/>
+
+</body>
+</html>

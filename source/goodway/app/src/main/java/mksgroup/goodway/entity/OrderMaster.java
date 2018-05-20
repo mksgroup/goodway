@@ -25,7 +25,7 @@ import java.util.Date;
  * @author ADMIN
  */
 @Entity
-@Table(name = "order_master")
+@Table(name = "goodway_order_master")
 public class OrderMaster implements Serializable {
 
     @Id

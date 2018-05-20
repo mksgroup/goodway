@@ -28,6 +28,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
         DataSourceTransactionManagerAutoConfiguration.class, //
         HibernateJpaAutoConfiguration.class})
 @EnableJpaRepositories
+@SpringBootApplication
 public class AppApplication {
     @Autowired
     private Environment env;
@@ -69,7 +70,7 @@ public class AppApplication {
         LocalSessionFactoryBean factoryBean = new LocalSessionFactoryBean();
 
         // Package contain entity classes
-        factoryBean.setPackagesToScan(new String[]{""});
+        factoryBean.setPackagesToScan(new String[]{"mksgroup.goodway"});
         factoryBean.setDataSource(dataSource);
         factoryBean.setHibernateProperties(properties);
         factoryBean.afterPropertiesSet();

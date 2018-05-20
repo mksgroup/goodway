@@ -20,7 +20,7 @@ import javax.persistence.Table;
  * @author ADMIN
  */
 @Entity
-@Table(name = "order_detail")
+@Table(name = "goodway_order_detail")
 public class OrderDetail implements Serializable {
 
     @Id
