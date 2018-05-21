@@ -1,9 +1,11 @@
-/**
- * Copyright (C) 2018 MKSGROUP - All Rights Reserved.
- */
-package mksgroup.goodway.service;
+package mksgroup.goodway.app.controler;
 
-public interface ICommonService {
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PathFinder {
+    
     /**
      *  Lập kế hoạch giao hàng.
      * @param orderIds danh sách mã đơn hàng (ID trong cơ sở dữ liệu).
@@ -11,8 +13,9 @@ public interface ICommonService {
      * @param nday số ngày gợi ý có thể giao hàng 
      * @return danh sách các phương án giao hàng. Mỗi phương án có ID tương ứng trong CSDL.
      * Thông tin sơ bộ của một kết quả phương án giao hàng gồm:
-     * - DeliveryPlan
-     * 
      */
-    long[] makeDeliveryPlan(long[] orderIds, long[] vehicleIds, int nday);
+    @GetMapping
+    public Long[] startFindPath(long[] orderIds, long[] vehicleIds, int nday) {
+        return null;
+    }
 }
