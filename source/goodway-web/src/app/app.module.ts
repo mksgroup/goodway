@@ -35,6 +35,8 @@ import { ProductQuantityComponent } from './product-quantity/product-quantity.co
 
 import { AgmCoreModule } from '@agm/core';
 import { VehicleComponent } from './admin/vehicle/vehicle.component';
+import { VehicleFormComponent } from './admin/vehicle-form/vehicle-form.component';
+import { VehicleService } from './vehicle.service';
 
 
 @NgModule({
@@ -54,7 +56,8 @@ import { VehicleComponent } from './admin/vehicle/vehicle.component';
     ProductFilterComponent,
     ProductCardComponent,
     ProductQuantityComponent,
-    VehicleComponent
+    VehicleComponent,
+    VehicleFormComponent
   ],
   imports: [
     BrowserModule,
@@ -104,6 +107,16 @@ import { VehicleComponent } from './admin/vehicle/vehicle.component';
         path: 'admin/vehicles', 
         component: VehicleComponent
         // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles/:id', 
+        component: VehicleFormComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles/new', 
+        component: VehicleFormComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
       }
     ])    
   ],
@@ -114,6 +127,7 @@ import { VehicleComponent } from './admin/vehicle/vehicle.component';
     UserService,
     CategoryService,
     ProductService,
+    VehicleService,
     ShoppingCartService
   ],
   bootstrap: [AppComponent]
