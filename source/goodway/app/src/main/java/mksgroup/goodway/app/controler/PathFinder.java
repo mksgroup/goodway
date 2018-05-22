@@ -14,7 +14,7 @@ public class PathFinder {
      * @return danh sách các phương án giao hàng. Mỗi phương án có ID tương ứng trong CSDL.
      * Thông tin sơ bộ của một kết quả phương án giao hàng gồm:
      */
-    @GetMapping
+    // @GetMapping
     public Long[] startFindPath(long[] orderIds, long[] vehicleIds, int nday) {
         return null;
     }
