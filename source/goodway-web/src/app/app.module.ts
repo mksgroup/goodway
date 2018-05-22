@@ -37,6 +37,8 @@ import { AgmCoreModule } from '@agm/core';
 import { VehicleComponent } from './admin/vehicle/vehicle.component';
 import { VehicleFormComponent } from './admin/vehicle-form/vehicle-form.component';
 import { VehicleService } from './vehicle.service';
+import { AdminBookComponent } from './admin/admin-book/admin-book.component';
+import { BookService } from './book.service';
 
 
 @NgModule({
@@ -57,7 +59,8 @@ import { VehicleService } from './vehicle.service';
     ProductCardComponent,
     ProductQuantityComponent,
     VehicleComponent,
-    VehicleFormComponent
+    VehicleFormComponent,
+    AdminBookComponent
   ],
   imports: [
     BrowserModule,
@@ -128,6 +131,7 @@ import { VehicleService } from './vehicle.service';
     CategoryService,
     ProductService,
     VehicleService,
+    BookService,
     ShoppingCartService
   ],
   bootstrap: [AppComponent]

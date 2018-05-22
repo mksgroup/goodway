@@ -2,6 +2,7 @@ source/goodway-web/node_modules/zone.js/lib/zone-spec/task-tracking.ts
 
 node_modules
 target
+dist
 source/goodway/app/.settings/org.eclipse.wst.validation.prefs
 source/goodway/app/.settings/org.eclipse.wst.jsdt.ui.superType.name
 source/goodway/app/.settings/org.eclipse.wst.jsdt.ui.superType.container
