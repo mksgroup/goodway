@@ -5,7 +5,7 @@ export class Book {
     quantity: number;
     desciption: String;
     author: String;
-    createDate: string;
+    createDate: number;
     status: string;
     statusLabel: string;
 }

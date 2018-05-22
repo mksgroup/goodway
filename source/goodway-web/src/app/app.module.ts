@@ -39,6 +39,9 @@ import { VehicleFormComponent } from './admin/vehicle-form/vehicle-form.componen
 import { VehicleService } from './vehicle.service';
 import { AdminBookComponent } from './admin/admin-book/admin-book.component';
 import { BookService } from './book.service';
+import { AdminBookNewComponent } from './admin/admin-book-new/admin-book-new.component';
+import { AdminBorrowBookComponent } from './admin/admin-borrow-book/admin-borrow-book.component';
+import { BorrowService } from './borrow.service';
 
 
 @NgModule({
@@ -60,7 +63,9 @@ import { BookService } from './book.service';
     ProductQuantityComponent,
     VehicleComponent,
     VehicleFormComponent,
-    AdminBookComponent
+    AdminBookComponent,
+    AdminBookNewComponent,
+    AdminBorrowBookComponent
   ],
   imports: [
     BrowserModule,
@@ -120,7 +125,18 @@ import { BookService } from './book.service';
         path: 'admin/vehicles/new', 
         component: VehicleFormComponent
         // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/books', 
+        component: AdminBookComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/books/new', 
+        component: AdminBookNewComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
       }
+      
     ])    
   ],
   providers: [
@@ -132,6 +148,7 @@ import { BookService } from './book.service';
     ProductService,
     VehicleService,
     BookService,
+    BorrowService,
     ShoppingCartService
   ],
   bootstrap: [AppComponent]
