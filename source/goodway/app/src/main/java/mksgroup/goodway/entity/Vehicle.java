@@ -13,6 +13,22 @@ import javax.persistence.Table;
 @Table(name = "goodway_vehicle")
 public class Vehicle implements Serializable {
     /**
+     * @param name
+     * @param length
+     * @param width
+     * @param height
+     * @param capacity
+     */
+    public Vehicle(String name, double length, double width, double height, double capacity) {
+        super();
+        this.name = name;
+        this.length = length;
+        this.width = width;
+        this.height = height;
+        this.capacity = capacity;
+    }
+
+    /**
 	 * 
 	 */
 	private static final long serialVersionUID = 1771888441368721319L;
@@ -25,18 +41,23 @@ public class Vehicle implements Serializable {
     @Column(name = "name", length = 128, nullable = false)
     private String name;
 
-    /** Thể tích có thể vận chuyển. Đơn vị cm^2 */
-    @Column(name = "volume", nullable = false)
-    private double volume;
+    /** Thể tích có thể vận chuyển. Đơn vị m*/
+    /** Thể tích đã đóng gói. length × width × height. Đơn vị mỗi cạnh là m.*/
+    @Column(name = "height", nullable = false)
+    private double height;
+    @Column(name = "width", nullable = false)
+    private double width;
+    @Column(name = "length", nullable = false)
+    private double length;
 
-    /** Loading capacity: tải trọng có thể vận chuyển. */
+    /** Loading capacity: tải trọng có thể vận chuyển. Đơn vị tấn */
     @Column(name = "capacity", nullable = false)
     private double capacity;
 
     /**
-     * Get value of id.
-     * @return the id
-     */
+    * Get value of id.
+    * @return the id
+    */
     public Long getId() {
         return id;
     }
@@ -50,9 +71,9 @@ public class Vehicle implements Serializable {
     }
 
     /**
-     * Get value of name.
-     * @return the name
-     */
+    * Get value of name.
+    * @return the name
+    */
     public String getName() {
         return name;
     }
@@ -66,25 +87,57 @@ public class Vehicle implements Serializable {
     }
 
     /**
-     * Get value of volume.
-     * @return the volume
-     */
-    public double getVolume() {
-        return volume;
+    * Get value of height.
+    * @return the height
+    */
+    public double getHeight() {
+        return height;
     }
 
     /**
-     * Set the value for volume.
-     * @param volume the volume to set
+     * Set the value for height.
+     * @param height the height to set
      */
-    public void setVolume(double volume) {
-        this.volume = volume;
+    public void setHeight(double height) {
+        this.height = height;
     }
 
     /**
-     * Get value of capacity.
-     * @return the capacity
+    * Get value of width.
+    * @return the width
+    */
+    public double getWidth() {
+        return width;
+    }
+
+    /**
+     * Set the value for width.
+     * @param width the width to set
      */
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
+    /**
+    * Get value of length.
+    * @return the length
+    */
+    public double getLength() {
+        return length;
+    }
+
+    /**
+     * Set the value for length.
+     * @param length the length to set
+     */
+    public void setLength(double length) {
+        this.length = length;
+    }
+
+    /**
+    * Get value of capacity.
+    * @return the capacity
+    */
     public double getCapacity() {
         return capacity;
     }
@@ -96,5 +149,4 @@ public class Vehicle implements Serializable {
     public void setCapacity(double capacity) {
         this.capacity = capacity;
     }
-
 }

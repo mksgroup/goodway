@@ -20,7 +20,9 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import mksgroup.goodway.app.domain.repository.ProductRepository;
+import mksgroup.goodway.app.domain.repository.VehicleRepository;
 import mksgroup.goodway.entity.Product;
+import mksgroup.goodway.entity.Vehicle;
 
 /**
  * @author ThachLN
@@ -36,6 +38,9 @@ public class DeliveryController {
 
     @Autowired
     ProductRepository productRepository;
+    
+    @Autowired
+    VehicleRepository vehicleRepository;
     
     @GetMapping("/demo-order-delivery")
     String viewMaoTutor(ModelMap model) {
@@ -55,6 +60,22 @@ public class DeliveryController {
         List<Product> products = productRepository.findProductByPackage(packageId);
         
         jsonObject.addProperty("data", new Gson().toJson(products));
+
+        String json = jsonObject.toString();
+        
+        LOG.info("Json of the package:" + json);
+
+        return json;
+
+    }
+    
+    @GetMapping("/load-vehicle")
+    @ResponseBody
+    String loadVehicle() {
+        JsonObject jsonObject = new JsonObject();
+        List<Vehicle>  vehicles = vehicleRepository.findVehicles();
+        
+        jsonObject.addProperty("data", new Gson().toJson(vehicles));
 
         String json = jsonObject.toString();
         

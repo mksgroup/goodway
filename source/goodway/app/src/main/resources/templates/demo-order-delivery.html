@@ -27,6 +27,27 @@
   <p>Bước 4: Bấm nút "Lập kế hoạch" và xem các phương án khả thi</p>
   
 </div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+        <form>
+          <div class="form-group">
+            <label for="deliveryBatch">Đợt giao hàng đang có</label>
+            <select class="form-control" id="deliveryBatch">
+              <option>---Chọn đợt giao hàng demo---</option>
+            </select>
+            <button type="submit" class="btn btn-primary">Nạp dữ liệu</button>
+          </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+        <form>
+          <div class="form-group">
+            <label for="deliveryBatch">Tạo đợt giao hàng mới</label>
+            <input type="text" class="form-control" id="newDeliveryBatch"  placeholder="Nhập tên mới">
+          </div>
+        </form>
+    </div>
+</div>
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
@@ -58,15 +79,28 @@
                 </div>
             </div>
         </div>
-        
+        <p></p>
+        <!-- Xác nhận danh sách xe -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    3. Danh sách xe <span class="text-primary">(Giả định là địa điểm bốc hàng lên là giống nhau - chỉ có 1 kho hàng)</span>
+                  </div>
+                    <div id="vehicleTable">        
+                    </div>
+                </div>
+            </div>
+
+        </div>
         <p></p>
         <button id="save" class="btn btn-primary center-block">Lưu</button>
-        <button id="findPath" class="btn btn-primary center-block">Tìm đường đi</button>
+        <button id="findPath" class="btn btn-primary center-block">Lập kế hoạch</button>
         
         <p></p>
         <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
-            <li class="breadcrumb-item active" aria-current="page">Kết quả tìm đường đi</li>
+          <ol class="breadcrumb bg-info">
+            <li class="breadcrumb-item active text-white" aria-current="page">Kết quả tìm đường đi</li>
           </ol>
         </nav>
 
@@ -79,6 +113,7 @@
                             <th>Từ</th>
                             <th>Đến</th>
                             <th>Khoảng cách</th>
+                            <th>Thời gian</th>
                         </tr>
                     </thead>
                   </table>
@@ -177,8 +212,8 @@
         var dataAddr = [
         ];
 
-        var container = document.getElementById('addressTable');
-        var hot = new Handsontable(container, {
+        var containerAddr = document.getElementById('addressTable');
+        var hot = new Handsontable(containerAddr, {
           data: dataAddr,
           colHeaders: ["STT", "Nhãn", "Địa điểm", "X(latitude)", "Y(longitude)"],
           tableClassName: ['table', 'table-hover', 'table-striped'],
@@ -254,12 +289,12 @@
         var dataPackages = [
         ];
 
-        var container = document.getElementById('packageTable');
+        var containerPackage = document.getElementById('packageTable');
         var hotPackage = null;
 
         function initHotPackage() {
             if (hotPackage == null) {
-            	hotPackage = new Handsontable(container, {
+            	hotPackage = new Handsontable(containerPackage, {
                     data: dataPackages,
                     colHeaders: ["STT", "Kiện hàng", "Số lượng", "Dài(m)", "Rộng(m)", "Cao(m)", "Khối lượng (Kg)"],
                     columns: [
@@ -296,10 +331,55 @@
     
     </script>
     
+    <!-- Scripts xử lý phần Danh sách xe -->
+    <script>
+        var dataVehicles = [
+        ];
+
+        var containerVehicle = document.getElementById('vehicleTable');
+        var hotVehicles = null;
+
+
+        hotVehicles = new Handsontable(containerVehicle, {
+            data: dataVehicles,
+            colHeaders: ["STT", "Xe", "Số lượng", "Dài(m)", "Rộng(m)", "Cao(m)", "Tải trọng (Tấn)"],
+            columns: [
+                {data: 'id'},
+                {data: 'name'},
+                {data: 'quantity'},
+                {data: 'length'},
+                {data: 'width'},
+                {data: 'height'},
+                {data: 'capacity'}
+              ]
+          });
+        loadVehicles();
+
+        // Load lại danh sách kiện hàng
+        function loadVehicles() {
+            // load demo data
+            $.ajax({
+                url : 'load-vehicle',
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    console.log("load-vehicle result=" + res);
+                    var vehicleData = JSON.parse(res.data);
+                    hotVehicles.loadData(vehicleData);
+                },
+                error : function (e) {
+                    console.log("Error " + e);
+                }
+            });
+        }
+    
+    </script>
     <!-- Processing: findPath -->
     <script>
         var directionsService;
         var directionsDisplay;
+        var disdur = ['',''];
 
         $(document).ready(function () {
         	$("#findPath").click(function () {
@@ -319,16 +399,21 @@
             var startLatlng;
             var endLatlng;
             if (nrow > 1) {
+            	var startLatlng;
+            	var endLatlng;
+                var disdur = [];
                 for (var i = 0; i < nrow - 1; i++) {
-                    pathDataRow = [i+1, dataAddr[i][1], dataAddr[i+1][1], ''];
+                    
+                    
+                    startLatlng = new google.maps.LatLng(dataAddr[i][3], dataAddr[i][4]);
+                    endLatlng = new google.maps.LatLng(dataAddr[i+1][3], dataAddr[i+1][4]);
+                    
+                    disdur = calcRoute(startLatlng, endLatlng);
+
+                    pathDataRow = [i+1, dataAddr[i][1], dataAddr[i+1][1], disdur[0], disdur[1]];
                     
                     console.log("Row data=" + pathDataRow);
                     pathData.push(pathDataRow);
-
-                    var startLatlng = new google.maps.LatLng(dataAddr[i][3], dataAddr[i][4]);
-                    var endLatlng = new google.maps.LatLng(dataAddr[i+1][3], dataAddr[i+1][4]);
-                    
-                    calcRoute(startLatlng, endLatlng);
                 }
             }
             // Display Path tables
@@ -359,8 +444,9 @@
             // https://developers.google.com/maps/documentation/javascript/directions
             
         }
-
+        // @param output pathRowData
         function calcRoute(startPos, endPos) {
+            
         	  var request = {
         	    origin: startPos,
         	    destination: endPos,
@@ -370,11 +456,37 @@
         	    if (status == 'OK') {
         	      directionsDisplay.setDirections(result);
         	      directionsDisplay.setMap(map);
+
+                  // Debug result.routes[]
+                  // Refer: https://developers.google.com/maps/documentation/javascript/directions#DirectionsResults
+                  var totalDistance = 0;
+                  var totalDuration = 0;
+                  var routeLen = result.routes.length;
+                  var distanceUnit = result.routes[0].legs[0].distance.text;
+                  var durationUnit = result.routes[0].legs[0].duration.text;
+                  
+                  for (var i = 0; i < routeLen; i++) {
+                	  var legs = result.routes[i].legs;
+                      var legLen = legs.length;
+                      for (var j = 0; j < legLen; j++) {
+                    	    totalDistance += legs[j].distance.value;
+                    	    totalDuration += legs[j].duration.value;
+                      }
+                  }
+                  disdur[0] = distanceUnit;
+                  disdur[1] = durationUnit;
+                  console.log("disdur[0]:" + disdur[0]);
+                  
+                  console.log("Distance from " + startPos + " to " + endPos + ":" +  distanceUnit);
+                  console.log("Duration from " + startPos + " to " + endPos + ":" +  durationUnit);
         	    } else {
                     console.log("Không thể tìm đường đi");
                 }
         	  });
-        	}
+            console.log("calcRoute: distance and duration:" + disdur);
+
+            return disdur;     
+        }
     </script>
 </body>
 </html>

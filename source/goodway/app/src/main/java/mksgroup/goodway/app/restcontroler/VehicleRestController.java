@@ -3,7 +3,6 @@ package mksgroup.goodway.app.restcontroler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import mksgroup.goodway.app.domain.repository.VehicleRepository;
-import mksgroup.goodway.app.domain.valueobject.VehicleVO;
 import mksgroup.goodway.entity.Vehicle;
 
 @RestController
@@ -31,16 +29,11 @@ public class VehicleRestController {
 //    }
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Vehicle> add(@RequestBody VehicleVO vehicleVO) {
-        LOG.info(String.format("VehicleRestController add() invoked: %s for %s", vehicleRepository.getClass().getName(), vehicleVO.getName()));
-        LOG.info(vehicleVO.toString());
-        Vehicle vehicleEntity = new Vehicle();
-
-        // Transfer data from VO to Entity
-        BeanUtils.copyProperties(vehicleVO, vehicleEntity);
-        
+    public ResponseEntity<Vehicle> add(@RequestBody Vehicle vehicle) {
+        LOG.info(String.format("VehicleRestController add() invoked: %s for %s", vehicleRepository.getClass().getName(), vehicle.getName()));
+                
         try {
-            vehicleRepository.create(vehicleEntity);
+            vehicleRepository.create(vehicle);
         } catch (Exception ex) {
             LOG.log(Level.WARNING, "Exception raised add Vehicle REST Call {0}", ex);
             return new ResponseEntity<>(HttpStatus.UNPROCESSABLE_ENTITY);
