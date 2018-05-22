@@ -34,6 +34,7 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 
 import { AgmCoreModule } from '@agm/core';
+import { VehicleComponent } from './admin/vehicle/vehicle.component';
 
 
 @NgModule({
@@ -52,7 +53,8 @@ import { AgmCoreModule } from '@agm/core';
     ProductFormComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    VehicleComponent
   ],
   imports: [
     BrowserModule,
@@ -96,6 +98,11 @@ import { AgmCoreModule } from '@agm/core';
       { 
         path: 'admin/orders', 
         component: AdminOrdersComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles', 
+        component: VehicleComponent
         // canActivate: [AuthGuard, AdminAuthGuard] 
       }
     ])    
