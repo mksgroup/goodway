@@ -1,0 +1,15 @@
+source/goodway-web/node_modules/zone.js/lib/zone-spec/task-tracking.ts
+
+node_modules
+target
+source/goodway/app/.settings/org.eclipse.wst.validation.prefs
+source/goodway/app/.settings/org.eclipse.wst.jsdt.ui.superType.name
+source/goodway/app/.settings/org.eclipse.wst.jsdt.ui.superType.container
+source/goodway/app/.settings/org.eclipse.wst.common.project.facet.core.xml
+source/goodway/app/.settings/org.eclipse.wst.common.component
+source/goodway/app/.settings/org.eclipse.m2e.core.prefs
+source/goodway/app/.settings/org.eclipse.jdt.core.prefs
+source/goodway/app/.settings/org.eclipse.core.resources.prefs
+source/goodway/app/.settings/.jsdtscope
+source/goodway/app/.project
+source/goodway/app/.classpath
