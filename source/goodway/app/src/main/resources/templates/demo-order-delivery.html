@@ -125,6 +125,26 @@
     </div>
 </div>
 <div th:replace="fragments/footer :: footer"/>
+<!-- Modal -->
+<div class="modal fade" id="pathNoFound" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Lỗi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Có vài địa điểm không tìm thấy đường đi trên bản đồ. Hãy kiểm tra lại các địa điểm có ghi Unnamed Road.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
 <!-- /.container -->
 <!-- Refer: https://developers.google.com/maps/documentation/javascript/adding-a-google-map -->
     <script>
@@ -134,25 +154,26 @@
       var map;
       var gmarkers = [];
       function initMap() {
-        var hcm = {lat: 12.300, lng: 107.600};
+        var hcm =  new google.maps.LatLng(10.854416599999999, 106.8001511);
         var geocoder = new google.maps.Geocoder();
 
         // Create an array of alphabetical characters used to label the markers.
         var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
         map = new google.maps.Map(document.getElementById('map'), {
-          zoom: 10,
+          zoom: 14,
           center: hcm
         });
-        var marker = new google.maps.Marker({
-          position: hcm,
-          map: map
-        });
+//         var marker = new google.maps.Marker({
+//           position: hcm,
+//           map: map
+//         });
 
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function (position) {
                 initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 map.setCenter(initialLocation);
+                console.log("Current posotion:" + initialLocation);
             });
         }
         map.addListener('click', function(e) {
@@ -380,6 +401,7 @@
         var directionsService;
         var directionsDisplay;
         var disdur = ['',''];
+        var resultTable = null;
 
         $(document).ready(function () {
         	$("#findPath").click(function () {
@@ -408,45 +430,106 @@
                     startLatlng = new google.maps.LatLng(dataAddr[i][3], dataAddr[i][4]);
                     endLatlng = new google.maps.LatLng(dataAddr[i+1][3], dataAddr[i+1][4]);
                     
-                    calcRoute(startLatlng, endLatlng);
+                    // calcRoute(startLatlng, endLatlng);
 
                     pathDataRow = [i+1, dataAddr[i][1], dataAddr[i+1][1], disdur[0], disdur[1]];
                     
                     console.log("Row data=" + pathDataRow);
                     pathData.push(pathDataRow);
                 }
+
+                calcMultiRoute();
             }
             // Display Path tables
-            
-            $('#pathTable').dataTable({
-                responsive : true,
-                language: {
-                    "sProcessing":   "Đang xử lý...",
-                    "sLengthMenu":   "Xem _MENU_ mục",
-                    "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
-                    "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
-                    "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
-                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
-                    "sInfoPostFix":  "",
-                    "sSearch":       "Tìm:",
-                    "sUrl":          "",
-                    "oPaginate": {
-                        "sFirst":    "Đầu",
-                        "sPrevious": "Trước",
-                        "sNext":     "Tiếp",
-                        "sLast":     "Cuối"
-                    }
-                },
-                data: pathData
-            });
+            if (resultTable == null) {
+                resultTable = $('#pathTable').dataTable({
+                    responsive : true,
+                    language: {
+                        "sProcessing":   "Đang xử lý...",
+                        "sLengthMenu":   "Xem _MENU_ mục",
+                        "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+                        "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                        "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+                        "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                        "sInfoPostFix":  "",
+                        "sSearch":       "Tìm:",
+                        "sUrl":          "",
+                        "oPaginate": {
+                            "sFirst":    "Đầu",
+                            "sPrevious": "Trước",
+                            "sNext":     "Tiếp",
+                            "sLast":     "Cuối"
+                        }
+                    },
+                    data: pathData
+                });
 
+            } else {
+            	resultTable.fnDraw();
+            }
             // Find directions
             // https://developers.google.com/maps/documentation/javascript/directions
             
         }
-        // @param output pathRowData
-        function calcRoute(startPos, endPos) {
+        
+        function calcMultiRoute() {
+            var nrow = dataAddr.length;
+            var startPos = new google.maps.LatLng(dataAddr[0][3], dataAddr[0][4]);
+            var endPos = new google.maps.LatLng(dataAddr[nrow - 1][3], dataAddr[nrow - 1][4]);
+      	     var request = {
+          	    origin: startPos,
+          	    destination: endPos,
+          	    travelMode: 'DRIVING'
+          	  };
             
+            for (var i = 0; i < nrow - 1; i++) {
+                
+                if ((i > 0) && (i < nrow - 1)) {
+
+                    if (!request.waypoints) request.waypoints = [];
+                  	  request.waypoints.push({
+                  	    location: new google.maps.LatLng(dataAddr[i][3], dataAddr[i][4]),
+                  	    stopover: true
+                  	});
+                }
+            }
+            directionsService.route(request, function(result, status) {
+                if (status == 'OK') {
+                  directionsDisplay.setDirections(result);
+                  directionsDisplay.setMap(map);
+                
+                    // Debug result.routes[]
+                    // Refer: https://developers.google.com/maps/documentation/javascript/directions#DirectionsResults
+                    var totalDistance = 0;
+                    var totalDuration = 0;
+                    var routeLen = result.routes.length;
+                    var distanceUnit = result.routes[0].legs[0].distance.text;
+                    var durationUnit = result.routes[0].legs[0].duration.text;
+                    
+                    for (var i = 0; i < routeLen; i++) {
+                  	  var legs = result.routes[i].legs;
+                        var legLen = legs.length;
+                        for (var j = 0; j < legLen; j++) {
+                      	    totalDistance += legs[j].distance.value;
+                      	    totalDuration += legs[j].duration.value;
+                        }
+                    }
+                    disdur[0] = distanceUnit;
+                    disdur[1] = durationUnit;
+                    console.log("disdur[0]:" + disdur[0]);
+                    
+                    console.log("Distance from " + startPos + " to " + endPos + ":" +  distanceUnit);
+                    console.log("Duration from " + startPos + " to " + endPos + ":" +  durationUnit);
+                } else {
+                      console.log("Không thể tìm đường đi");
+                      $('#pathNoFound').modal({show: true});
+                }
+            });
+     
+        }
+        // @param output pathRowData
+        function calcRoute(startPos, endPos, ) {
+        	console.log("Calculate route from " + startPos + " to " + endPos + "...");
         	  var request = {
         	    origin: startPos,
         	    destination: endPos,
