@@ -1,0 +1,380 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Goodway</title>
+
+    <div th:replace="fragments/header :: header-css-js"/>
+
+    <style>
+      #map {
+        height: 600px;
+        width: 100%;
+       }
+    </style>
+</head>
+<body>
+
+<div th:replace="fragments/header :: header"/>
+
+<!-- Giới thiệu -->
+<div class="jumbotron">
+  <h4 class="display-5">Giới thiệu chức năng Lập kế hoạch giao hàng</h4>
+  <p class="lead">Chọn đội xe và tìm lộ trình giao hàng tối ưu.</p>
+  <hr class="my-4">
+  <p>Bước 1: Chọn địa điểm giao hàng</p>
+  <p>Bước 2: Mỗi địa điểm giao hàng nhập danh sách các kiện hàng cần giao</p>
+  <p>Bước 3: Xác nhận lại danh sách đội xe và địa điểm xuất phát</p>
+  <p>Bước 4: Bấm nút "Lập kế hoạch" và xem các phương án khả thi</p>
+  
+</div>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    1. Danh sách các địa điểm giao hàng <span class="text-primary"> (Bấm vào bản đồ bên phải để án chừng vị trí. Sau đó chỉnh sửa lại cột Địa điểm trong bảng bên dưới)</span>
+                  </div>
+                  <div class="scroll-container">
+                      <div id="addressTable">
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <!-- Mỗi địa điểm có nhiều kiện hàng cần giao -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                  <div class="card-header">
+                    2. Danh sách kiện hàng tại địa điểm <span id="packageSection_title" class="text-primary"></span>
+                  </div>
+                  <div class="scroll-container">
+                      <div id="packageTable">
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+        
+        <p></p>
+        <button id="save" class="btn btn-primary center-block">Lưu</button>
+        <button id="findPath" class="btn btn-primary center-block">Tìm đường đi</button>
+        
+        <p></p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item active" aria-current="page">Kết quả tìm đường đi</li>
+          </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <table id="pathTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Từ</th>
+                            <th>Đến</th>
+                            <th>Khoảng cách</th>
+                        </tr>
+                    </thead>
+                  </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+            <div id="map" class="map-responsive"></div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer"/>
+<!-- /.container -->
+<!-- Refer: https://developers.google.com/maps/documentation/javascript/adding-a-google-map -->
+    <script>
+      var i = 0;
+      var label;
+      var geocoder;
+      var map;
+      var gmarkers = [];
+      function initMap() {
+        var hcm = {lat: 12.300, lng: 107.600};
+        var geocoder = new google.maps.Geocoder();
+
+        // Create an array of alphabetical characters used to label the markers.
+        var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 10,
+          center: hcm
+        });
+        var marker = new google.maps.Marker({
+          position: hcm,
+          map: map
+        });
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+                initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                map.setCenter(initialLocation);
+            });
+        }
+        map.addListener('click', function(e) {
+        	label = labels[i % labels.length];
+
+            if (i / labels.length >= 1) {
+            	label += Math.round(i / labels.length); 
+            }
+
+            placeMarkerAndPanTo(e.latLng, map, label);
+
+            // Debug
+            console.log("Location " + i + ": " + e.latLng + " with label " + label);
+
+            // https://developers.google.com/maps/documentation/javascript/geocoding
+            // Convert location (lat, lng) into address
+            var geocoder = new google.maps.Geocoder();
+
+            geocoder.geocode({'location': e.latLng}, function(results, status) {
+                if (status === 'OK') {
+                  if (results[0]) {
+                    console.log(results[0].formatted_address);
+                    newAddress(e.latLng.lat(), e.latLng.lng(), results[0].formatted_address);
+                  } else {
+                	  console.log('No results found');
+                  }
+                } else {
+                	console.log('Geocoder failed due to: ' + status);
+                }
+              });
+
+            i++;
+
+            
+        });
+      }
+
+      function placeMarkerAndPanTo(latLng, map, label) {
+    	  var marker = new google.maps.Marker({
+    	    position: latLng,
+            label: label,
+    	    map: map
+    	  });
+    	  map.panTo(latLng);
+
+          // Save to array of makers
+    	  gmarkers.push(marker);
+    	}
+    </script>
+    
+
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+    </script>
+
+    <!-- Scripts for table. Refer: https://docs.handsontable.com/3.0.0/tutorial-quick-start.html -->
+    <script>
+        var dataAddr = [
+        ];
+
+        var container = document.getElementById('addressTable');
+        var hot = new Handsontable(container, {
+          data: dataAddr,
+          colHeaders: ["STT", "Nhãn", "Địa điểm", "X(latitude)", "Y(longitude)"],
+          tableClassName: ['table', 'table-hover', 'table-striped'],
+          contextMenu: ['remove_row'],
+          afterChange: function(changes, source) {
+              if (changes != null) {
+                  // Change [row, col, old value, new value]
+                  // Refer: https://docs.handsontable.com/pro/3.0.0/Hooks.html#event:afterChange
+                  var newAddress = changes[0][3];
+                  var editingLabel = changes[0][1];
+                  var index = changes[0][0];
+
+                  console.log("changes=" + changes);
+                  console.log("source=" + source);
+                  console.log("New Address:" + newAddress + "; label " + editingLabel);
+    
+                  // Update location
+                  var geocoder = new google.maps.Geocoder();
+                  geocoder.geocode( { 'address': newAddress}, function(results, status) {
+                      if (status == 'OK') {
+                        map.setCenter(results[0].geometry.location);
+
+                        // Update the position of the corresponding marker.
+                        var marker = gmarkers[index];
+                        marker.setPosition(results[0].geometry.location);
+                      } else {
+                        alert('Geocode was not successful for the following reason: ' + status);
+                        
+                      }
+                    });
+              } // if
+
+          },
+          afterRemoveRow: function (index, amount) {
+              console.log("Removed row index " + index);
+
+              var deletedMarker = gmarkers[index];
+              // Set Center of the Map at the deleted marker
+              var latLng = deletedMarker.getPosition(); // returns LatLng object
+
+              map.setCenter(latLng);
+
+              // Delete the corresponding marker from the map
+              deletedMarker.setMap(null);
+          },
+          afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+        	    // Xử lý nhập danh sách kiện hàng tại địa điểm đang chọn
+        	   console.log("Selected data" + dataAddr[r][1]);
+
+                // Update title of Package section
+               $('#packageSection_title').html(dataAddr[r][1] + " - " + dataAddr[r][2]);
+
+               // Hiển thị table
+               initHotPackage();
+
+               // Gọi ajax load lại kiện hàng
+               loadPackages(dataAddr[r][0]);
+          }
+        });
+    
+        function newAddress(lat, lng, address) {
+            console.log("lat, lng, address = " + lat + "," + lng + ": "+  address);
+   
+            dataAddr.push([i, label, address, lat, lng]);
+            hot.loadData(dataAddr);
+            hot.render();
+            
+        }
+    </script>
+
+    <!-- Scripts xử lý phần Danh sách kiện hàng tại một địa điểm -->
+    <script>
+        var dataPackages = [
+        ];
+
+        var container = document.getElementById('packageTable');
+        var hotPackage = null;
+
+        function initHotPackage() {
+            if (hotPackage == null) {
+            	hotPackage = new Handsontable(container, {
+                    data: dataPackages,
+                    colHeaders: ["STT", "Kiện hàng", "Số lượng", "Dài(m)", "Rộng(m)", "Cao(m)", "Khối lượng (Kg)"],
+                    columns: [
+                        {data: 'id'},
+                        {data: 'name'},
+                        {data: 'quantity'},
+                        {data: 'length'},
+                        {data: 'width'},
+                        {data: 'height'},
+                        {data: 'weight'}
+                      ]
+                  });
+            }
+        }
+        
+        // Load lại danh sách kiện hàng
+        function loadPackages(packageId) {
+            // load demo data
+            $.ajax({
+                url : 'load-package?id=' + packageId,
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    console.log("res=" + res);
+                    var packageData = JSON.parse(res.data);
+                    hotPackage.loadData(packageData);
+                },
+                error : function (e) {
+                    console.log("Error " + e);
+                }
+            });
+        }
+    
+    </script>
+    
+    <!-- Processing: findPath -->
+    <script>
+        var directionsService;
+        var directionsDisplay;
+
+        $(document).ready(function () {
+        	$("#findPath").click(function () {
+				displayPath();
+			});
+        });
+
+        function displayPath() {
+        	directionsService = new google.maps.DirectionsService();
+        	directionsDisplay = new google.maps.DirectionsRenderer();
+            var pathData = [];
+            // Get data from handsontable
+            console.log("Current data=" + dataAddr);
+            var nrow = dataAddr.length;
+
+            var pathDataRow = [];
+            var startLatlng;
+            var endLatlng;
+            if (nrow > 1) {
+                for (var i = 0; i < nrow - 1; i++) {
+                    pathDataRow = [i+1, dataAddr[i][1], dataAddr[i+1][1], ''];
+                    
+                    console.log("Row data=" + pathDataRow);
+                    pathData.push(pathDataRow);
+
+                    var startLatlng = new google.maps.LatLng(dataAddr[i][3], dataAddr[i][4]);
+                    var endLatlng = new google.maps.LatLng(dataAddr[i+1][3], dataAddr[i+1][4]);
+                    
+                    calcRoute(startLatlng, endLatlng);
+                }
+            }
+            // Display Path tables
+            
+            $('#pathTable').dataTable({
+                responsive : true,
+                language: {
+                    "sProcessing":   "Đang xử lý...",
+                    "sLengthMenu":   "Xem _MENU_ mục",
+                    "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+                    "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                    "sInfoPostFix":  "",
+                    "sSearch":       "Tìm:",
+                    "sUrl":          "",
+                    "oPaginate": {
+                        "sFirst":    "Đầu",
+                        "sPrevious": "Trước",
+                        "sNext":     "Tiếp",
+                        "sLast":     "Cuối"
+                    }
+                },
+                data: pathData
+            });
+
+            // Find directions
+            // https://developers.google.com/maps/documentation/javascript/directions
+            
+        }
+
+        function calcRoute(startPos, endPos) {
+        	  var request = {
+        	    origin: startPos,
+        	    destination: endPos,
+        	    travelMode: 'DRIVING'
+        	  };
+        	  directionsService.route(request, function(result, status) {
+        	    if (status == 'OK') {
+        	      directionsDisplay.setDirections(result);
+        	      directionsDisplay.setMap(map);
+        	    } else {
+                    console.log("Không thể tìm đường đi");
+                }
+        	  });
+        	}
+    </script>
+</body>
+</html>

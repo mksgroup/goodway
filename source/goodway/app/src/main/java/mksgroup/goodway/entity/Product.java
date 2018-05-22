@@ -70,6 +70,26 @@ public class Product implements Serializable {
     
     
 
+    /**
+     * @param name
+     * @param quantity
+     * @param height
+     * @param width
+     * @param length
+     * @param weight
+     */
+    public Product(String name, double length, double width, double height, double weight) {
+        super();
+        this.name = name;
+        this.length = length;
+        this.width = width;
+        this.height = height;
+        this.weight = weight;
+    }
+
+
+
+
     public double getHeight() {
 		return height;
 	}
