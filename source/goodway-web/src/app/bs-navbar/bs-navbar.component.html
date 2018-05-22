@@ -1,6 +1,7 @@
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
   <a class="navbar-brand" routerLink="/">O</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault"
+    aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
@@ -8,7 +9,7 @@
     <ul class="navbar-nav mr-auto">
       <li class="nav-item">
         <a class="nav-link" routerLink="/shopping-cart">
-          Shopping Cart 
+          Shopping Cart
           <span class="badge badge-warning badge-pill" *ngIf="cart$ | async as cart">
             {{ cart.totalItemsCount }}
           </span>
@@ -30,6 +31,15 @@
             <a class="dropdown-item" routerLink="/admin/products">Manage Products</a>
           </ng-container>
           <a class="dropdown-item" (click)="logout()">Log Out</a>
+        </div>
+      </li>
+      <li ngbDropdown class="nav-item dropdown">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown02" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Admin
+        </a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown02">
+          <a class="dropdown-item" routerLink="admin/products">Products</a>
+          <a class="dropdown-item" routerLink="admin/vehicles">Vehicles</a>
         </div>
       </li>
     </ul>
