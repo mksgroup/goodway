@@ -5,6 +5,7 @@ import { AngularFireDatabase, FirebaseObjectObservable } from 'angularfire2/data
 import { Injectable } from '@angular/core';
 import 'rxjs/add/operator/take'; 
 import 'rxjs/add/operator/map'; 
+import { LocationModel } from './models/location';
 
 @Injectable()
 export class ShoppingCartService {
@@ -34,6 +35,14 @@ export class ShoppingCartService {
   private create() { 
     return this.db.list('/shopping-carts').push({
       dateCreated: new Date().getTime()
+    });
+  }
+
+  public updateLocation(cartId: string, customerName: string, location: any) {
+    let cart$ = this.db.object('/shopping-carts/' + cartId);
+    cart$.update({
+      customerName: customerName, 
+      location: location
     });
   }
 

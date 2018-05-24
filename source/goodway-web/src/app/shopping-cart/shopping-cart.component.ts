@@ -4,6 +4,8 @@ import { } from '@types/googlemaps';
 import { FormControl } from '@angular/forms';
 import { } from 'googlemaps';
 import { MapsAPILoader } from '@agm/core';
+import { Location } from '@angular/common';
+import { LocationModel } from '../models/location';
 
 @Component({
   selector: 'app-shopping-cart',
@@ -15,9 +17,11 @@ export class ShoppingCartComponent implements OnInit {
   title: string = 'My first AGM project';
   lat: number = 51.678418;
   lng: number = 7.809007;
+  address: string;
+  customerName: "";
   public searchControl: FormControl;
-  public zoom: number;
-  public searchText = "Viet Nam"
+  public zoom: number = 4;
+  public searchText = "Viet Nam";
   @ViewChild("search")
   public searchElementRef: ElementRef;
 
@@ -48,6 +52,7 @@ export class ShoppingCartComponent implements OnInit {
           //set latitude, longitude and zoom
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
+          this.address = place.formatted_address;
           this.zoom = 12;
         });
       });
@@ -56,25 +61,27 @@ export class ShoppingCartComponent implements OnInit {
 
   async ngOnInit() {
     this.cart$ = await this.shoppingCartService.getCart();
-
-    this.zoom = 4;
-    this.lat = 39.8282;
-    this.lng = -98.5795;
-
-
-
-
+    console.log("cartId:", localStorage.getItem('cartId'));
   }
   private setCurrentPosition() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.lat = position.coords.latitude;
         this.lng = position.coords.longitude;
-        this.zoom = 12;
+        this.zoom = 20;
       });
     }
   }
   clearCart() {
     this.shoppingCartService.clearCart();
+  }
+  saveCart() {
+    let cartId = localStorage.getItem('cartId');
+    let location: any = {
+      lat: this.lat,
+      lng: this.lng,
+      address: this.address
+    };
+    this.shoppingCartService.updateLocation(cartId,this.customerName, location);
   }
 }
