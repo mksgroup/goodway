@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BorrowService } from '../../borrow.service';
 
 @Component({
   selector: 'app-admin-borrow-book',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AdminBorrowBookComponent implements OnInit {
 
-  constructor() { }
+  constructor(private borrowService:BorrowService) { }
 
   ngOnInit() {
   }

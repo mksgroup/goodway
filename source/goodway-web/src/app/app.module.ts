@@ -42,6 +42,7 @@ import { BookService } from './book.service';
 import { AdminBookNewComponent } from './admin/admin-book-new/admin-book-new.component';
 import { AdminBorrowBookComponent } from './admin/admin-borrow-book/admin-borrow-book.component';
 import { BorrowService } from './borrow.service';
+import { AddBorrowNewComponent } from './admin/add-borrow-new/add-borrow-new.component';
 
 
 @NgModule({
@@ -65,7 +66,8 @@ import { BorrowService } from './borrow.service';
     VehicleFormComponent,
     AdminBookComponent,
     AdminBookNewComponent,
-    AdminBorrowBookComponent
+    AdminBorrowBookComponent,
+    AddBorrowNewComponent
   ],
   imports: [
     BrowserModule,
@@ -135,6 +137,10 @@ import { BorrowService } from './borrow.service';
         path: 'admin/books/new', 
         component: AdminBookNewComponent
         // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      {
+        path: 'admin/borrow/new/:id', 
+        component: AddBorrowNewComponent
       }
       
     ])    

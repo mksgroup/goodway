@@ -18,6 +18,7 @@ export class ShoppingCartComponent implements OnInit {
   lat: number = 51.678418;
   lng: number = 7.809007;
   address: string;
+  addressName: string;
   customerName: "";
   public searchControl: FormControl;
   public zoom: number = 4;
@@ -53,6 +54,7 @@ export class ShoppingCartComponent implements OnInit {
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
           this.address = place.formatted_address;
+          this.addressName = place.name;
           this.zoom = 12;
         });
       });
@@ -80,7 +82,8 @@ export class ShoppingCartComponent implements OnInit {
     let location: any = {
       lat: this.lat,
       lng: this.lng,
-      address: this.address
+      address: this.address,
+      addressName: this.addressName
     };
     this.shoppingCartService.updateLocation(cartId,this.customerName, location);
   }
