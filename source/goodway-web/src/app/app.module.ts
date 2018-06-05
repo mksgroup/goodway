@@ -34,6 +34,15 @@ import { ProductCardComponent } from './product-card/product-card.component';
 import { ProductQuantityComponent } from './product-quantity/product-quantity.component';
 
 import { AgmCoreModule } from '@agm/core';
+import { VehicleComponent } from './admin/vehicle/vehicle.component';
+import { VehicleFormComponent } from './admin/vehicle-form/vehicle-form.component';
+import { VehicleService } from './vehicle.service';
+import { AdminBookComponent } from './admin/admin-book/admin-book.component';
+import { BookService } from './book.service';
+import { AdminBookNewComponent } from './admin/admin-book-new/admin-book-new.component';
+import { AdminBorrowBookComponent } from './admin/admin-borrow-book/admin-borrow-book.component';
+import { BorrowService } from './borrow.service';
+import { AddBorrowNewComponent } from './admin/add-borrow-new/add-borrow-new.component';
 
 
 @NgModule({
@@ -52,7 +61,13 @@ import { AgmCoreModule } from '@agm/core';
     ProductFormComponent,
     ProductFilterComponent,
     ProductCardComponent,
-    ProductQuantityComponent
+    ProductQuantityComponent,
+    VehicleComponent,
+    VehicleFormComponent,
+    AdminBookComponent,
+    AdminBookNewComponent,
+    AdminBorrowBookComponent,
+    AddBorrowNewComponent
   ],
   imports: [
     BrowserModule,
@@ -97,7 +112,37 @@ import { AgmCoreModule } from '@agm/core';
         path: 'admin/orders', 
         component: AdminOrdersComponent
         // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles', 
+        component: VehicleComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles/:id', 
+        component: VehicleFormComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/vehicles/new', 
+        component: VehicleFormComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/books', 
+        component: AdminBookComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      { 
+        path: 'admin/books/new', 
+        component: AdminBookNewComponent
+        // canActivate: [AuthGuard, AdminAuthGuard] 
+      },
+      {
+        path: 'admin/borrow/new/:id', 
+        component: AddBorrowNewComponent
       }
+      
     ])    
   ],
   providers: [
@@ -107,6 +152,9 @@ import { AgmCoreModule } from '@agm/core';
     UserService,
     CategoryService,
     ProductService,
+    VehicleService,
+    BookService,
+    BorrowService,
     ShoppingCartService
   ],
   bootstrap: [AppComponent]

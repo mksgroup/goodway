@@ -1,0 +1,39 @@
+<p>
+  <a routerLink="/admin/books/new" class="btn btn-primary">New Books</a>
+</p>
+<p>
+  <input #query (keyup)="filter(query.value)" type="text" class="form-control" placeholder="Search...">
+</p>
+
+<data-table [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+  <data-table-column [property]="'name'" [header]="'Name'" [sortable]="true" [resizable]="true">
+  </data-table-column>
+
+  <data-table-column [property]="'quantity'" [header]="'Quantity'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+
+  <data-table-column [property]="'description'" [header]="'Desciption'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+
+  <data-table-column [property]="'author'" [header]="'Author'" [sortable]="true" [resizable]="true">
+  </data-table-column>
+
+  <data-table-column [property]="'$key'">
+    <ng-template #dataTableCell let-item="item">
+      <a [routerLink]="['/admin/vehicles/', item.$key]">Edit</a>
+    </ng-template>
+  </data-table-column>
+
+  <data-table-column [property]="'$key'">
+    <ng-template #dataTableCell let-item="item">
+      <a [routerLink]="['/admin/borrow/new/', item.$key]">Borrow</a>
+    </ng-template>
+  </data-table-column>
+
+</data-table>

@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-6">
+    <form #f="ngForm" (ngSubmit)="save(f.value)">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input #name="ngModel" [(ngModel)]="book.name" name="name" id="name" type="text" class="form-control" required>
+        <div class="alert alert-danger" *ngIf="name.touched && name.invalid">
+          Title is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Author</label>
+        <input #author="ngModel" [(ngModel)]="book.author" name="author" id="author" type="text" class="form-control" required>
+        <div class="alert alert-danger" *ngIf="author.touched && author.invalid">
+          Author is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Description</label>
+        <input #description="ngModel" [(ngModel)]="book.description" name="description" id="description" type="text" class="form-control" required>
+        <div class="alert alert-danger" *ngIf="author.touched && author.invalid">
+          Description is required.
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="name">Quantity</label>
+        <input #quantity="ngModel" [(ngModel)]="book.quantity" name="quantity" id="quantity" type="number" class="form-control" required>
+        <div class="alert alert-danger" *ngIf="author.touched && author.invalid">
+          Quantity is required.
+        </div>
+      </div>
+      <!-- <div class="form-group">
+        <label for="imageUrl">Image URL</label>
+        <input #imageUrl="ngModel" [(ngModel)]="book.imageUrl" name="imageUrl" id="imageUrl" type="text" class="form-control"
+          required url>
+        <div class="alert alert-danger" *ngIf="book.touched && imageUrl.invalid">
+          <div *ngIf="imageUrl.errors.required">Image URL is required.</div>
+          <div *ngIf="imageUrl.errors.url">Please enter a valid URL.</div>
+        </div>
+      </div> -->
+
+      <!-- <div class="form-group">
+        <label for="name">Quantity</label>
+        <input #quantity="ngModel" [(ngModel)]="book.quantity" name="quantity" id="quantity" type="number" class="form-control" required>
+        <div class="alert alert-danger" *ngIf="author.touched && author.invalid">
+          Description is required.
+        </div>
+      </div> -->
+
+
+
+      <button class="btn btn-primary">Save</button>
+      <button type="button" (click)="delete()" class="btn btn-danger">Delete</button>
+    </form>
+  </div>
+</div>
