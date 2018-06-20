@@ -1,0 +1,1 @@
+INSERT INTO goodway_vehicle (name,height,width,length,capacity,quantity,enabled,created,createdby_username) VALUES ('Truck 1' ,5,10,15,11,5,1,{ts '2018-06-20 17:47:49.'},'ThachLN');

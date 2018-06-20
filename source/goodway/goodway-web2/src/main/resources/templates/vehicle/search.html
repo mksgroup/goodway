@@ -16,13 +16,27 @@
   <th:block th:include="fragments/footer"></th:block>
 
 <script>
+    // Lưu đối tượng table kết quả search
+    var resultTable = null;
     var vehicleData;
     
     $(document).ready(function() {
-        $("#resultTable").DataTable({
-            responsive : true,
-            data: vehicleData
-        });
+        // Khởi tạo Table kết quả
+    	if (resultTable == null) {
+            $("#resultTable").DataTable({
+                ajax: {'url': '/order/load-vehicle', 'dataSrc': ''},
+                "columns": [
+                	   { "data": "id" },
+                	   { "data": "name" },
+                	   { "data": "height" },
+                	   { "data": "width" },
+                	   { "data": "length" },
+                	   { "data": "capacity" }
+                       ]
+            });
+    	} else {
+            resultTable.fnDraw();
+        }
     });
 </script>
 </body>
