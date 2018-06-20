@@ -7,20 +7,21 @@
                     <div class="form-body row">
                         <div class="col-md-1">
                             <div class="form-group row">
-                                <button class="btn" id="add" name="add"><a href="#">Thêm</a></button>
+                                <button type="submit" class="btn btn-primary">Thêm</button>
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group row">
 
                                 <input type="text" id="userinput2" class="form-control border-primary"
-                                    placeholder="Mã đơn hàng" name="idDH">
+                                    placeholder="Mã mặt hàng" name="idDH">
 
                             </div>
                         </div>
                         <div class="col-md-5">
                             <div class="form-group row">
-                                <label class="col-md-4 label-control" for="userinput2">Ngày giao từ</label>
+                            
+                                <label class="col-md-4 label-control"  for="userinput2">Ngày giao từ</label>
                                 <div class="col-md-8">
                                     <input type="date" id="userinput2" class="form-control border-primary"
                                         placeholder="dd/mm/yyyy" name="fromdate">
@@ -29,7 +30,8 @@
                         </div>
                         <div class="col-md-3  ">
                             <div class="form-group row">
-                                <label class="col-md-2 label-control" for="userinput2">đến</label>
+                             
+                                <label class="col-md-2 label-control"  for="userinput2">Đến</label>
                                 <div class="col-md-10">
                                     <input type="date" id="userinput2" class="form-control border-primary"
                                         placeholder="dd/mm/yyyy" name="todate">
@@ -38,7 +40,7 @@
                         </div>
                         <div class="col-md-1">
                             <div class="form-group row">
-                                <button class="btn" id="find" name="find"><a href="#">Tìm kiếm</a></button>
+                               <button type="submit" class="btn btn-primary">Tìm kiếm </button>
                             </div>
                         </div>
                     </div>
@@ -52,7 +54,7 @@
                                 <th>Mã mặt hàng</th>
                                 <th>Khách hàng</th>
                                 <th>Số điện thoại</th>
-                                <th>Địa điểm</th>
+                                <th>Địa chỉ</th>
                                 <th>Ngày giao</th>
                                 <th>Trạng thái</th>
                                 <th><input id="check" type="checkbox"></th>
@@ -91,13 +93,11 @@
                 </div>
             </div>
         </div>
-        <button class="btn" id="addPlan" name="addPlan">
-            <a href="#">Lập kế hoạch</a>
-        </button>
+        <button type="submit" class="btn btn-primary">Lập kế hoạch </button>
     </div>
 </div>
 
-<!-- Scripts xử lý nhập danh sách đơn hàng -->
+<!-- Scripts xá»­ lÃ½ nháº­p danh sÃ¡ch Ä‘Æ¡n hÃ ng -->
 <script>
         var dataOrders = [["", "", "", "", "", "", ""]
         ];
@@ -117,7 +117,7 @@
                     minSpareRows: 1,
                     width: 800,
                     height: 320,
-                    colHeaders: ["STT", "Mã đơn hàng", "Khách hàng", "Số điện thoại", "Địa điểm", "Ngày giao", "Trạng thái"],
+                    colHeaders: ["STT", "Mã mặt hàng", "Khách hàng", "Số điện thoại", "Địa chỉ", "Ngày giao", "Trạng thái"],
                     columns: [
                         {data: 'id'},
                         {data: 'cd'},
@@ -132,7 +132,7 @@
             }
         }
         
-        // Load lại danh đơn hàng
+        // Load láº¡i danh Ä‘Æ¡n hÃ ng
         function loadOrder() {
             // load demo data
             $.ajax({
