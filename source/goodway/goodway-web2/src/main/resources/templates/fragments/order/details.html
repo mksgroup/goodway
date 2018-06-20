@@ -39,7 +39,7 @@
                                             placeholder="Tên đường" name="street">
                                     </div>
                                     <button type="button" class="btn btn-primary mr-1">Định vị</button>
-                                    <a style="color:white;" href="#" class="btn btn-danger mr-1">Quản lý địa điểm</a>
+                                    <a style="color: white;" href="#" class="btn btn-danger mr-1">Quản lý địa điểm</a>
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-md-3"></div>
@@ -60,46 +60,40 @@
                             <h4 class="form-section">
                                 <i class="ft-clipboard"></i> Mặt hàng
                             </h4>
-                            <div class="form-group row">
-                                <div class="col-md-1"></div>
-                                <div class="col-md-10 table-responsive">
-                                    <table class="table">
-                                        <thead class="bg-success white">
-                                            <tr>
-                                                <th>STT</th>
-                                                <th class="col-md-1">Tên mặt hàng</th>
-                                                <th>Kích thước (mm): D x R x C</th>
-                                                <th>Trọng lượng (kg)</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>1</td>
-                                                <td>Tai nghe</td>
-                                                <td>1000</td>
-                                                <td>0.2</td>
-                                            </tr>
-                                            <tr>
-                                                <td>2</td>
-                                                <td>Điện thoại</td>
-                                                <td>100</td>
-                                                <td>100</td>
-                                            </tr>
-                                            <tr>
-                                                <td>3</td>
-                                                <td>Laptop</td>
-                                                <td>300</td>
-                                                <td></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                            
+                            <!-- Mobiles and tablets for products -->
+                            <section id="mobiles-tablets">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                                                <div class="heading-elements">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                        <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-content collapse show">
+                                                <div class="card-body card-dashboard ">
+                                                    <div class="table-responsive scroll-container">
+                                                        <div id="tableProduct" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </section>
+
                             <div class="form-actions">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-check-square-o"></i> Lưu
                                 </button>
-                                <a style="color:white;" href="/load-order/details/address" class="btn btn-warning mr-1">
+                                <a style="color: white;" href="/load-order/details/address" class="btn btn-warning mr-1">
                                     <i class="ft-x"></i> Hủy
                                 </a>
                             </div>
