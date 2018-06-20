@@ -1,60 +1,66 @@
-<!-- Update -->
 <!DOCTYPE html>
-<html lang="en""http://www.thymeleaf.org">
-<!--[if IE 9]>         <html class="no-js lt-ie10" lang="en"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="no-js" lang="en">
-<!--<![endif]-->
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="http://www.thymeleaf.org">
 <head>
-<div th:replace="fragments/head :: header-css-js"/>
-<title>Goodway - Giao hàng kịp thời</title>
+    <th:block th:include="fragments/head"></th:block>
 </head>
 <body>
-    <!-- Page Wrapper -->
-    <div id="page-wrapper" class="page-loading">
-        <!-- Preloader -->
-        <!-- Preloader functionality (initialized in themes/pixelcave/js/app.js) - pageLoading() -->
-        <div class="preloader">
-            <div class="inner">
-                <!-- Animation spinner for all modern browsers -->
-                <div class="preloader-spinner themed-background hidden-lt-ie10"></div>
-
-                <!-- Text for IE9 -->
-                <h3 class="text-primary visible-lt-ie10">
-                    <strong>Loading..</strong>
-                </h3>
+ <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">Small table</h4>
+                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                  <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="card-content">
+                <div class="card-body card-dashboard">
+                  <p class="card-text">Example of small table, Add <code>.table-sm</code> class to the
+                    <code>.table</code> to create a table with small spacing. Small
+                    table all rows have <code>0.6rem</code> height.</p>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-sm mb-0">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Username</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>Mark</td>
+                        <td>Otto</td>
+                        <td>@mdo</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">2</th>
+                        <td>Jacob</td>
+                        <td>Thornton</td>
+                        <td>@fat</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">3</th>
+                        <td>Larry</td>
+                        <td>the Bird</td>
+                        <td>@twitter</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
+          </div>
         </div>
-        <!-- END Preloader -->
-
-        <!-- Page Container -->
-        <div id="page-container" class="header-fixed-top sidebar-visible-lg-full">
-            <!-- Alternative Sidebar -->
-            <th:block th:include="fragments/sidebar-alt"></th:block>
-            <!-- END Alternative Sidebar -->
-
-            <!--  Slide bar -->
-            <th:block th:include="fragments/slidebar"></th:block>
-            <!-- End Slide bar -->
-
-            <!-- Main Container -->
-            <div id="main-container">
-               
-                <th:block th:include="fragments/header"></th:block>
-                <!-- End header -->
-                
-                <th:block th:include="fragments/javascript"></th:block>
-                
-                <!-- Page Content -->
-                <th:block th:include="fragments/customer/new"></th:block>
-                <!-- End Page Content -->
-            </div>
-            <!-- END Main Container -->
-        </div>
-        <!-- END Page Container -->
-    </div>
-    <!-- END Page Wrapper -->
-
-    
+        <!-- Small table end -->
 </body>
 </html>
