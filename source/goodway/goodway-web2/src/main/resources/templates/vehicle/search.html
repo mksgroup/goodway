@@ -14,5 +14,16 @@
   <th:block th:include="fragments/vehicle/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+
+<script>
+    var vehicleData;
+    
+    $(document).ready(function() {
+        $("#resultTable").DataTable({
+            responsive : true,
+            data: vehicleData
+        });
+    });
+</script>
 </body>
 </html>
