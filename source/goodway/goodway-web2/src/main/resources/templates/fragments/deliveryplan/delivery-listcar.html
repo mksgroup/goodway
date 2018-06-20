@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr"
+	xmlns:th="http://www.thymeleaf.org">
+<body
+	class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded"
+	data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+	<!-- fixed-top-->
+	<th:block th:include="fragments/nav"></th:block>
+	<!-- ////////////////////////////////////////////////////////////////////////////-->
+	<!-- Horizontal navigation-->
+	<th:block th:include="fragments/hnav"></th:block>
+	<!-- Horizontal navigation-->
+	<!-- Small table start -->
+	<div class="row">
+		<div class="col-12" align="right">
+			<div class="card">
+				<div class="card-header">
+					<h4 class="card-title" align="left"></h4>
+					<a class="heading-elements-toggle"><i
+						class="fa fa-ellipsis-v font-medium-3"></i></a>
+					<div class="heading-elements">
+						<ul class="list-inline mb-0">
+							<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+							<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+							<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+							<li><a data-action="close"><i class="ft-x"></i></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="card-content">
+					<div class="card-body card-dashboard" align="left">
+						<p>
+						<h1>Xác nhận danh sách xe</h1>
+						</p>
+					</div>
+					<div class="table-responsive">
+						<form action="findway">
+							<table class="table table-sm mb-0">
+								<thead>
+									<tr>
+										<th>#</th>
+										<th>Mã xe</th>
+										<th>Tải trọng(tấn)</th>
+										<th>Dung tích(m3)</th>
+										<th>Trạng thái</th>
+										<th>Bỏ qua</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th:foreach>
+											<th scope="row">1</th>
+											<td>MH-001</td>
+											<td>MKS Group</td>
+											<td>01234567890</td>
+											<td>123 Xa lộ Hà Nội</td>
+											<td>01/01/2018</td>
+											<td>Chưa thanh toán</td>
+											<td><input type='checkbox'
+												onclick='return filter_type(this);' name='filter'></td>
+										</th:foreach>
+									</tr>
+								</tbody>
+							</table>
+							<button type="submit" class="btn btn-primary">
+								Tiếp Tục<i
+									class="ft-thumbs-up position-right"></i>
+							</button>
+							<button type="reset" class="btn btn-warning">
+								<a href="/deliveryplan/deliveryplan-index">Trở lại</a> <i
+									class="ft-refresh-cw position-right"></i>
+							</button>
+						</form>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+	<!-- Small table end -->
+</body>
+
+</html>
