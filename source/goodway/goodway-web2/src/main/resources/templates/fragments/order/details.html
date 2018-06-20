@@ -60,13 +60,35 @@
                             <h4 class="form-section">
                                 <i class="ft-clipboard"></i> Mặt hàng
                             </h4>
-                            <div style="padding-left: 150px;">
-                                <div class="form-group row" id="custom-html">
-                                    <div class="table-responsive">
-                                        <div id="rendering" class="hot handsontable htColumnHeaders"></div>
+                            
+                            <!-- Mobiles and tablets for products -->
+                            <section id="mobiles-tablets">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                                                <div class="heading-elements">
+                                                    <ul class="list-inline mb-0">
+                                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                                        <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="card-content collapse show">
+                                                <div class="card-body card-dashboard ">
+                                                    <div class="table-responsive scroll-container">
+                                                        <div id="tableProduct" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </section>
+
                             <div class="form-actions">
                                 <button type="submit" class="btn btn-primary">
                                     <i class="fa fa-check-square-o"></i> Lưu
