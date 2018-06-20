@@ -36,7 +36,18 @@ public class OrderController {
     public String goCustomerNew() {
         return "order/new";
     }
-
+    
+    @GetMapping("order/load-order/details")
+    public String goOrderDetails() {
+        return "order/details";
+    }
+    
+    
+    @GetMapping("order/load-order/address")
+    public String goOrderDetailsAddressManagement() {
+        return "customer/address-management";
+    }
+    
     /**
      * Load danh sách các đơn hàng.
      * @param packageId
