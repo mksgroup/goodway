@@ -3,9 +3,9 @@ package mksgroup.goodway.repository;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import mksgroup.goodway.entity.Vehicle;
+import mksgroup.goodway.entity.Address;
 
 @Repository
-public interface VehicleRepository extends CrudRepository<Vehicle, Long> {
+public interface AddressRepository extends CrudRepository<Address, Long> {
     
 }
