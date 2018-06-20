@@ -1,0 +1,106 @@
+<!-- Home menu -->
+<div id="page-content">
+<section id="image-gallery" class="card">
+          <div class="card-header">
+            <h4 class="card-title">Chọn mô đun chức năng</h4>
+            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+            <div class="heading-elements">
+              <ul class="list-inline mb-0">
+                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                <li><a data-action="close"><i class="ft-x"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="card-body">
+              <div class="card-text">
+                <p>Bấm chọn mô đun bên dưới</p>
+              </div>
+            </div>
+            <div class="card-body my-gallery" itemscope="" itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
+              <div class="row">
+                    <figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+                        <a th:href="@{/order}">
+                          <div class="card bg-info">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-basket-loaded text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-right">
+                                    <h3 class="text-white">Đơn hàng</h3>
+                                    <span>Quản lý đơn hàng</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </figure>
+                    <figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+                      <a th:href="@{/vehicle}">
+                          <div class="card bg-info">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-plane text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-right">
+                                    <h3 class="text-white">Đội xe</h3>
+                                    <span>Quản lý thông tin xe</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </figure>
+                    <figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+                      <a th:href="@{/address}">
+                          <div class="card bg-info">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-map text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-right">
+                                    <h3 class="text-white">Địa điểm</h3>
+                                    <span>Quản lý địa điểm giao hàng</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </figure>
+                    <figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+                      <a th:href="@{/customer}">
+                          <div class="card bg-info">
+                            <div class="card-content">
+                              <div class="card-body">
+                                <div class="media d-flex">
+                                  <div class="align-self-center">
+                                    <i class="icon-user-following text-white font-large-2 float-left"></i>
+                                  </div>
+                                  <div class="media-body text-white text-right">
+                                    <h3 class="text-white">Khách hàng</h3>
+                                    <span>Quản lý thông tin khách hàng</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </a>
+                    </figure>
+                  </div>
+            </div>
+       
+          </div>
+          <!--/ PhotoSwipe -->
+        </section>
+</div>

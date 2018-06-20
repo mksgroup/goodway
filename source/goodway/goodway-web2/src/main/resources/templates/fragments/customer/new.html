@@ -1,0 +1,59 @@
+<div id="page-content">
+    <th:block th:include="fragments/customer/toolbar"></th:block>
+    <div class="col-lg-6">
+        <div class="block full">
+                  <div class="scroll-container">
+                      <div id="customerTable">
+                      </div>
+                  </div>
+        </div>
+    </div>
+</div>
+    <!-- Scripts xử lý nhập danh sách khách hàng -->
+    <script>
+        var dataPackages = [
+        ];
+
+        var containerOrder= document.getElementById('orderTable');
+        var hotOrder = null;
+
+        initHotOrder();
+
+        function initHotOrder() {
+            if (hotOrder == null) {
+            	hotOrder = new Handsontable(containerOrder, {
+                    data: dataPackages,
+                    colHeaders: ["STT", "Mã đơn hàng", "Khách hàng", "Số điện thoại", "Địa điểm", "Ngày giao", "Trạng thái"],
+                    columns: [
+                        {data: 'id'},
+                        {data: 'cd'},
+                        {data: 'customer'},
+                        {data: 'phone'},
+                        {data: 'address'},
+                        {data: 'deliveryDate'},
+                        {data: 'status'}
+                      ]
+                  });
+            }
+        }
+        
+        // Load lại danh đơn hàng
+        function loadOrder() {
+            // load demo data
+            $.ajax({
+                url : 'load-order?id=1',
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    console.log("res=" + res);
+                    var orderData = JSON.parse(res.data);
+                    hotOrder.loadData(orderData);
+                },
+                error : function (e) {
+                    console.log("Error " + e);
+                }
+            });
+        }
+    
+    </script>

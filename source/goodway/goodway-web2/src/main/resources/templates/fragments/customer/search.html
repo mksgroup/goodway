@@ -1,0 +1,88 @@
+<div id="page-content">
+    <th:block th:include="fragments/customer/toolbar"></th:block>
+    <div class="col-lg-6">
+        <div class="block full">
+            <!-- Inline Form Title -->
+            <div class="block-title">
+                <h2>Tìm kiếm</h2>
+            </div>
+            <!-- END Inline Form Title -->
+    
+            <!-- Inline Form Content -->
+            <form action="page_forms_components.html" method="post" class="form-inline" onsubmit="return false;">
+                <div class="form-group">
+                    <label class="sr-only" for="example-if-email">Email</label>
+                    <input type="email" id="example-if-email" name="example-if-email" class="form-control" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label class="sr-only" for="example-if-password">Password</label>
+                    <input type="password" id="example-if-password" name="example-if-password" class="form-control" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;">Tìm</button>
+                </div>
+            </form>
+            <!-- END Inline Search Form Content -->
+            
+            <!-- Search result -->
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                      <table id="pathTable" class="display">
+                        <thead>
+                            <tr>
+                                <th>STT</th>
+                                <th>Từ</th>
+                                <th>Đến</th>
+                                <th>Khoảng cách</th>
+                            </tr>
+                        </thead>
+                      </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    var resultTable = null;
+
+    $(function() {
+        console.log( "ready!" );
+    });
+    
+    $(document).ready(function () {
+        $("#findPath").click(function () {
+            displayResult();
+        });
+    });
+
+    function displayResult() {
+    	var pathData = [];
+        // Display Path tables
+        if (resultTable == null) {
+            resultTable = $('#pathTable').dataTable({
+                responsive : true,
+                language: {
+                    "sProcessing":   "Đang xử lý...",
+                    "sLengthMenu":   "Xem _MENU_ mục",
+                    "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
+                    "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
+                    "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
+                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
+                    "sInfoPostFix":  "",
+                    "sSearch":       "Tìm:",
+                    "sUrl":          "",
+                    "oPaginate": {
+                        "sFirst":    "Đầu",
+                        "sPrevious": "Trước",
+                        "sNext":     "Tiếp",
+                        "sLast":     "Cuối"
+                    }
+                },
+                data: pathData
+            });
+
+        } else {
+        	resultTable.fnDraw();
+        }
+    }
+</script>

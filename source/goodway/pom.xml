@@ -16,7 +16,21 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
+	<dependencyManagement>
+		<dependencies>
+			<!-- project dependencies -->
+			<dependency>
+				<groupId>mksgroup.goodway</groupId>
+				<artifactId>goodway-domain</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+			<dependency>
+				<groupId>mksgroup.goodway</groupId>
+				<artifactId>goodway-dao</artifactId>
+				<version>0.0.1-SNAPSHOT</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -24,8 +38,11 @@
     </parent>
 
     <modules>
-		<module>app</module>
+		<module>goodway-dao</module>
 		<module>goodway-core</module>
+		<module>goodway-domain</module>
+		<module>goodway-app</module>
+		<module>goodway-web2</module>
     </modules>
 
     <!-- Build step is required to include the spring boot artifacts in generated jars -->
