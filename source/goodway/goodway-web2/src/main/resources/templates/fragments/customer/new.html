@@ -1,12 +1,337 @@
 <div id="page-content">
     <th:block th:include="fragments/customer/toolbar"></th:block>
-    <div class="col-lg-6">
-        <div class="block full">
-                  <div class="scroll-container">
-                      <div id="customerTable">
+    <div class="col-lg-12">
+        <form class="form form-horizontal">
+                      <div class="form-body">
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput1">Id</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput1" class="form-control" placeholder="Id" name="id">
+                              <div class="form-control-position">
+                                <i class="ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Name</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Name" name="name">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Short Name</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Short name" name="shortname">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Address</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Address" name="Address">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Tax Id</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Tax ID" name="taxid">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">CellPhone</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Cellphone" name="CellPhone">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Phone</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Phone" name="Phone">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Fax</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Fax" name="Fax">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Email</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="email@email.com" name="Email">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">BusinessType</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Bussiness type" name="BusinessType">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">BusinessLine</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Business line" name="BusinessLine">
+                              <div class="form-control-position">
+                                <i class="fa ft-user"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Cd</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Cd" name="Cd">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">SeqNo</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="SeqNo" name="SeqNo">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Version</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Version" name="projecVersiontname">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Representative</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Representative" name="Representative">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Role</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Role" name="Role">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Web</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Web" name="Web">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Note</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <textarea id="timesheetinput7" rows="5" class="form-control" name="Note" placeholder="note"></textarea>
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">MandatoryChars</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Mandatory Chars" name="MandatoryChars">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Attachment1</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Attachment1" name="attachment1">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Filename1</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Filename1" name="filename1">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Attachment2</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Attachment2" name="attachment2">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Filename2</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Filename2" name="filename2">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Attachment3</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Attachment3" name="attachment3">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                         <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Filename3</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Filename3" name="filename3">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput2">Created by Username</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Created by Username" name="createdbyusername">
+                              <div class="form-control-position">
+                                <i class="fa ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput3">Created</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="date" id="timesheetinput3" class="form-control" name="datecreate">
+                              <div class="form-control-position">
+                                <i class="ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput3">Last modified</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="date" id="timesheetinput3" class="form-control" name="datemodifed">
+                              <div class="form-control-position">
+                                <i class="ft-message-square"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group row">
+                          <label class="col-md-3 label-control" for="timesheetinput7">OrderMasterCollection</label>
+                          <div class="col-md-6">
+                            <div class="position-relative has-icon-left">
+                              <input type="text" id="timesheetinput2" class="form-control" placeholder="Filename3" name="filename3">
+                              <div class="form-control-position">
+                                <i class="ft-file"></i>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                  </div>
-        </div>
+                      <div class="form-actions right">
+                        <button type="button" class="btn btn-warning mr-1">
+                          <i class="ft-x"></i> Cancel
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                          <i class="fa fa-check-square-o"></i> Save
+                        </button>
+                      </div>
+                    </form>
     </div>
 </div>
     <!-- Scripts xử lý nhập danh sách khách hàng -->
