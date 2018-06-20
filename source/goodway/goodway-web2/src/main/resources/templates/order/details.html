@@ -17,6 +17,55 @@
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
+    <script>
+        var dataProducts = [["", "" , "", "", ""]
+        ];
 
+        $(function() {
+        	var containerProduct = document.getElementById('tableProduct');
+            var hotProduct = null;
+
+
+        	hotProduct = new Handsontable(containerProduct, {
+                data: dataProducts,
+                colHeaders: ["Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)"],
+                rowHeaders: true,
+                minRows: 5,
+                minCols: 5,
+                currentRowClassName: 'currentRow',
+                currentColClassName: 'currentCol',
+            	manualColumnResize: true,
+                manualRowResize: true
+//                 , columns: [
+//                     {data: 'name'},
+//                     {data: 'length'},
+//                     {data: 'width'},
+//                     {data: 'height'},
+//                     {data: 'weight'}
+//                   ]
+              });
+        });
+
+        // Load lại danh sách sản phẩm của đơn hàng
+        function loadPackages(packageId) {
+            // load demo data.
+            var orderId = 1;
+
+            $.ajax({
+                url : 'load-product?orderId=' + orderId,
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    console.log("res=" + res);
+                    dataProducts = JSON.parse(res);
+                    hotProduct.loadData(dataProducts);
+                },
+                error : function (e) {
+                    console.log("Error: " + e);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
