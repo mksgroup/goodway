@@ -10,9 +10,36 @@
   <!-- Horizontal navigation-->
     <th:block th:include="fragments/hnav"></th:block>
   <!-- Horizontal navigation-->
-
+	
   <th:block th:include="fragments/customer/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+
+<script>
+    // Lưu đối tượng table kết quả search
+    var resultTable = null;
+    var customerData;
+    
+    $(document).ready(function() {
+        // Khởi tạo Table kết quả
+    	if (resultTable == null) {
+            $("#resultTable").DataTable({
+                ajax: {'url': '/customer/load-customer', 'dataSrc': ''},
+                "columns": [
+                	   { "data": "id" },
+                	   { "data": "cd" },
+                	   { "data": "seq_no" },
+                	   { "data": "version" },
+                	   { "data": "name" },
+                	   { "data": "short_name" },
+                	   { "data": "created" },
+                	   { "data": "createdbyUsername" }
+                       ]
+            });
+    	} else {
+            resultTable.fnDraw();
+        }
+    });
+</script>
 </body>
 </html>
