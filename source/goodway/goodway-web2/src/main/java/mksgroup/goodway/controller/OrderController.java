@@ -38,7 +38,7 @@ public class OrderController {
     }
     
     
-    @GetMapping("order/load-order/details")
+    @GetMapping("order/details")
     public String goOrderDetails() {
         return "order/details";
     }
