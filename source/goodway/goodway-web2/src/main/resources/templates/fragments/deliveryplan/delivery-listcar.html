@@ -10,6 +10,10 @@
 	<!-- Horizontal navigation-->
 	<th:block th:include="fragments/hnav"></th:block>
 	<!-- Horizontal navigation-->
+	
+	<!-- Nav of the screen -->
+	<th:block th:include="fragments/deliveryplan/navbar-listcar"></th:block>
+	
 	<!-- Small table start -->
 	<div class="row">
 		<div class="col-12" align="right">
@@ -38,24 +42,21 @@
 							<table class="table table-sm mb-0">
 								<thead>
 									<tr>
-										<th>#</th>
 										<th>Mã xe</th>
 										<th>Tải trọng(tấn)</th>
 										<th>Dung tích(m3)</th>
 										<th>Trạng thái</th>
-										<th>Bỏ qua</th>
+										<th>Chọn</th>
+										
 									</tr>
 								</thead>
 								<tbody>
 									<tr>
 										<th:foreach>
-											<th scope="row">1</th>
-											<td>MH-001</td>
-											<td>MKS Group</td>
-											<td>01234567890</td>
-											<td>123 Xa lộ Hà Nội</td>
-											<td>01/01/2018</td>
-											<td>Chưa thanh toán</td>
+											<td>Tải nhẹ A1</td>
+											<td></td>
+											<td></td>
+											<td>A</td>
 											<td><input type='checkbox'
 												onclick='return filter_type(this);' name='filter'></td>
 										</th:foreach>
@@ -67,7 +68,7 @@
 									class="ft-thumbs-up position-right"></i>
 							</button>
 							<button type="reset" class="btn btn-warning" onclick="history.back();">
-								Trở lại\ <i
+								Trở lại <i
 									class="ft-refresh-cw position-right"></i>
 							</button>
 						</form>

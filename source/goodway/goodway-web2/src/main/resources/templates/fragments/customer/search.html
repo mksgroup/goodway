@@ -1,88 +1,82 @@
-<div id="page-content">
-    <th:block th:include="fragments/customer/toolbar"></th:block>
-    <div class="col-lg-6">
-        <div class="block full">
-            <!-- Inline Form Title -->
-            <div class="block-title">
-                <h2>Tìm kiếm</h2>
-            </div>
-            <!-- END Inline Form Title -->
-    
-            <!-- Inline Form Content -->
-            <form action="page_forms_components.html" method="post" class="form-inline" onsubmit="return false;">
-                <div class="form-group">
-                    <label class="sr-only" for="example-if-email">Email</label>
-                    <input type="email" id="example-if-email" name="example-if-email" class="form-control" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label class="sr-only" for="example-if-password">Password</label>
-                    <input type="password" id="example-if-password" name="example-if-password" class="form-control" placeholder="Password">
-                </div>
-                <div class="form-group">
-                    <button type="submit" class="btn btn-effect-ripple btn-primary" style="overflow: hidden; position: relative;">Tìm</button>
-                </div>
-            </form>
-            <!-- END Inline Search Form Content -->
-            
-            <!-- Search result -->
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                      <table id="pathTable" class="display">
-                        <thead>
-                            <tr>
-                                <th>STT</th>
-                                <th>Từ</th>
-                                <th>Đến</th>
-                                <th>Khoảng cách</th>
-                            </tr>
-                        </thead>
-                      </table>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="app-content content">
+	<div class="content-wrapper">
+		<div class="content-header row">
+			<div class="content-header-left col-md-6 col-12 mb-2">
+				<h3 class="content-header-title" th:text="#{customer.screentitle}">Screen
+					title</h3>
+				
+			</div>
+			<div class="content-header-right col-md-6 col-12">
+				<div class="media width-250 float-right">
+					<media-left class="media-middle">
+					<div id="sp-bar-total-sales">
+						<canvas width="152" height="30"
+							style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas>
+					</div>
+					</media-left>
+					<div class="media-body media-right text-right">
+						<h3 class="m-0" th:title="#{customer.total}">1234</h3>
+						<span class="text-muted" th:text="#{customer.total.desc}">Description</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content-body">
+			<!-- Basic form layout section start -->
+			<th:block th:include="fragments/customer/toolbar"></th:block>
+			<div class="content-body">
+				<section id="search-website" class="card overflow-hidden">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title">Search Customer</h4>
+							<a class="heading-elements-toggle"><i
+								class="fa fa-ellipsis-v font-medium-3"></i></a>
+							<div class="heading-elements">
+								<ul class="list-inline mb-0">
+									<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+									<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+									<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+									<li><a data-action="close"><i class="ft-x"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-content">
+							<div class="card-body pb-0">
+								<fieldset class="form-group position-relative mb-0">
+									<input type="text"
+										class="form-control form-control-xl input-xl" id="iconLeft1"
+										placeholder="Search customer">
+									<div class="form-control-position">
+										<i class="ft-mic font-medium-4"></i>
+									</div>
+								</fieldset>
+							</div>
+
+							<!--/ Search Navbar-->
+							<!--Search Result-->
+							<div>
+								<table id="resultTable"
+									class="table table-striped table-bordered">
+									<thead>
+										<tr>
+											<th>ID</th>
+											<th>CD</th>
+											<th>SeqNo</th>
+											<th>Version</th>
+											<th>Name</th>
+											<th>Short name</th>
+											<th>Created</th>
+											<th>Created By Username</th>
+										</tr>
+									</thead>
+								</table>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!-- // Basic form layout section end -->
+		</div>
+	</div>
 </div>
-<script>
-    var resultTable = null;
 
-    $(function() {
-        console.log( "ready!" );
-    });
-    
-    $(document).ready(function () {
-        $("#findPath").click(function () {
-            displayResult();
-        });
-    });
-
-    function displayResult() {
-    	var pathData = [];
-        // Display Path tables
-        if (resultTable == null) {
-            resultTable = $('#pathTable').dataTable({
-                responsive : true,
-                language: {
-                    "sProcessing":   "Đang xử lý...",
-                    "sLengthMenu":   "Xem _MENU_ mục",
-                    "sZeroRecords":  "Không tìm thấy dòng nào phù hợp",
-                    "sInfo":         "Đang xem _START_ đến _END_ trong tổng số _TOTAL_ mục",
-                    "sInfoEmpty":    "Đang xem 0 đến 0 trong tổng số 0 mục",
-                    "sInfoFiltered": "(được lọc từ _MAX_ mục)",
-                    "sInfoPostFix":  "",
-                    "sSearch":       "Tìm:",
-                    "sUrl":          "",
-                    "oPaginate": {
-                        "sFirst":    "Đầu",
-                        "sPrevious": "Trước",
-                        "sNext":     "Tiếp",
-                        "sLast":     "Cuối"
-                    }
-                },
-                data: pathData
-            });
-
-        } else {
-        	resultTable.fnDraw();
-        }
-    }
-</script>

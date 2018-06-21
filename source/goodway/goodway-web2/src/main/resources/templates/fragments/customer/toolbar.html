@@ -1,8 +1,9 @@
-<div class="block-section">
-    <div class="btn-toolbar">
-        <div class="btn-group">
-            <a href="customer/new" class="btn btn-default" title="Tạo mới"><i class="fa fa-file"></i></a>
-            <a href="customer/search" class="btn btn-default" title="Tìm kiếm"><i class="fa fa-search"></i></a>
-        </div>
+<div class="navbar-container main-menu-content" data-menu="menu-container">
+
+  <div class="content-header-right col-md-4 col-12">
+    <div class="btn-group" role="group" aria-label="Basic example">
+        <a class="btn btn-icon btn-outline-secondary" th:href="@{/customer/new}" th:title="#{customer.new.tip}"><i class="fa fa-plus"></i></a>
+        <a class="btn btn-icon btn-outline-primary" th:href="@{/customer/search}"><i class="fa fa-search" th:title="#{customer.search.tip}"></i></a>
     </div>
+  </div>
 </div>
