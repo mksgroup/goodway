@@ -60,13 +60,12 @@ public class VehicleController {
     @ResponseBody
     public Iterable<Vehicle> loadVehicles() {
 
-        Iterable<Vehicle> orders = vehicleRepository.findAll();
+        Iterable<Vehicle> vehicles = vehicleRepository.findAll();
         
-        return orders;
+        return vehicles;
     }
     
     @PostMapping("/vehicle/save")
-    // @RequestMapping(value = "//vehicle/save", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Iterable<Vehicle> saveVehicles(@Valid @RequestBody VehicleModel data, Errors errors, HttpServletRequest request) {
         LOG.info("saveVehicles....");
