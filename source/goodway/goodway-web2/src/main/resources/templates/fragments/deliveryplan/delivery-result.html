@@ -36,7 +36,7 @@
 											<th>STT</th>
 											<th>Đơn hàng</th>
 											<th>Địa điểm</th>
-											<th>Quãng đườn(+)</th>
+											<th>Quãng đường(+)</th>
 											<th>Thời gian dự kiến</th>
 											<th>Bản đồ</th>
 										</tr>
@@ -48,7 +48,7 @@
 											<td>123 Lô A, [...]</td>
 											<td>12km</td>
 											<td>0,5 giờ</td>
-											<td><a>Xem</a></td>
+											<td><a onclick="window.open('https://www.google.com/maps','/_blank')">Xem</a></td>
 										</tr>
 										<tr>
 											<td>1</td>
@@ -56,7 +56,7 @@
 											<td>[...]</td>
 											<td></td>
 											<td></td>
-											<td><a>Xem</a></td>
+											<td><a onclick="window.open('https://www.google.com/maps','/_blank')">Xem</a></td>
 										</tr>
 									</tfoot>
 								</table>
@@ -73,7 +73,7 @@
 											<th>STT</th>
 											<th>Đơn hàng</th>
 											<th>Địa điểm</th>
-											<th>Quãng đườn(+)</th>
+											<th>Quãng đường(+)</th>
 											<th>Thời gian dự kiến</th>
 											<th>Bản đồ</th>
 										</tr>
@@ -85,7 +85,7 @@
 											<td>123 Lô A, [...]</td>
 											<td>12km</td>
 											<td>0,5 giờ</td>
-											<td><a>Xem</a></td>
+											<td><a onclick="window.open('https://www.google.com/maps','/_blank')">Xem</a></td>
 										</tr>
 										<tr>
 											<td>1</td>
@@ -93,7 +93,7 @@
 											<td>[...]</td>
 											<td></td>
 											<td></td>
-											<td><a>Xem</a></td>
+											<td><a onclick="window.open('https://www.google.com/maps','/_blank')">Xem</a></td>
 										</tr>
 									</tfoot>
 								</table>
@@ -107,9 +107,9 @@
 							<button type="submit" class="btn btn-primary">
 								Xuất Excel<i class="ft-thumbs-up position-right"></i>
 							</button>
-							<button type="button" class="btn btn-warning">
-								<a href="/deliveryplan/delivery-lístcar">Trở lại</a><i
-									class="ft-refresh-cw position-right"></i>
+							<button type="button" class="btn btn-warning"
+								onclick="history.back();">
+								Trở lại<i class="ft-refresh-cw position-right"></i>
 							</button>
 						</div>
 					</form>
