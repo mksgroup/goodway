@@ -27,18 +27,13 @@ public class OrderController {
      * Goto the index page.
      * @return
      */
-    @RequestMapping("/order")
-    public String goCustomerSearch() {
-        return "order/list";
-    }
-
-    @RequestMapping("/order/new")
-    public String goCustomerNew() {
-        return "order/new";
+    @RequestMapping({"/order","/order/search"})
+    public String goOrderSearch() {
+        return "order/search";
     }
     
     
-    @GetMapping("order/details")
+    @GetMapping("/order/details")
     public String goOrderDetails() {
         return "order/details";
     }

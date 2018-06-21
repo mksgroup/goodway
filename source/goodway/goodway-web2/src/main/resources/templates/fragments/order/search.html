@@ -1,0 +1,131 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+          <h3 class="content-header-title" th:text="#{order.screentitle}">Order management</h3>
+          <!-- Nav of the screen -->
+          <th:block th:include="fragments/order/navbar"></th:block>
+
+        </div>
+        <div class="content-header-right col-md-6 col-12">
+          <div class="media width-250 float-right">
+            <media-left class="media-middle">
+              <div id="sp-bar-total-sales"><canvas width="152" height="30" style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas></div>
+            </media-left>
+            <div class="media-body media-right text-right">
+              <h3 class="m-0" th:title="#{order.total}">1234</h3>
+              <span class="text-muted" th:text="@{order.total.desc}">Description</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-body">
+        <!-- Basic form layout section start -->
+        	<th:block th:include="fragments/order/toolbar"></th:block>
+        	<div class="row justify-content-md-center">
+        		<div class="col-md-10 ">
+        					<form class="form form-horizontal ">
+        						<div class="form-body row">
+        							<div class="col-md-2">
+        								<div class="form-group row">
+        									<a style="color: white;" href="/order/details"
+        										class="btn btn-danger mr-1"> Thêm
+        									</a>
+        								</div>
+        							</div>
+        							<div class="col-md-2">
+        								<div class="form-group row">
+        
+        									<input type="text" id="userinput2"
+        										class="form-control border-primary" placeholder="Mã đơn hàng"
+        										name="idDH">
+        
+        								</div>
+        							</div>
+        							<div class="col-md-4">
+        								<div class="form-group row">
+        									<label class="col-md-5 label-control" for="userinput2">Ngày
+        										giao từ</label>
+        									<div class="col-md-7">
+        										<input type="date" id="userinput2"
+        											class="form-control border-primary" placeholder="dd/mm/yyyy"
+        											name="fromdate">
+        									</div>
+        								</div>
+        							</div>
+        							<div class="col-md-3">
+        								<div class="form-group row">
+        									<label class="col-md-2 label-control" for="userinput2">đến</label>
+        									<div class="col-md-9">
+        										<input type="date" id="userinput2"
+        											class="form-control border-primary" placeholder="dd/mm/yyyy"
+        											name="todate">
+        									</div>
+        								</div>
+        							</div>
+        							<div class="col-md-1">
+        								<button type="submit" class="btn btn-info">
+        									<i class="fa"></i> Tìm kiếm
+        								</button>
+        							</div>
+        						</div>
+        					</form>
+        				</div>
+        				<div id="orderTable" >
+        					<div class="table-responsive">
+        						<table class="table">
+        							<thead class="bg-teal bg-lighten-4">
+        								<tr>
+        									<th>Mã mặt hàng</th>
+        									<th>Khách hàng</th>
+        									<th>Số điện thoại</th>
+        									<th>Địa điểm</th>
+        									<th>Ngày giao</th>
+        									<th>Trạng thái</th>
+        									<th><input id="check" type="checkbox"></th>
+        								</tr>
+        							</thead>
+        							<tbody>
+        								<tr>
+        									<th scope="row"><a href="#">NEPDV-06-05-01</a></th>
+        									<td>Mark</td>
+        									<td>0123456789</td>
+        									<td>tpHCM</td>
+        									<td>1/1/2018</td>
+        									<td>C</td>
+        									<td><input id="check" type="checkbox"></td>
+        								</tr>
+        								<tr>
+        									<th scope="row"><a href="#">NEPDV-06-05-01</a></th>
+        									<td>Jacob</td>
+        									<td>0123456789</td>
+        									<td>tpHCM</td>
+        									<td>1/1/2018</td>
+        									<td>C</td>
+        									<td><input id="check" type="checkbox"></td>
+        								</tr>
+        								<tr>
+        									<th scope="row"><a href="#">NEPDV-06-05-01</a></th>
+        									<td>Larry</td>
+        									<td>0123456789</td>
+        									<td>tpHCM</td>
+        									<td>1/1/2018</td>
+        									<td>C</td>
+        									<td><input id="check" type="checkbox"></td>
+        								</tr>
+        							</tbody>
+        						</table>
+        					</div>
+        				
+        			
+        			<a style="color: white;" href="/order/new"
+        				class="btn btn-primary mr-1"> Lập kế hoạch
+        			</a>
+        		</div>
+        	</div>
+
+         <!-- // Basic form layout section end -->
+      </div>
+    </div>
+  </div>
+
