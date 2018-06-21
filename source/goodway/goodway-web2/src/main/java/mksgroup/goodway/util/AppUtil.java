@@ -36,6 +36,7 @@ public class AppUtil {
                 Double length;
                 Double width;
                 Double height;
+                Double capacity;
 
                 for (List rowItem : rows) {
                     vehicle = new Vehicle();
@@ -43,6 +44,7 @@ public class AppUtil {
                     length = CommonUtil.isNNandNB(rowItem.get(2))  ?  parseNum(rowItem.get(2)) : null;
                     width = CommonUtil.isNNandNB(rowItem.get(3))  ? parseNum(rowItem.get(3)) : null;
                     height = CommonUtil.isNNandNB(rowItem.get(4))  ? parseNum(rowItem.get(4)) : null;
+                    capacity = CommonUtil.isNNandNB(rowItem.get(5))  ? parseNum(rowItem.get(5)) : null;
 
                     if (CommonUtil.isNNandNB(rowItem)) {
                         vehicle.setId(id);
@@ -50,6 +52,8 @@ public class AppUtil {
                         vehicle.setLength(length);
                         vehicle.setWidth(width);
                         vehicle.setHeight(height);
+                        vehicle.setCapacity(capacity);
+
                         vehicle.setCreated(new Date());
                         vehicle.setCreatedbyUsername("TBD");
                         
