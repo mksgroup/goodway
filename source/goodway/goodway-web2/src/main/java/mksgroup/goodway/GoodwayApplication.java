@@ -4,9 +4,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class MyWorkspaceApplication {
+public class GoodwayApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(MyWorkspaceApplication.class, args);
+		SpringApplication.run(GoodwayApplication.class, args);
 	}
 }

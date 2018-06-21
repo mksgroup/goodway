@@ -25,16 +25,17 @@
 
         	hotVehicle = new Handsontable(containerVehicle, {
                 data: dataVehicles,
-                colHeaders: ["Tên xe", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)"],
-                colWidths: [250, 100, 100, 100, 120],
+                colHeaders: ["ID", "Tên xe", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)"],
+                colWidths: [50, 250, 100, 100, 100, 120],
                 rowHeaders: true,
                 minRows: 5,
-                minCols: 5,
                 currentRowClassName: 'currentRow',
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
                 manualRowResize: true,
+                contextMenu: true,
                 columns: [
+                	{data: 'id'},
                     {data: 'name'},
                     {data: 'length'},
                     {data: 'width'},
@@ -73,6 +74,42 @@
                 }
             });
         }
+    </script>
+    
+    <script>
+        $('#frmHot').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmHot');
+            var selectPoolId = $('#poolId').val();
+            var frmData = new FormData(this);
+    
+            // Get header name
+            var colHeaderData =  hotVehicle.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotVehicle.getData();
+
+            var frmData = {};
+            frmData["header"] = colHeaderData;
+            frmData["data"] = tableData;
+            
+            $.ajax({
+                url : "/vehicle/save",
+                type : "POST",
+                contentType: "application/json",
+                data: JSON.stringify(frmData),
+                dataType: 'json',
+
+                success : function(result) {
+                    // reload data
+                	loadVehicle();
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
     </script>
 </body>
 </html>

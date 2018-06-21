@@ -32,6 +32,10 @@
 	<dependencies>
 		<!-- Sub modules of the project -->
 		<dependency>
+				<groupId>mksgroup.java</groupId>
+				<artifactId>javacommon</artifactId>
+			</dependency>
+		<dependency>
 			<groupId>mksgroup.goodway</groupId>
 			<artifactId>goodway-domain</artifactId>
 		</dependency>
