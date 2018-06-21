@@ -42,7 +42,7 @@ public class VehicleController {
      * @param packageId
      * @return
      */
-    @GetMapping("/order/load-vehicle")
+    @GetMapping("/vehicle/load-vehicle")
     @ResponseBody
     public Iterable<Vehicle> loadVehicles() {
 

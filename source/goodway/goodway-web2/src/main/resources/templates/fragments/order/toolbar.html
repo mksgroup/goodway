@@ -2,8 +2,8 @@
 
   <div class="content-header-right col-md-4 col-12">
     <div class="btn-group" role="group" aria-label="Basic example">
-        <a class="btn btn-icon btn-outline-secondary" href="?act=new" th:title="#{order.new.tip}"><i class="fa fa-plus"></i></a>
-        <a class="btn btn-icon btn-outline-primary" href="?act=search"><i class="fa fa-search" th:title="#{order.search.tip}"></i></a>
+        <a class="btn btn-icon btn-outline-secondary" th:href="@{/order/new}" th:title="#{order.new.tip}"><i class="fa fa-plus"></i></a>
+        <a class="btn btn-icon btn-outline-primary" th:href="@{/order/search}"><i class="fa fa-search" th:title="#{order.search.tip}"></i></a>
     </div>
   </div>
 </div>
