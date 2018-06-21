@@ -18,11 +18,10 @@
     <script>
         var dataVehicles = [["", "" , "", "", ""]
         ];
+        var hotVehicle = null;
 
         $(function() {
         	var containerVehicle = document.getElementById('tableVehicle');
-            var hotVehicle = null;
-
 
         	hotVehicle = new Handsontable(containerVehicle, {
                 data: dataVehicles,
@@ -34,30 +33,39 @@
                 currentRowClassName: 'currentRow',
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
-                manualRowResize: true
-//                 , columns: [
-//                     {data: 'name'},
-//                     {data: 'length'},
-//                     {data: 'width'},
-//                     {data: 'height'},
-//                     {data: 'weight'}
-//                   ]
+                manualRowResize: true,
+                columns: [
+                    {data: 'name'},
+                    {data: 'length'},
+                    {data: 'width'},
+                    {data: 'height'},
+                    {data: 'capacity'}
+                  ]
               });
+        	loadVehicle();
         });
 
-        // Load lại danh sách sản phẩm của đơn hàng
-        function loadPackages(packageId) {
-            // load demo data.
-            var vehicleId = 1;
+        /**
+         * @param vehicleId: -1 means loading all
+         */
+        function loadVehicle(vehicleId) {
+            var url;
+
+            
+            if (vehicleId === undefined) {
+                url = 'load-vehicle';
+            } else {
+                url = 'load-vehicle?id=' + vehicleId;
+            }
 
             $.ajax({
-                url : 'load-vehicle',
+                url : url,
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    console.log("res=" + res);
-                    dataVehicles = JSON.parse(res);
+                    // Update data into the handsontable
+                    dataVehicles = res;
                     hotVehicle.loadData(dataVehicles);
                 },
                 error : function (e) {
