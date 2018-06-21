@@ -14,5 +14,56 @@
   <th:block th:include="fragments/customer/new"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+   <script>
+        var dataCustomers = [["", "" , "", "", ""]
+        ];
+
+        $(function() {
+        	var containerCustomer = document.getElementById('tableCustomer');
+            var hotCustomer = null;
+
+
+        	hotCustomer = new Handsontable(containerCustomer, {
+                data: dataCustomers,
+                colHeaders: ["ID", "cd", "seq_no", "version", "name"],
+                colWidths: [250, 100, 100, 100, 120],
+                rowHeaders: true,
+                minRows: 5,
+                minCols: 5,
+                currentRowClassName: 'currentRow',
+                currentColClassName: 'currentCol',
+            	manualColumnResize: true,
+                manualRowResize: true
+//                 , columns: [
+//                     {data: 'name'},
+//                     {data: 'length'},
+//                     {data: 'width'},
+//                     {data: 'height'},
+//                     {data: 'weight'}
+//                   ]
+              });
+        });
+
+        // Load lại danh sách sản phẩm của đơn hàng
+        function loadCustomers(packageId) {
+            // load demo data.
+            var customerId = 1;
+
+            $.ajax({
+                url : 'load-customer',
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    console.log("res=" + res);
+                    dataCustomers = JSON.parse(res);
+                    hotCustomer.loadData(dataCustomers);
+                },
+                error : function (e) {
+                    console.log("Error: " + e);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
