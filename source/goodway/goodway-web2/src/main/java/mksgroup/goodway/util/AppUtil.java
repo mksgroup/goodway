@@ -11,7 +11,7 @@ import javax.validation.Valid;
 
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.VehicleModel;
-import rocky.common.CommonUtil;
+import mksgroup.java.common.CommonUtil;
 
 /**
  * This utility provides features:<br/>
