@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/head"></th:block>
+</head>
+<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+  <!-- fixed-top-->
+    <th:block th:include="fragments/nav"></th:block>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <!-- Horizontal navigation-->
+    <th:block th:include="fragments/hnav"></th:block>
+  <!-- Horizontal navigation-->
+
+    <th:block th:include="fragments/address/new"></th:block>
+  <th:block th:include="fragments/footer"></th:block>
+      <script>
+        var dataAddresses = [["", "" , "", "", ""]
+        ];
+        var hotAddress = null;
+
+        $(function() {
+        	var containerAddress = document.getElementById('tableAddress');
+
+        	hotAddress = new Handsontable(containerAddress, {
+                data: dataAddresses,
+                colHeaders: ["Mã", "Địa chỉ","Tên thành phố", "Đường", "Quận"],
+                colWidths: [50, 250, 100, 100, 100, 120],
+                rowHeaders: true,
+                minRows: 5,
+                currentRowClassName: 'currentRow',
+                currentColClassName: 'currentCol',
+            	manualColumnResize: true,
+                manualRowResize: true,
+                contextMenu: true,
+                columns: [
+                	{data: 'id'},
+                    {data: 'displayAddress'},
+                    {data: 'city'},
+                    {data: 'street'},
+                    {data: 'district'}
+                  ]
+              });
+        	loadAddress();
+        });
+
+        /**
+         * @param addressId: -1 means loading all
+         */
+        function loadAddress(addressId) {
+            var url;
+
+            
+            if (addressId === undefined) {
+                url = 'load-address';
+            } else {
+                url = 'load-vaddress?id=' + addressId;
+            }
+
+            $.ajax({
+                url : url,
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    // Update data into the handsontable
+                    dataAddresses = res;
+                    hotAddress.loadData(dataAddresses);
+                },
+                error : function (e) {
+                    console.log("Error: " + e);
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        $('#frmHot').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmHot');
+            var selectPoolId = $('#poolId').val();
+            var frmData = new FormData(this);
+    
+            // Get header name
+            var colHeaderData =  hotAddress.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotAddress.getData();
+
+            var frmData = {};
+            frmData["header"] = colHeaderData;
+            frmData["data"] = tableData;
+            
+            $.ajax({
+                url : "/address/save",
+                type : "POST",
+                contentType: "application/json",
+                data: JSON.stringify(frmData),
+                dataType: 'json',
+
+                success : function(result) {
+                    // reload data
+                	loadAddress();
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
