@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import mksgroup.goodway.entity.OrderMaster;
 
 @Repository
-public interface OrderRepository extends CrudRepository<OrderMaster, Long> {
+public interface OrderRepository extends CrudRepository<OrderMaster, Integer> {
  
 }
