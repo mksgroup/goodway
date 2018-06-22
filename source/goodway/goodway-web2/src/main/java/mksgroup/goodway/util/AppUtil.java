@@ -9,7 +9,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.Vehicle;
+import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.model.VehicleModel;
 import mksgroup.java.common.CommonUtil;
 
@@ -68,6 +70,56 @@ public class AppUtil {
         return listVehicle;
     }
 
+    public static Iterable<Customer> parseCustomer(@Valid CustomerModel data) {
+        List<Customer> listCustomer = null;
+
+        if (data == null) {
+            return null;
+        } else {
+            List<List> rows = data.getData();
+            if (rows != null) {
+                listCustomer = new ArrayList<Customer>();
+                
+                Customer customer;
+                Integer id;
+                String cd;
+                Integer seqNo;
+                Integer version;
+                String name;
+                String shortName;
+                Date created;
+                String createdByUsername;
+
+                for (List rowItem : rows) {
+                    customer = new Customer();
+                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  parseInt(rowItem.get(0)) : null;
+                    cd = CommonUtil.isNNandNB(rowItem.get(1))  ? (String)(rowItem.get(1)) : null;
+                    seqNo = CommonUtil.isNNandNB(rowItem.get(2))  ?   parseInt(rowItem.get(2)) : null;
+                    version = CommonUtil.isNNandNB(rowItem.get(3))  ? parseInt(rowItem.get(3)) : null;
+                    name = CommonUtil.isNNandNB(rowItem.get(4))  ? (String)(rowItem.get(4)) : null;
+                    shortName = CommonUtil.isNNandNB(rowItem.get(5))  ? (String)(rowItem.get(5)) : null;
+                    createdByUsername = CommonUtil.isNNandNB(rowItem.get(6))  ? (String)(rowItem.get(6)) : null;
+
+                    if (CommonUtil.isNNandNB(rowItem)) {
+                        customer.setId(id);
+                        customer.setCd(cd);
+                        customer.setSeqNo(seqNo);
+                        customer.setVersion(version);
+                        customer.setName(name);
+                        customer.setShortName(shortName);
+                        customer.setCreated(new Date());
+                        customer.setCreatedbyUsername(createdByUsername);
+                        
+                        listCustomer.add(customer);
+                    } else {
+                        // Skip the end empty line
+                    }
+                }
+            }
+        }
+        
+        return listCustomer;
+    }
     private static Double parseNum(Object obj) {
         Double num;
 
@@ -77,6 +129,20 @@ public class AppUtil {
             num = 0.0 +  (Integer) obj;
         } else {
             num = Double.valueOf(obj.toString());
+        }
+        
+        return num;
+    }
+    
+    private static Integer parseInt(Object obj) {
+        Integer num;
+
+        if (obj == null) {
+            return null;
+        } else if (obj instanceof Integer) {
+            num = 0 +  (Integer) obj;
+        } else {
+            num = Integer.valueOf(obj.toString());
         }
         
         return num;
