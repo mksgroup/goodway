@@ -20,7 +20,7 @@ import mksgroup.goodway.repository.AddressRepository;
 public class AddressController {
 
     @Autowired
-    private AddressRepository AddressRepository;
+    private AddressRepository addressRepository;
     
     /**
      * Goto the index page.
@@ -42,12 +42,12 @@ public class AddressController {
      * @param packageId
      * @return
      */
-    @GetMapping("/order/load-Address")
+    @GetMapping("/address/load-address")
     @ResponseBody
     public Iterable<Address> loadAddress() {
 
-        Iterable<Address> orders = AddressRepository.findAll();
+        Iterable<Address> address = addressRepository.findAll();
         
-        return orders;
+        return address;
     }
 }

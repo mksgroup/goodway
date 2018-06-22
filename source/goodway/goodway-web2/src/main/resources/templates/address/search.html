@@ -14,5 +14,29 @@
   <th:block th:include="fragments/address/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+<script>
+    // Lưu đối tượng table kết quả search
+    var resultTable = null;
+    var addressData;
+    
+    $(document).ready(function() {
+        // Khởi tạo Table kết quả
+    	if (resultTable == null) {
+            $("#resultTable").DataTable({
+                ajax: {'url': '/address/load-address', 'dataSrc': ''},
+                "columns": [
+                	   { "data": "id" },
+                	   { "data": "city" },
+                	   { "data": "displayAddress" },
+                	   { "data": "street" },
+                	   { "data": "ward" }
+                	   ]
+            });
+    	} else {
+            resultTable.fnDraw();
+        }
+    });
+</script>
+
 </body>
 </html>
