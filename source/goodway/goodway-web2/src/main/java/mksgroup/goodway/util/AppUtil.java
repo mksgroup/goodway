@@ -85,12 +85,8 @@ public class AppUtil {
                 Customer customer;
                 Integer id;
                 String cd;
-                Integer seqNo;
-                Integer version;
                 String name;
                 String shortName;
-                Date created;
-                String createdByUsername;
 
                 for (List rowItem : rows) {
                     customer = new Customer();
@@ -107,7 +103,7 @@ public class AppUtil {
                         customer.setName(name);
                         customer.setShortName(shortName);
                         customer.setCreated(new Date());
-                        customer.setCreatedbyUsername("3");
+                        customer.setCreatedbyUsername("NamTang");
                         
                         listCustomer.add(customer);
                     } else {

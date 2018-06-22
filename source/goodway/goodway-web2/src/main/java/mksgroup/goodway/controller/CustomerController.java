@@ -3,6 +3,8 @@
  */
 package mksgroup.goodway.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,6 +93,15 @@ public class CustomerController {
             return null;
         } else {
             Iterable<Customer> entities = AppUtil.parseCustomer(data);
+            List<Customer> entityList = new ArrayList<Customer>();
+            entities.forEach(e-> entityList.add(e));
+            List<Customer> customers = (List<Customer>) customerRepository.findAll();
+            for(Customer c : customers) {
+                if(!entityList.contains(c)) {
+                    customerRepository.delete(c);
+                }
+            }
+            
             customerRepository.saveAll(entities);
             LOG.info("customerModel=" + data + ";request=" + request);
         }

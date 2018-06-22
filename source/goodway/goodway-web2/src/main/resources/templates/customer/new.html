@@ -15,7 +15,7 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
-        var dataCustomers = [["", "" , "", "", "","","",""]
+        var dataCustomers = [["", "" , "", ""]
         ];
         var hotCustomer = null;
 
@@ -34,13 +34,13 @@
                 manualRowResize: true,
                 contextMenu: true
                 , columns: [
-                	{ "data": "id" },
-             	   { "data": "cd" },
-             	   { "data": "name" },
-             	   { "data": "shortName" }
+                    { "data": "id" },
+             	    { "data": "cd" },
+             	    { "data": "name" },
+             	    { "data": "shortName" }
                   ]
               });
-            loadCustomer();
+            loadCustomers();
         });
 
         // Load lại danh sách 
