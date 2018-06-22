@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.Customer;
@@ -51,6 +52,7 @@ public class CustomerController {
         return "customer/new";
     }
     
+
     
     /**Load danh sach customer
      * 
@@ -63,6 +65,17 @@ public class CustomerController {
     	
     	return customer;
     }
+    
+    @GetMapping("/customer/delete")
+    @ResponseBody
+    public Iterable<Customer> loadCustomer(@RequestParam("customerId") Integer customerId){
+        
+        customerRepository.deleteById(customerId);        
+        Iterable<Customer> customers = customerRepository.findAll();
+        
+        return customers;
+    }
+    
     @PostMapping("/customer/save")
     @ResponseBody
     public Iterable<Customer> saveCustomers(@Valid @RequestBody CustomerModel data, Errors errors, HttpServletRequest request) {

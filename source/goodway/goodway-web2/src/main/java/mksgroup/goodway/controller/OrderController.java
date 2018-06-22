@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.entity.OrderDetail;
 import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.repository.OrderRepository;
 
@@ -51,10 +52,25 @@ public class OrderController {
      */
     @GetMapping("/order/load-order")
     @ResponseBody
-    public Iterable<OrderMaster> loadOrder(@RequestParam("id") Integer packageId) {
+    public Iterable<OrderMaster> loadOrder() {
 
         Iterable<OrderMaster> orders = orderRepository.findAll();
         
         return orders;
+    }
+    
+    /**
+     * Load orderMaster's details.
+     * @param packageId
+     * @return
+     */
+    @GetMapping("/order/details/load-product")
+    @ResponseBody
+    public Iterable<OrderDetail> loadOrderDetails(@RequestParam("orderId") Integer packageId) {
+
+        OrderMaster order = orderRepository.findById(packageId).get();
+        Iterable<OrderDetail> orderDetails = order.getOrderDetailCollection();
+        
+        return orderDetails;
     }
 }
