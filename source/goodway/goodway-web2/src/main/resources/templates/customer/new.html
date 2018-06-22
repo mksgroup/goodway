@@ -24,7 +24,7 @@
             
         	hotCustomer = new Handsontable(containerCustomer, {
                 data: dataCustomers,
-                colHeaders: ["ID", "cd", "seq_no", "version", "name","ShortName","createdByUsername"],
+                colHeaders: ["ID", "cd", "name","ShortName"],
                 colWidths: [120, 100, 100, 100, 120, 120, 150, 160],
                 rowHeaders: true,
                 minRows: 5,
@@ -34,13 +34,10 @@
                 manualRowResize: true,
                 contextMenu: true
                 , columns: [
-                    {data: 'id'},
-                    {data: 'cd'},
-                    {data: 'seqNo'},
-                    {data: 'version'},
-                    {data: 'name'},
-                    {data: 'shortName'},
-                    {data: 'createdbyUsername'},
+                	{ "data": "id" },
+             	   { "data": "cd" },
+             	   { "data": "name" },
+             	   { "data": "shortName" }
                   ]
               });
             loadCustomer();
