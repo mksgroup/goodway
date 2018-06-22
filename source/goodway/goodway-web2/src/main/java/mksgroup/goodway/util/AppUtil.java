@@ -96,21 +96,18 @@ public class AppUtil {
                     customer = new Customer();
                     id = CommonUtil.isNNandNB(rowItem.get(0)) ?  parseInt(rowItem.get(0)) : null;
                     cd = CommonUtil.isNNandNB(rowItem.get(1))  ? (String)(rowItem.get(1)) : null;
-                    seqNo = CommonUtil.isNNandNB(rowItem.get(2))  ?   parseInt(rowItem.get(2)) : null;
-                    version = CommonUtil.isNNandNB(rowItem.get(3))  ? parseInt(rowItem.get(3)) : null;
-                    name = CommonUtil.isNNandNB(rowItem.get(4))  ? (String)(rowItem.get(4)) : null;
-                    shortName = CommonUtil.isNNandNB(rowItem.get(5))  ? (String)(rowItem.get(5)) : null;
-                    createdByUsername = CommonUtil.isNNandNB(rowItem.get(6))  ? (String)(rowItem.get(6)) : null;
+                    name = CommonUtil.isNNandNB(rowItem.get(2))  ? (String)(rowItem.get(2)) : null;
+                    shortName = CommonUtil.isNNandNB(rowItem.get(3))  ? (String)(rowItem.get(3)) : null;
 
                     if (CommonUtil.isNNandNB(rowItem)) {
                         customer.setId(id);
                         customer.setCd(cd);
-                        customer.setSeqNo(seqNo);
-                        customer.setVersion(version);
+                        customer.setSeqNo(0);
+                        customer.setVersion(0);
                         customer.setName(name);
                         customer.setShortName(shortName);
                         customer.setCreated(new Date());
-                        customer.setCreatedbyUsername(createdByUsername);
+                        customer.setCreatedbyUsername("3");
                         
                         listCustomer.add(customer);
                     } else {
