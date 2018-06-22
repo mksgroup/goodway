@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ThachLN
  */
 @Entity
-@Table(name = "goodway_delivery_batch", catalog = "goodway", schema = "")
+@Table(name = "goodway_delivery_batch")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "DeliveryBatch.findAll", query = "SELECT d FROM DeliveryBatch d")

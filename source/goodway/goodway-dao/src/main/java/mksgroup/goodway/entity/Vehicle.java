@@ -29,7 +29,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ThachLN
  */
 @Entity
-@Table(name = "goodway_vehicle", catalog = "goodway", schema = "")
+@Table(name = "goodway_vehicle")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "Vehicle.findAll", query = "SELECT v FROM Vehicle v")
@@ -81,8 +81,6 @@ public class Vehicle implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicleId")
-    private Collection<VehicleStatus> vehicleStatusCollection;
 
     public Vehicle() {
     }
@@ -192,15 +190,6 @@ public class Vehicle implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
-    }
-
-    @XmlTransient
-    public Collection<VehicleStatus> getVehicleStatusCollection() {
-        return vehicleStatusCollection;
-    }
-
-    public void setVehicleStatusCollection(Collection<VehicleStatus> vehicleStatusCollection) {
-        this.vehicleStatusCollection = vehicleStatusCollection;
     }
 
     @Override

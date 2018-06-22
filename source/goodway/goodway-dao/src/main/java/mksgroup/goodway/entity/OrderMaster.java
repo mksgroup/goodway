@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ThachLN
  */
 @Entity
-@Table(name = "goodway_order_master", catalog = "goodway", schema = "")
+@Table(name = "goodway_order_master")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OrderMaster.findAll", query = "SELECT o FROM OrderMaster o")
@@ -69,10 +69,7 @@ public class OrderMaster implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderMasterId")
-    private Collection<OrderDetail> orderDetailCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
-    private Collection<DeliveryBatch> deliveryBatchCollection;
+
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Customer customerId;
@@ -146,24 +143,6 @@ public class OrderMaster implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
-    }
-
-    @XmlTransient
-    public Collection<OrderDetail> getOrderDetailCollection() {
-        return orderDetailCollection;
-    }
-
-    public void setOrderDetailCollection(Collection<OrderDetail> orderDetailCollection) {
-        this.orderDetailCollection = orderDetailCollection;
-    }
-
-    @XmlTransient
-    public Collection<DeliveryBatch> getDeliveryBatchCollection() {
-        return deliveryBatchCollection;
-    }
-
-    public void setDeliveryBatchCollection(Collection<DeliveryBatch> deliveryBatchCollection) {
-        this.deliveryBatchCollection = deliveryBatchCollection;
     }
 
     public Customer getCustomerId() {

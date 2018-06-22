@@ -31,7 +31,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author ThachLN
  */
 @Entity
-@Table(name = "goodway_customer", catalog = "goodway", schema = "", uniqueConstraints = {
+@Table(name = "goodway_customer", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"cd", "version"})})
 @XmlRootElement
 @NamedQueries({
@@ -138,8 +138,6 @@ public class Customer implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
-    private Collection<OrderMaster> orderMasterCollection;
 
     public Customer() {
     }
@@ -389,15 +387,6 @@ public class Customer implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
-    }
-
-    @XmlTransient
-    public Collection<OrderMaster> getOrderMasterCollection() {
-        return orderMasterCollection;
-    }
-
-    public void setOrderMasterCollection(Collection<OrderMaster> orderMasterCollection) {
-        this.orderMasterCollection = orderMasterCollection;
     }
 
     @Override

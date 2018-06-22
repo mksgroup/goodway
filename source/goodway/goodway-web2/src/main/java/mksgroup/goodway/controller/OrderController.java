@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import mksgroup.goodway.entity.OrderDetail;
+import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
+import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.repository.OrderRepository;
 
 /**
@@ -23,6 +24,9 @@ public class OrderController {
 
     @Autowired
     private OrderRepository orderRepository;
+    
+    @Autowired
+    private OrderProductRepository orderProductRepository;
     
     /**
      * Goto the index page.
@@ -61,16 +65,17 @@ public class OrderController {
     
     /**
      * Load orderMaster's details.
-     * @param packageId
+     * @param orderId
      * @return
      */
     @GetMapping("/order/details/load-product")
     @ResponseBody
-    public Iterable<OrderDetail> loadOrderDetails(@RequestParam("orderId") Integer packageId) {
+    public Iterable<OrderDetailProduct> loadOrderDetails(@RequestParam("orderId") Integer orderId) {
 
-        OrderMaster order = orderRepository.findById(packageId).get();
-        Iterable<OrderDetail> orderDetails = order.getOrderDetailCollection();
+        OrderMaster order = orderRepository.findById(orderId).get();
+
+        Iterable<OrderDetailProduct> orderProducts = orderProductRepository.findAll();
         
-        return orderDetails;
+        return orderProducts;
     }
 }

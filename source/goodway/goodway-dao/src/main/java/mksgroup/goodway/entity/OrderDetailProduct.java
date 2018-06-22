@@ -27,11 +27,12 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author ThachLN
  */
 @Entity
-@Table(name = "goodway_order_detail_product", catalog = "goodway", schema = "")
+@Table(name = "goodway_order_detail_product")
 @XmlRootElement
 @NamedQueries({
     @NamedQuery(name = "OrderDetailProduct.findAll", query = "SELECT o FROM OrderDetailProduct o")
     , @NamedQuery(name = "OrderDetailProduct.findById", query = "SELECT o FROM OrderDetailProduct o WHERE o.id = :id")
+    , @NamedQuery(name = "OrderDetailProduct.findByOrderDetailId", query = "SELECT o FROM OrderDetailProduct o WHERE o.orderDetailId = :orderDetailId")
     , @NamedQuery(name = "OrderDetailProduct.findByProductName", query = "SELECT o FROM OrderDetailProduct o WHERE o.productName = :productName")
     , @NamedQuery(name = "OrderDetailProduct.findByPrice", query = "SELECT o FROM OrderDetailProduct o WHERE o.price = :price")
     , @NamedQuery(name = "OrderDetailProduct.findByQuantity", query = "SELECT o FROM OrderDetailProduct o WHERE o.quantity = :quantity")
@@ -47,6 +48,9 @@ public class OrderDetailProduct implements Serializable {
     @Basic(optional = false)
     @Column(name = "id", nullable = false)
     private Integer id;
+    @Basic(optional = false)
+    @Column(name = "order_detail_id", nullable = false)
+    private int orderDetailId;
     @Basic(optional = false)
     @Column(name = "product_name", nullable = false, length = 128)
     private String productName;
@@ -70,9 +74,6 @@ public class OrderDetailProduct implements Serializable {
     @JoinColumn(name = "product_id", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false)
     private Product productId;
-    @JoinColumn(name = "order_detail_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
-    private OrderDetail orderDetailId;
 
     public OrderDetailProduct() {
     }
@@ -81,8 +82,9 @@ public class OrderDetailProduct implements Serializable {
         this.id = id;
     }
 
-    public OrderDetailProduct(Integer id, String productName, Date created, String createdbyUsername) {
+    public OrderDetailProduct(Integer id, int orderDetailId, String productName, Date created, String createdbyUsername) {
         this.id = id;
+        this.orderDetailId = orderDetailId;
         this.productName = productName;
         this.created = created;
         this.createdbyUsername = createdbyUsername;
@@ -94,6 +96,14 @@ public class OrderDetailProduct implements Serializable {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public int getOrderDetailId() {
+        return orderDetailId;
+    }
+
+    public void setOrderDetailId(int orderDetailId) {
+        this.orderDetailId = orderDetailId;
     }
 
     public String getProductName() {
@@ -158,14 +168,6 @@ public class OrderDetailProduct implements Serializable {
 
     public void setProductId(Product productId) {
         this.productId = productId;
-    }
-
-    public OrderDetail getOrderDetailId() {
-        return orderDetailId;
-    }
-
-    public void setOrderDetailId(OrderDetail orderDetailId) {
-        this.orderDetailId = orderDetailId;
     }
 
     @Override
