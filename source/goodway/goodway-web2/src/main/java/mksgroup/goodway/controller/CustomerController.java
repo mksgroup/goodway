@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.Customer;
-import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.repository.CustomerRepository;
 import mksgroup.goodway.util.AppUtil;
@@ -35,7 +34,8 @@ import mksgroup.goodway.util.AppUtil;
 @Controller
 public class CustomerController {
 
-	 private final static Logger LOG = LoggerFactory.getLogger(CustomerController.class);
+    /** For logging. */
+    private final static Logger LOG = LoggerFactory.getLogger(CustomerController.class);
 	 
 	@Autowired
 	private CustomerRepository customerRepository;

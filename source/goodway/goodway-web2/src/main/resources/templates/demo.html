@@ -218,9 +218,7 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    console.log("res=" + res);
-                    var packageData = JSON.parse(res.data);
-                    hotPackage.loadData(packageData);
+                    hotPackage.loadData(res);
                 },
                 error : function (e) {
                     console.log("Error " + e);
