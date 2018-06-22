@@ -44,7 +44,7 @@ public class AppUtil {
 
                 for (List rowItem : rows) {
                     vehicle = new Vehicle();
-                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  (Integer) rowItem.get(0) : null;
+                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  parseInt(rowItem.get(0)) : null;
                     length = CommonUtil.isNNandNB(rowItem.get(2))  ?  parseNum(rowItem.get(2)) : null;
                     width = CommonUtil.isNNandNB(rowItem.get(3))  ? parseNum(rowItem.get(3)) : null;
                     height = CommonUtil.isNNandNB(rowItem.get(4))  ? parseNum(rowItem.get(4)) : null;
