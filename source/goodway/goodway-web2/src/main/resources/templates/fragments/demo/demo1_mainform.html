@@ -1,0 +1,188 @@
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
+        <form>
+          <div class="form-group">
+            <label for="deliveryBatch">Đợt giao hàng đang có</label>
+            <select class="form-control" id="deliveryBatch">
+              <option>---Chọn đợt giao hàng demo---</option>
+            </select>
+
+            <div class="form-actions">
+                <button type="submit" class="btn btn-info">
+                    <i class="fa fa-check-square-o"></i> Nạp dữ liệu
+                </button>
+            </div>
+          </div>
+        </form>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-3">
+        <form>
+          <div class="form-group">
+            <label for="deliveryBatch">Tạo đợt giao hàng mới</label>
+            <input type="text" class="form-control" id="newDeliveryBatch"  placeholder="Nhập tên mới">
+          </div>
+        </form>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            
+                <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">1. Danh sách các địa điểm giao hàng</h3>
+                                <span class="text-info"> (Bấm vào bản đồ bên phải để án chừng vị trí. Sau đó chỉnh sửa lại cột Địa điểm trong bảng bên dưới)</span> 
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                        <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body pb-0">
+                                    <div class="table-responsive scroll-container">
+                                            <div id="addressTable" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                    </div>
+                                </div>
+                            </div>
+                </div> 
+
+            </div>
+        </div>
+        <p></p>
+        <!-- Mỗi địa điểm có nhiều kiện hàng cần giao -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">2. Danh sách kiện hàng tại địa điểm</h3>
+                                <span class="text-info"> </span> 
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                        <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body pb-0">
+                                    <div class="table-responsive scroll-container">
+                                            <div id="packageTable" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+        <!-- Xác nhận danh sách xe -->
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">3. Danh sách xe</h3>
+                                <span class="text-info">(Giả định là địa điểm bốc hàng lên là giống nhau - chỉ có 1 kho hàng)</span> 
+                                <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                <div class="heading-elements">
+                                    <ul class="list-inline mb-0">
+                                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                        <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-content collapse show">
+                                <div class="card-body pb-0">
+                                    <div class="table-responsive scroll-container">
+                                            <div id="vehicleTable" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                    </div>
+                                </div>
+                            </div>
+                </div>
+            </div>
+
+        </div>
+        <p></p>
+        <button id="save" class="btn btn-primary center-block">Lưu</button>
+        
+        
+        <p></p>
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb bg-info">
+            <li class="breadcrumb-item active text-white" aria-current="page">Kết quả tìm đường đi</li>
+          </ol>
+        </nav>
+
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                  <table id="pathTable" class="display">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Từ</th>
+                            <th>Đến</th>
+                            <th>Khoảng cách</th>
+                            <th>Thời gian</th>
+                        </tr>
+                    </thead>
+                  </table>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+    
+            
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Bấm chọn địa điểm</h4>
+                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show">
+                    <div class="card-body">
+                        <div id="map" class="height-400"></div>
+                    </div>
+                    <button id="findPath" class="btn btn-info center-block">Lập kế hoạch</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="pathNoFound" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Lỗi</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        Có vài địa điểm không tìm thấy đường đi trên bản đồ. Hãy kiểm tra lại các địa điểm có ghi Unnamed Road.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+<!-- /.container -->

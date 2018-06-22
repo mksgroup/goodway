@@ -1,0 +1,115 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+          <h3 class="content-header-title" th:text="#{support.online.screentitle}">Screen title</h3>
+          <!-- Nav of the screen -->
+          <th:block th:include="fragments/support/online/navbar"></th:block>
+
+        </div>
+        <div class="content-header-right col-md-6 col-12">
+          <div class="media width-250 float-right">
+            <media-left class="media-middle">
+              <div id="sp-bar-total-sales"><canvas width="152" height="30" style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas></div>
+            </media-left>
+            <div class="media-body media-right text-right">
+              <h3 class="m-0" th:title="#{support.online.total}">1234</h3>
+              <span class="text-muted" th:text="#{support.online.total.desc}">Description</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-body">
+        <!-- Basic form layout section start -->
+            <th:block th:include="fragments/vehicle/toolbar"></th:block>
+            <div class="content-body">
+                <section id="search-website" class="card overflow-hidden">
+                  <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">Hỗ trợ trực tuyến</h4>
+                        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                        <div class="heading-elements">
+                            <ul class="list-inline mb-0">
+                                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                <li><a data-action="close"><i class="ft-x"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body pb-0">
+                            <form>
+                            </form>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-10">
+                
+                                    <!--/ Search Navbar-->
+                                     <noscript><h2 style="color: #ff0000">Seems your browser doesn't support Javascript! Websocket relies on Javascript being
+                                    enabled. Please enable
+                                    Javascript and reload this page!</h2></noscript>
+        
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form class="form-inline">
+                                                <div class="form-group">
+                                                    <label for="name" th:text="#{yourname}">What is your name?</label>
+                                                    <input type="text" id="name" class="form-control" placeholder="Your name here...">
+                                                    <button id="connect" class="btn btn-default" type="submit" th:text="#{connect}">Connect</button>&nbsp;
+                                                    <button id="disconnect" class="btn btn-default" type="submit" disabled="disabled" th:text="#{disconnect}">Disconnect
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                                <fieldset class="form-group">
+                                                <label for="name">Your message</label>
+                                                    <textarea id="content" class="form-control"rows="3" placeholder="Typing here"></textarea>
+                                                </fieldset>
+        
+                                        </div>
+                                    </div>
+                                    
+                                    <!-- Public code editor -->
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                                <fieldset class="form-group">
+                                                <label for="name">Public message</label>
+                                                    <textarea id="conversation" class="form-control"></textarea>
+                                                </fieldset>
+        
+                                        </div>
+                                    </div>
+                            </div>
+                            
+                            <!-- List of users -->
+                            <div class="col-md-2">
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <h4 class="card-title" th:text="#{member.list}">List of users</h4>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="vertical-scroll">
+                                        <ul>
+                                            <li>user1</li>
+                                            <li>user2</li>
+                                            
+                                        </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!--/ End -->
+                    </div>
+                  </div>
+                </section>
+            </div>
+         <!-- // Basic form layout section end -->
+      </div>
+    </div>
+  </div>
