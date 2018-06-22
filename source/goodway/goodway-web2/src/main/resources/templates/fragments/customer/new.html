@@ -41,12 +41,16 @@
                     
                         <div class="card-body pb-0">
                             <div class="table-responsive scroll-container">
-                                <div id="tableCustomer" class="hot handsontable htRowHeaders htColumnHeaders"></div>
-                                <div class="col-12">
-                                    <button class="btn btn-info">
-                                        <i class="ft-plus"></i> Add
-                                    </button>
-                                </div>
+                                <form id="frmHot" th:action="@{/customer/save}" method="POST" enctype="multipart/form-data">
+                                    <div id="tableCustomer" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                    <div class="col-12">
+                                        
+                                        <button class="btn btn-info">
+                                            <i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+                                        </button>
+                                        
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

@@ -15,48 +15,55 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
-        var dataCustomers = [["", "" , "", "", ""]
+        var dataCustomers = [["", "" , "", "", "","","",""]
         ];
+        var hotCustomer = null;
 
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
-            var hotCustomer = null;
-
-
+            
         	hotCustomer = new Handsontable(containerCustomer, {
                 data: dataCustomers,
-                colHeaders: ["ID", "cd", "seq_no", "version", "name"],
-                colWidths: [250, 100, 100, 100, 120],
+                colHeaders: ["ID", "cd", "seq_no", "version", "name","ShortName","createdByUsername"],
+                colWidths: [120, 100, 100, 100, 120, 120, 150, 160],
                 rowHeaders: true,
                 minRows: 5,
-                minCols: 5,
                 currentRowClassName: 'currentRow',
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
-                manualRowResize: true
-//                 , columns: [
-//                     {data: 'name'},
-//                     {data: 'length'},
-//                     {data: 'width'},
-//                     {data: 'height'},
-//                     {data: 'weight'}
-//                   ]
+                manualRowResize: true,
+                contextMenu: true
+                , columns: [
+                    {data: 'id'},
+                    {data: 'cd'},
+                    {data: 'seqNo'},
+                    {data: 'version'},
+                    {data: 'name'},
+                    {data: 'shortName'},
+                    {data: 'createdbyUsername'},
+                  ]
               });
+            loadCustomer();
         });
 
-        // Load lại danh sách sản phẩm của đơn hàng
-        function loadCustomers(packageId) {
-            // load demo data.
-            var customerId = 1;
+        // Load lại danh sách 
+        function loadCustomers(customerId) {
+           var url;
+
+            
+            if (customerId === undefined) {
+                url = 'load-customer';
+            } else {
+                url = 'load-customer?id=' + customerId;
+            }
 
             $.ajax({
-                url : 'load-customer',
+                url : url,
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    console.log("res=" + res);
-                    dataCustomers = JSON.parse(res);
+                    dataCustomers = res;
                     hotCustomer.loadData(dataCustomers);
                 },
                 error : function (e) {
@@ -64,6 +71,42 @@
                 }
             });
         }
+    </script>
+    
+    <script>
+        $('#frmHot').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmHot');
+            var selectPoolId = $('#poolId').val();
+            var frmData = new FormData(this);
+    
+            // Get header name
+            var colHeaderData =  hotCustomer.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotCustomer.getData();
+
+            var frmData = {};
+            frmData["header"] = colHeaderData;
+            frmData["data"] = tableData;
+            
+            $.ajax({
+                url : "/customer/save",
+                type : "POST",
+                contentType: "application/json",
+                data: JSON.stringify(frmData),
+                dataType: 'json',
+
+                success : function(result) {
+                    // reload data
+                	loadCustomer();
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
     </script>
 </body>
 </html>
