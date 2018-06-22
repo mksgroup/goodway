@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import mksgroup.goodway.entity.Vehicle;
 
 @Repository
-public interface VehicleRepository extends CrudRepository<Vehicle, Long> {
+public interface VehicleRepository extends CrudRepository<Vehicle, Integer> {
     
 }

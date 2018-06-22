@@ -3,6 +3,8 @@
  */
 package mksgroup.goodway.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -65,6 +67,7 @@ public class VehicleController {
         return vehicles;
     }
     
+    
     @PostMapping("/vehicle/save")
     @ResponseBody
     public Iterable<Vehicle> saveVehicles(@Valid @RequestBody VehicleModel data, Errors errors, HttpServletRequest request) {
@@ -80,6 +83,15 @@ public class VehicleController {
             return null;
         } else {
             Iterable<Vehicle> entities = AppUtil.parseVehicle(data);
+            List<Vehicle> entityList = new ArrayList<Vehicle>();
+            entities.forEach(e-> entityList.add(e));
+            List<Vehicle> vehilces = (List<Vehicle>) vehicleRepository.findAll();
+            for(Vehicle v : vehilces) {
+            	if(!entityList.contains(v)) {
+            		vehicleRepository.delete(v);
+            	}
+            }
+            
             vehicleRepository.saveAll(entities);
             LOG.info("vehicleModel=" + data + ";request=" + request);
         }
