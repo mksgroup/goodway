@@ -11,47 +11,49 @@
     <th:block th:include="fragments/hnav"></th:block>
   <!-- Horizontal navigation-->
 
-  <th:block th:include="fragments/customer/new"></th:block>
-  
+    <th:block th:include="fragments/address/new"></th:block>
   <th:block th:include="fragments/footer"></th:block>
-   <script>
-        var dataCustomers = [["", "" , "", "", "","","",""]
+      <script>
+        var dataAddresses = [["", "" , "", "", ""]
         ];
-        var hotCustomer = null;
+        var hotAddress = null;
 
         $(function() {
-        	var containerCustomer = document.getElementById('tableCustomer');
-            
-        	hotCustomer = new Handsontable(containerCustomer, {
-                data: dataCustomers,
-                colHeaders: ["ID", "cd", "name","ShortName"],
-                colWidths: [120, 100, 100, 100, 120, 120, 150, 160],
+        	var containerAddress = document.getElementById('tableAddress');
+
+        	hotAddress = new Handsontable(containerAddress, {
+                data: dataAddresses,
+                colHeaders: ["Mã", "Địa chỉ","Tên thành phố", "Đường", "Quận"],
+                colWidths: [50, 250, 100, 100, 100, 120],
                 rowHeaders: true,
                 minRows: 5,
                 currentRowClassName: 'currentRow',
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
                 manualRowResize: true,
-                contextMenu: true
-                , columns: [
-                	{ "data": "id" },
-             	   { "data": "cd" },
-             	   { "data": "name" },
-             	   { "data": "shortName" }
+                contextMenu: true,
+                columns: [
+                	{data: 'id'},
+                    {data: 'displayAddress'},
+                    {data: 'city'},
+                    {data: 'street'},
+                    {data: 'district'}
                   ]
               });
-            loadCustomer();
+        	loadAddress();
         });
 
-        // Load lại danh sách 
-        function loadCustomers(customerId) {
-           var url;
+        /**
+         * @param addressId: -1 means loading all
+         */
+        function loadAddress(addressId) {
+            var url;
 
             
-            if (customerId === undefined) {
-                url = 'load-customer';
+            if (addressId === undefined) {
+                url = 'load-address';
             } else {
-                url = 'load-customer?id=' + customerId;
+                url = 'load-vaddress?id=' + addressId;
             }
 
             $.ajax({
@@ -60,8 +62,9 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    dataCustomers = res;
-                    hotCustomer.loadData(dataCustomers);
+                    // Update data into the handsontable
+                    dataAddresses = res;
+                    hotAddress.loadData(dataAddresses);
                 },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -79,17 +82,17 @@
             var frmData = new FormData(this);
     
             // Get header name
-            var colHeaderData =  hotCustomer.getColHeader();
+            var colHeaderData =  hotAddress.getColHeader();
             
             // Get data from Handsontable
-            var tableData = hotCustomer.getData();
+            var tableData = hotAddress.getData();
 
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
             
             $.ajax({
-                url : "/customer/save",
+                url : "/address/save",
                 type : "POST",
                 contentType: "application/json",
                 data: JSON.stringify(frmData),
@@ -97,7 +100,7 @@
 
                 success : function(result) {
                     // reload data
-                	loadCustomer();
+                	loadAddress();
                 },
                 error : function() {
                     console.log("Error!");

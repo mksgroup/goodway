@@ -9,8 +9,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.Vehicle;
+import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.model.VehicleModel;
 import mksgroup.java.common.CommonUtil;
@@ -94,21 +96,18 @@ public class AppUtil {
                     customer = new Customer();
                     id = CommonUtil.isNNandNB(rowItem.get(0)) ?  parseInt(rowItem.get(0)) : null;
                     cd = CommonUtil.isNNandNB(rowItem.get(1))  ? (String)(rowItem.get(1)) : null;
-                    seqNo = CommonUtil.isNNandNB(rowItem.get(2))  ?   parseInt(rowItem.get(2)) : null;
-                    version = CommonUtil.isNNandNB(rowItem.get(3))  ? parseInt(rowItem.get(3)) : null;
-                    name = CommonUtil.isNNandNB(rowItem.get(4))  ? (String)(rowItem.get(4)) : null;
-                    shortName = CommonUtil.isNNandNB(rowItem.get(5))  ? (String)(rowItem.get(5)) : null;
-                    createdByUsername = CommonUtil.isNNandNB(rowItem.get(6))  ? (String)(rowItem.get(6)) : null;
+                    name = CommonUtil.isNNandNB(rowItem.get(2))  ? (String)(rowItem.get(2)) : null;
+                    shortName = CommonUtil.isNNandNB(rowItem.get(3))  ? (String)(rowItem.get(3)) : null;
 
                     if (CommonUtil.isNNandNB(rowItem)) {
                         customer.setId(id);
                         customer.setCd(cd);
-                        customer.setSeqNo(seqNo);
-                        customer.setVersion(version);
+                        customer.setSeqNo(0);
+                        customer.setVersion(0);
                         customer.setName(name);
                         customer.setShortName(shortName);
                         customer.setCreated(new Date());
-                        customer.setCreatedbyUsername(createdByUsername);
+                        customer.setCreatedbyUsername("3");
                         
                         listCustomer.add(customer);
                     } else {
@@ -120,6 +119,54 @@ public class AppUtil {
         
         return listCustomer;
     }
+    
+    public static Iterable<Address> parseAddress(@Valid AddressModel data) {
+        List<Address> listAddress = null;
+
+        if (data == null) {
+            return null;
+        } else {
+            List<List> rows = data.getData();
+            if (rows != null) {
+                listAddress = new ArrayList<Address>();
+                
+                Address address;
+                Integer id;
+                String city;
+                String displayAddress;
+                String street;
+                String ward;
+
+                for (List rowItem : rows) {
+                	address = new Address();
+                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  (Integer) rowItem.get(0) : null;
+                    city = CommonUtil.isNNandNB(rowItem.get(1))  ?  (String)(rowItem.get(1)) : null;
+                    displayAddress = CommonUtil.isNNandNB(rowItem.get(2))  ? (String)(rowItem.get(2)) : null;
+                    street = CommonUtil.isNNandNB(rowItem.get(3))  ? (String)(rowItem.get(3)) : null;
+                    ward = CommonUtil.isNNandNB(rowItem.get(4))  ? (String)(rowItem.get(4)) : null;
+
+                    if (CommonUtil.isNNandNB(rowItem)) {
+                    	address.setId(id);
+                    	address.setCity((String) rowItem.get(1));
+                    	address.setDisplayAddress(displayAddress);
+                    	address.setStreet(street);
+                    	address.setWard(ward);
+                    	
+
+                    	address.setCreated(new Date());
+                    	address.setCreatedbyUsername("TBD");
+                        
+                        listAddress.add(address);
+                    } else {
+                        // Skip the end empty line
+                    }
+                }
+            }
+        }
+        
+        return listAddress;
+    }
+    
     private static Double parseNum(Object obj) {
         Double num;
 
@@ -147,5 +194,7 @@ public class AppUtil {
         
         return num;
     }
+    
+    
 
 }
