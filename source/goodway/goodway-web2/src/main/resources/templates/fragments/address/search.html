@@ -1,8 +1,28 @@
-<html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:th="http://www.thymeleaf.org">
-<body>
+<div class="app-content content">
 	<div class="content-wrapper">
+		<div class="content-header row">
+			<div class="content-header-left col-md-6 col-12 mb-2">
+				<h3 class="content-header-title" th:text="#{address.screentitle}">Screen
+					title</h3>
+			</div>
+			<div class="content-header-right col-md-6 col-12">
+				<div class="media width-250 float-right">
+					<media-left class="media-middle">
+					<div id="sp-bar-total-sales">
+						<canvas width="152" height="30"
+							style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas>
+					</div>
+					</media-left>
+					<div class="media-body media-right text-right">
+						<h3 class="m-0" th:title="#{address.total}">1234</h3>
+						<span class="text-muted" th:text="#{address.total.desc}">Description</span>
+					</div>
+				</div>
+			</div>
+
+		</div>
 		<div class="content-body">
+			<th:block th:include="fragments/address/toolbar"></th:block>
 			<!-- Search form-->
 			<section id="search-website" class="card overflow-hidden">
 				<div class="card-header">
@@ -51,6 +71,4 @@
 			</div>
 		</div>
 	</div>
-
-</body>
-</html>
+</div>
