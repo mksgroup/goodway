@@ -17,11 +17,12 @@
 <!-- 		<version>2.0.2.RELEASE</version> -->
 <!-- 		<relativePath/> lookup parent from repository -->
 <!-- 	</parent> -->
-	<parent>
-		<groupId>mksgroup.goodway</groupId>
-		<artifactId>goodway</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>mksgroup.goodway</groupId>
+        <artifactId>goodway</artifactId>
+        <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../pom.xml</relativePath>
+    </parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -31,6 +32,10 @@
 
 	<dependencies>
 		<!-- Sub modules of the project -->
+		<dependency>
+				<groupId>mksgroup.java</groupId>
+				<artifactId>javacommon</artifactId>
+			</dependency>
 		<dependency>
 			<groupId>mksgroup.goodway</groupId>
 			<artifactId>goodway-domain</artifactId>
