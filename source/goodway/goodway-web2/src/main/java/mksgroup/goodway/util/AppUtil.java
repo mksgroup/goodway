@@ -135,7 +135,7 @@ public class AppUtil {
 
                 for (List rowItem : rows) {
                 	address = new Address();
-                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  (Integer) rowItem.get(0) : null;
+                    id = CommonUtil.isNNandNB(rowItem.get(0)) ?  parseInt(rowItem.get(0)) : null;
                     city = CommonUtil.isNNandNB(rowItem.get(1))  ?  (String)(rowItem.get(1)) : null;
                     displayAddress = CommonUtil.isNNandNB(rowItem.get(2))  ? (String)(rowItem.get(2)) : null;
                     street = CommonUtil.isNNandNB(rowItem.get(3))  ? (String)(rowItem.get(3)) : null;
@@ -150,7 +150,7 @@ public class AppUtil {
                     	
 
                     	address.setCreated(new Date());
-                    	address.setCreatedbyUsername("TBD");
+                    	address.setCreatedbyUsername("Cao Thai Son");
                         
                         listAddress.add(address);
                     } else {

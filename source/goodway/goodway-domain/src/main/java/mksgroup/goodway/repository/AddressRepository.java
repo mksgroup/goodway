@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import mksgroup.goodway.entity.Address;
 
 @Repository
-public interface AddressRepository extends CrudRepository<Address, Long> {
+public interface AddressRepository extends CrudRepository<Address, Integer> {
     
 }

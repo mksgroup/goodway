@@ -3,6 +3,8 @@
  */
 package mksgroup.goodway.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -82,6 +84,15 @@ public class AddressController {
 			return null;
 		} else {
 			Iterable<Address> entities = AppUtil.parseAddress(data);
+			List<Address> entityList = new ArrayList<Address>();
+			entities.forEach(e-> entityList.add(e));
+			List<Address> address = (List<Address>)addressRepository.findAll();
+			for(Address a : address) {
+				if(!entityList.contains(a)) {
+					addressRepository.delete(a);
+				}
+			}
+			
 			addressRepository.saveAll(entities);
 			LOG.info("addressModel=" + data + ";request=" + request);
 		}
