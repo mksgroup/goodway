@@ -32,15 +32,15 @@ public class OrderController {
      * Goto the index page.
      * @return
      */
-    @RequestMapping({"/order","/order/search"})
+    @RequestMapping({"/order", "/order/search"})
     public String goOrderSearch() {
         return "order/search";
     }
     
     
-    @GetMapping("/order/details")
+    @GetMapping("/order/new")
     public String goOrderDetails() {
-        return "order/details";
+        return "order/new";
     }
     
     
