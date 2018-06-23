@@ -1,0 +1,38 @@
+<!-- Step 2 -->
+<h6><i class="step-icon fa fa-truck"></i><span th:text="#{plan.delivery.step2}">Step 2</span></h6>
+<fieldset>
+    <div class="row">
+        <div class="col-md-12">
+       <div class="card">
+            <div class="card-head">
+                <div class="card-header">
+                    <h4 class="card-title" th:text="#{vehicles}">Vehicle</h4>
+                    <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <!-- Invoices List table -->
+                    <div class="table-responsive">
+                         <table id="resultTable" class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th th:text="#{no}">STT</th>
+                                    <th th:text="#{name}">Tên</th>
+                                    <th th:text="#{length}">Dài</th>
+                                    <th th:text="#{width}">Rộng</th>
+                                    <th th:text="#{height}">Cao</th>
+                                    <th th:text="#{capacity}">Tải trọng</th>
+                                </tr>
+                            </thead>
+                          </table>
+                    </div>
+                    <!--/ Invoices table -->
+                </div>
+            </div>
+        </div>
+
+
+        </div>
+    </div>
+ </fieldset>

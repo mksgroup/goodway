@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/head"></th:block>
+</head>
+<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+  <!-- fixed-top-->
+    <th:block th:include="fragments/nav"></th:block>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <!-- Horizontal navigation-->
+    <th:block th:include="fragments/hnav"></th:block>
+  <!-- Horizontal navigation-->
+
+  <th:block th:include="fragments/plan/wizard"></th:block>
+  
+  <th:block th:include="fragments/footer"></th:block>
+
+<!-- Display Vehicle -->
+<script>
+    // Lưu đối tượng table kết quả search
+    var resultTable = null;
+    var vehicleData;
+    
+    $(document).ready(function() {
+        // Khởi tạo Table kết quả
+    	if (resultTable == null) {
+            $("#resultTable").DataTable({
+                ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
+                "columns": [
+                	   { "data": "id" },
+                	   { "data": "name" },
+                	   { "data": "length" },
+                	   { "data": "width" },
+                	   { "data": "height" },
+                	   { "data": "capacity" }
+                       ],
+                columnDefs: [ {
+                    orderable: false,
+                    className: 'select-checkbox',
+                    targets:   0
+                } ],
+                select: {
+                    style:    'os',
+                    selector: 'td:first-child'
+                }
+            });
+    	} else {
+            resultTable.fnDraw();
+        }
+    });
+</script>
+  
+</body>
+</html>

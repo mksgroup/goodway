@@ -1,0 +1,63 @@
+<!-- Step 3 -->
+<h6><i class="step-icon fa fa-table"></i><span th:text="#{plan.delivery.step3}">Step 3</span></h6>
+<fieldset>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="eventName2">Event Name :</label>
+                <input type="text" class="form-control" id="eventName2" >
+            </div>
+            <div class="form-group">
+                <label for="eventType2">Event Type :</label>
+                <select class="custom-select form-control" id="eventType2" data-placeholder="Type to search cities" name="eventType2">
+                    <option value="Banquet">Banquet</option>
+                    <option value="Fund Raiser">Fund Raiser</option>
+                    <option value="Dinner Party">Dinner Party</option>
+                    <option value="Wedding">Wedding</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="eventLocation2">Event Location :</label>
+                <select class="custom-select form-control" id="eventLocation2" name="location">
+                    <option value="">Select City</option>
+                    <option value="Amsterdam">Amsterdam</option>
+                    <option value="Berlin">Berlin</option>
+                    <option value="Frankfurt">Frankfurt</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-group">
+                <label>Event Date - Time :</label>
+                <div class='input-group'>
+                    <input type='text' class="form-control datetime" />
+                    <span class="input-group-addon">
+                        <span class="ft-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="eventStatus2">Event Status :</label>
+                <select class="custom-select form-control" id="eventStatus2" name="eventStatus">
+                    <option value="Planning">Planning</option>
+                    <option value="In Progress">In Progress</option>
+                    <option value="Finished">Finished</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Requirements :</label>
+                <div class="c-inputs-stacked">
+                    <div class="d-inline-block custom-control custom-checkbox">
+                        <input type="checkbox" name="status2" class="custom-control-input" id="staffing2">
+                        <label class="custom-control-label" for="staffing2">Staffing</label>
+                    </div>
+                    <div class="d-inline-block custom-control custom-checkbox">
+                        <input type="checkbox" name="status2" class="custom-control-input" id="catering2">
+                        <label class="custom-control-label" for="catering2">Catering</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</fieldset>

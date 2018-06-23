@@ -22,6 +22,7 @@
   <script type="text/javascript" th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/tables/handsontable/languages.min.js'}"></script>
   <script type="text/javascript" th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/tables/jquery.dataTables.min.js'}"></script>
   <script type="text/javascript" th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/tables/datatable/dataTables.bootstrap4.min.js'}"></script>
+  <script type="text/javascript" th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/tables/datatable/dataTables.select.min.js'}"></script>
 
     <!-- BEGIN ROBUST JS-->
     <script type="text/javascript" th:src="@{#{theme.root} + 'robust-admin/app-assets/js/core/app-menu.js'}"></script>
@@ -35,6 +36,11 @@
     <script type="text/javascript" th:src="@{/webjars/codemirror/5.33.0/addon/edit/matchbrackets.js}" ></script>
     <script type="text/javascript" th:src="@{/webjars/codemirror/5.33.0/addon/hint/show-hint.js}" ></script>
     
+    <script th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/pickers/daterange/daterangepicker.js'}"></script>
+    <script th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/forms/validation/jquery.validate.min.js'}"></script>
+    <script th:src="@{#{theme.root} + 'robust-admin/app-assets/vendors/js/extensions/jquery.steps.min.js'}"></script>
+    <script th:src="@{#{theme.root} + 'robust-admin/app-assets/js/scripts/forms/wizard-steps.js'}"></script>
+        
     <!-- Determine the root context of the application.  -->
     <script th:inline="javascript"> var _ctx = /*[[@{/}]]*/ ''; 
     </script>
