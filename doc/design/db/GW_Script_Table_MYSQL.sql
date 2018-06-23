@@ -1,10 +1,11 @@
 drop table if exists goodway_delivery_batch;
+drop table if exists goodway_order_detail_product;
 drop table if exists goodway_order_master;
-drop table if exists goodway_product;
 drop table if exists goodway_address;
 drop table if exists goodway_customer;
-drop table if exists goodway_vehicle;
 drop table if exists goodway_vehicle_status;
+drop table if exists goodway_vehicle;
+drop table if exists goodway_product;
 
 create table goodway_address (
       id int not null auto_increment
