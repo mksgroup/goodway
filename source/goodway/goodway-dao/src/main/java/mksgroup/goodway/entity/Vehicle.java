@@ -6,12 +6,13 @@
 package mksgroup.goodway.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -81,6 +82,8 @@ public class Vehicle implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "vehicleId", fetch = FetchType.LAZY)
+    private List<VehicleStatus> vehicleStatusList;
 
     public Vehicle() {
     }
@@ -190,6 +193,15 @@ public class Vehicle implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
+    }
+
+    @XmlTransient
+    public List<VehicleStatus> getVehicleStatusList() {
+        return vehicleStatusList;
+    }
+
+    public void setVehicleStatusList(List<VehicleStatus> vehicleStatusList) {
+        this.vehicleStatusList = vehicleStatusList;
     }
 
     @Override

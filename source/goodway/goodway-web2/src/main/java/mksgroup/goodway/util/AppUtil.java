@@ -11,10 +11,15 @@ import javax.validation.Valid;
 
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
+import mksgroup.goodway.entity.OrderDetailProduct;
+import mksgroup.goodway.entity.OrderMaster;
+import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.model.CustomerModel;
+import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.model.VehicleModel;
+import mksgroup.java.common.BeanUtil;
 import mksgroup.java.common.CommonUtil;
 
 /**
@@ -116,7 +121,7 @@ public class AppUtil {
         return listCustomer;
     }
     
-    public static Iterable<Address> parseAddress(@Valid AddressModel data) {
+    public static Iterable<Address> parseAddress(AddressModel data) {
         List<Address> listAddress = null;
 
         if (data == null) {
@@ -190,7 +195,41 @@ public class AppUtil {
         
         return num;
     }
-    
-    
 
+    public static OrderMaster parseOrder(OrderModel model) {
+        final String[] HEADERS = {"name", "length", "width", "height", "weight"};
+        OrderMaster order = new OrderMaster();
+        
+        order.setName(model.getOrderCd());
+        
+        Address addr = new Address();
+        addr.setDisplayAddress(model.getAddress());
+        addr.setLatitude(model.getLatitude());
+        addr.setLongitude(model.getLongitude());
+        
+        order.setAddressId(addr);
+
+        Customer customer = new Customer();
+        customer.setAddr(model.getAddress());
+        
+        order.setCustomerId(customer);
+        
+        List<Product> listProduct =  BeanUtil.getDataList(model.getProductData(), HEADERS, Product.class);
+        
+        List<OrderDetailProduct> orderDetailProductList = new ArrayList<>();
+
+        OrderDetailProduct orderDetailProduct = new OrderDetailProduct();
+
+        for (Product product : listProduct) {
+            orderDetailProduct = new OrderDetailProduct();
+            orderDetailProduct.setProductId(product);
+            orderDetailProduct.setProductName(product.getName());
+
+            orderDetailProductList.add(orderDetailProduct);
+        }
+        
+        order.setOrderDetailProductList(orderDetailProductList);
+
+        return order;
+    }
 }

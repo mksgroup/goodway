@@ -30,6 +30,11 @@ create table goodway_customer (
       id int not null auto_increment
     , cd varchar(32) not null          -- mã khách hàng.
 	, seq_no int not null              -- Số thứ tự tăng liên tục. Cho biết số thứ tự Khách hàng.
+	, address_id int not null		   -- Địa chỉ 1
+	, address_id1 int not null		   -- Địa chỉ 2
+	, address_id2 int not null		   -- Địa chỉ 3
+	, address_id3 int not null		   -- Địa chỉ 4
+	, address_id4 int not null		   -- Địa chỉ 5
 	, version int not null             -- support to change information of customer in order
     , name nvarchar(128) not null
 	, short_name varchar(30) not null  -- Tên viết tắt
@@ -58,12 +63,19 @@ create table goodway_customer (
     , lastmodifiedby_username varchar(50)
     , primary key (id)
 	, constraint noduplicate unique (cd, version)
+	, FOREIGN KEY (address_id) REFERENCES goodway_address(id)
+	, FOREIGN KEY (address_id1) REFERENCES goodway_address(id)
+	, FOREIGN KEY (address_id2) REFERENCES goodway_address(id)
+	, FOREIGN KEY (address_id3) REFERENCES goodway_address(id)
+	, FOREIGN KEY (address_id4) REFERENCES goodway_address(id)
 );
 
 create table goodway_order_master (
       id int not null auto_increment
     , name nvarchar(32) not null
 	, customer_id int not null              -- Khách hàng
+	, customer_address_no int not null      -- 1 trong 5 địa chỉ giao hàng của khách hàng
+	, address_id int not null               -- Địa chỉ giao hàng đặc biệt ngoài 5 địa chỉ trên.
 	, delivery_date datetime not null		-- Ngày giờ giao
     , created datetime not null
     , createdby_username varchar(50) not null
@@ -71,6 +83,7 @@ create table goodway_order_master (
     , lastmodifiedby_username varchar(50)
     , primary key (id)
 	, FOREIGN KEY (customer_id) REFERENCES goodway_customer(id)
+	, FOREIGN KEY (address_id) REFERENCES goodway_address(id)
 );
 
 create table goodway_product (
@@ -92,6 +105,7 @@ create table goodway_order_detail_product (
       id int not null auto_increment
 	, order_detail_id int not null
 	, product_id int not null
+	, order_id int not null
 	, product_name nvarchar(128) not null
 	, price double
 	, quantity int
@@ -101,6 +115,7 @@ create table goodway_order_detail_product (
     , lastmodifiedby_username varchar(50)
     , primary key (id)
 	, FOREIGN KEY (product_id) REFERENCES goodway_product(id)
+	, FOREIGN KEY (order_id) REFERENCES goodway_order_master(id)
 );
 
 create table goodway_vehicle (
