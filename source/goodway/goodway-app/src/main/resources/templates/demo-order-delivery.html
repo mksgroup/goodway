@@ -335,7 +335,7 @@
         function loadPackages(packageId) {
             // load demo data
             $.ajax({
-                url : 'load-package?id=' + packageId,
+                url : _ctx + 'load-package?id=' + packageId,
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
@@ -380,7 +380,7 @@
         function loadVehicles() {
             // load demo data
             $.ajax({
-                url : 'load-vehicle',
+                url : _ctx + 'load-vehicle',
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
