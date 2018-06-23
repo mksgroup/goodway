@@ -26,7 +26,7 @@
         
      	if (resultTable == null) {
             $("#resultTable").DataTable({
-                ajax: {'url': '/customer/load-customer', 'dataSrc': ''},
+                ajax: {'url': _ctx + 'customer/load-customer', 'dataSrc': ''},
                 "columns": [
                 	   { "data": "id" },
                 	   { "data": "cd" },

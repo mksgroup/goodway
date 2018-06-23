@@ -51,9 +51,9 @@
 
             
             if (addressId === undefined) {
-                url = 'load-address';
+                url = _ctx + 'load-address';
             } else {
-                url = 'load-vaddress?id=' + addressId;
+                url = _ctx + 'load-vaddress?id=' + addressId;
             }
 
             $.ajax({
@@ -92,7 +92,7 @@
             frmData["data"] = tableData;
             
             $.ajax({
-                url : "/address/save",
+                url : _ctx + "address/save",
                 type : "POST",
                 contentType: "application/json",
                 data: JSON.stringify(frmData),

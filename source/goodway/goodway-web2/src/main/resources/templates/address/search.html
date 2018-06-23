@@ -30,7 +30,7 @@
         // Khởi tạo Table kết quả
     	if (resultTable == null) {
             $("#resultTable").DataTable({
-                ajax: {'url': '/address/load-address', 'dataSrc': ''},
+                ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
                 "columns": [
                 	   { "data": "id" },
                 	   { "data": "city" },

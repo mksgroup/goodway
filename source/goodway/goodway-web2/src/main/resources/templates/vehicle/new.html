@@ -68,9 +68,9 @@
 
             
             if (vehicleId === undefined) {
-                url = 'load-vehicle';
+                url = _ctx + 'load-vehicle';
             } else {
-                url = 'load-vehicle?id=' + vehicleId;
+                url = _ctx + 'load-vehicle?id=' + vehicleId;
             }
 
             $.ajax({
@@ -107,9 +107,9 @@
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
-            
+
             $.ajax({
-                url : "/vehicle/save",
+                url : _ctx + "/vehicle/save",
                 type : "POST",
                 contentType: "application/json",
                 data: JSON.stringify(frmData),

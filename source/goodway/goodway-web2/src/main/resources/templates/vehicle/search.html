@@ -24,7 +24,7 @@
         // Khởi tạo Table kết quả
     	if (resultTable == null) {
             $("#resultTable").DataTable({
-                ajax: {'url': '/vehicle/load-vehicle', 'dataSrc': ''},
+                ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
                 "columns": [
                 	   { "data": "id" },
                 	   { "data": "name" },

@@ -49,9 +49,9 @@
 
             
             if (customerId === undefined) {
-                url = 'load-customer';
+                url = _ctx + 'load-customer';
             } else {
-                url = 'load-customer?id=' + customerId;
+                url = _ctx + 'load-customer?id=' + customerId;
             }
 
             $.ajax({
@@ -89,7 +89,7 @@
             frmData["data"] = tableData;
             
             $.ajax({
-                url : "/customer/save",
+                url : _ctx + "customer/save",
                 type : "POST",
                 contentType: "application/json",
                 data: JSON.stringify(frmData),
