@@ -6,16 +6,19 @@
 package mksgroup.goodway.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
@@ -138,6 +141,23 @@ public class Customer implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId;
+    @JoinColumn(name = "address_id1", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId1;
+    @JoinColumn(name = "address_id2", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId2;
+    @JoinColumn(name = "address_id3", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId3;
+    @JoinColumn(name = "address_id4", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId4;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
+    private List<OrderMaster> orderMasterList;
 
     public Customer() {
     }
@@ -387,6 +407,55 @@ public class Customer implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
+    }
+
+    public Address getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Address addressId) {
+        this.addressId = addressId;
+    }
+
+    public Address getAddressId1() {
+        return addressId1;
+    }
+
+    public void setAddressId1(Address addressId1) {
+        this.addressId1 = addressId1;
+    }
+
+    public Address getAddressId2() {
+        return addressId2;
+    }
+
+    public void setAddressId2(Address addressId2) {
+        this.addressId2 = addressId2;
+    }
+
+    public Address getAddressId3() {
+        return addressId3;
+    }
+
+    public void setAddressId3(Address addressId3) {
+        this.addressId3 = addressId3;
+    }
+
+    public Address getAddressId4() {
+        return addressId4;
+    }
+
+    public void setAddressId4(Address addressId4) {
+        this.addressId4 = addressId4;
+    }
+
+    @XmlTransient
+    public List<OrderMaster> getOrderMasterList() {
+        return orderMasterList;
+    }
+
+    public void setOrderMasterList(List<OrderMaster> orderMasterList) {
+        this.orderMasterList = orderMasterList;
     }
 
     @Override

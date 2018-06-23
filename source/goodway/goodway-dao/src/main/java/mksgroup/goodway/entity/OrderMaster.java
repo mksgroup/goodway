@@ -6,12 +6,13 @@
 package mksgroup.goodway.entity;
 
 import java.io.Serializable;
-import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -37,6 +38,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "OrderMaster.findAll", query = "SELECT o FROM OrderMaster o")
     , @NamedQuery(name = "OrderMaster.findById", query = "SELECT o FROM OrderMaster o WHERE o.id = :id")
     , @NamedQuery(name = "OrderMaster.findByName", query = "SELECT o FROM OrderMaster o WHERE o.name = :name")
+    , @NamedQuery(name = "OrderMaster.findByCustomerAddressNo", query = "SELECT o FROM OrderMaster o WHERE o.customerAddressNo = :customerAddressNo")
     , @NamedQuery(name = "OrderMaster.findByDeliveryDate", query = "SELECT o FROM OrderMaster o WHERE o.deliveryDate = :deliveryDate")
     , @NamedQuery(name = "OrderMaster.findByCreated", query = "SELECT o FROM OrderMaster o WHERE o.created = :created")
     , @NamedQuery(name = "OrderMaster.findByCreatedbyUsername", query = "SELECT o FROM OrderMaster o WHERE o.createdbyUsername = :createdbyUsername")
@@ -54,6 +56,9 @@ public class OrderMaster implements Serializable {
     @Column(name = "name", nullable = false, length = 32)
     private String name;
     @Basic(optional = false)
+    @Column(name = "customer_address_no", nullable = false)
+    private int customerAddressNo;
+    @Basic(optional = false)
     @Column(name = "delivery_date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date deliveryDate;
@@ -69,10 +74,16 @@ public class OrderMaster implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
-
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
+    private List<OrderDetailProduct> orderDetailProductList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
+    private List<DeliveryBatch> deliveryBatchList;
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Customer customerId;
+    @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    private Address addressId;
 
     public OrderMaster() {
     }
@@ -81,9 +92,10 @@ public class OrderMaster implements Serializable {
         this.id = id;
     }
 
-    public OrderMaster(Integer id, String name, Date deliveryDate, Date created, String createdbyUsername) {
+    public OrderMaster(Integer id, String name, int customerAddressNo, Date deliveryDate, Date created, String createdbyUsername) {
         this.id = id;
         this.name = name;
+        this.customerAddressNo = customerAddressNo;
         this.deliveryDate = deliveryDate;
         this.created = created;
         this.createdbyUsername = createdbyUsername;
@@ -103,6 +115,14 @@ public class OrderMaster implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getCustomerAddressNo() {
+        return customerAddressNo;
+    }
+
+    public void setCustomerAddressNo(int customerAddressNo) {
+        this.customerAddressNo = customerAddressNo;
     }
 
     public Date getDeliveryDate() {
@@ -145,12 +165,38 @@ public class OrderMaster implements Serializable {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
     }
 
+    @XmlTransient
+    public List<OrderDetailProduct> getOrderDetailProductList() {
+        return orderDetailProductList;
+    }
+
+    public void setOrderDetailProductList(List<OrderDetailProduct> orderDetailProductList) {
+        this.orderDetailProductList = orderDetailProductList;
+    }
+
+    @XmlTransient
+    public List<DeliveryBatch> getDeliveryBatchList() {
+        return deliveryBatchList;
+    }
+
+    public void setDeliveryBatchList(List<DeliveryBatch> deliveryBatchList) {
+        this.deliveryBatchList = deliveryBatchList;
+    }
+
     public Customer getCustomerId() {
         return customerId;
     }
 
     public void setCustomerId(Customer customerId) {
         this.customerId = customerId;
+    }
+
+    public Address getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Address addressId) {
+        this.addressId = addressId;
     }
 
     @Override

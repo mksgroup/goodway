@@ -7,18 +7,23 @@ package mksgroup.goodway.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -85,6 +90,18 @@ public class Address implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId", fetch = FetchType.LAZY)
+    private List<Customer> customerList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId1", fetch = FetchType.LAZY)
+    private List<Customer> customerList1;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId2", fetch = FetchType.LAZY)
+    private List<Customer> customerList2;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId3", fetch = FetchType.LAZY)
+    private List<Customer> customerList3;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId4", fetch = FetchType.LAZY)
+    private List<Customer> customerList4;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId", fetch = FetchType.LAZY)
+    private List<OrderMaster> orderMasterList;
 
     public Address() {
     }
@@ -217,6 +234,60 @@ public class Address implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList() {
+        return customerList;
+    }
+
+    public void setCustomerList(List<Customer> customerList) {
+        this.customerList = customerList;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList1() {
+        return customerList1;
+    }
+
+    public void setCustomerList1(List<Customer> customerList1) {
+        this.customerList1 = customerList1;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList2() {
+        return customerList2;
+    }
+
+    public void setCustomerList2(List<Customer> customerList2) {
+        this.customerList2 = customerList2;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList3() {
+        return customerList3;
+    }
+
+    public void setCustomerList3(List<Customer> customerList3) {
+        this.customerList3 = customerList3;
+    }
+
+    @XmlTransient
+    public List<Customer> getCustomerList4() {
+        return customerList4;
+    }
+
+    public void setCustomerList4(List<Customer> customerList4) {
+        this.customerList4 = customerList4;
+    }
+
+    @XmlTransient
+    public List<OrderMaster> getOrderMasterList() {
+        return orderMasterList;
+    }
+
+    public void setOrderMasterList(List<OrderMaster> orderMasterList) {
+        this.orderMasterList = orderMasterList;
     }
 
     @Override

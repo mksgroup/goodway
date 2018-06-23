@@ -21,10 +21,10 @@
         var dataProducts = [["", "" , "", "", ""]
         ];
 
+        var hotProduct = null;
+
         $(function() {
         	var containerProduct = document.getElementById('tableProduct');
-            var hotProduct = null;
-
 
         	hotProduct = new Handsontable(containerProduct, {
                 data: dataProducts,
@@ -47,12 +47,12 @@
         });
 
         // Load lại danh sách sản phẩm của đơn hàng
-        function loadPackages(packageId) {
+        function loadProducts(orderCd) {
             // load demo data.
             var orderId = 1;
 
             $.ajax({
-                url : _ctx + 'load-product?orderId=' + orderId,
+                url : _ctx + 'load-product?orderCd=' + orderCd,
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
@@ -66,6 +66,50 @@
                 }
             });
         }
+    </script>
+
+   <!-- Save the order -->
+   <script>
+        $('#frmOrder').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmOrder');
+            var orderCd = $('#orderCd').val();
+            var address = $('#address').val();
+            var latitude = $('#latitude').val();
+            var longitude = $('#longitude').val();
+    
+            // Get header name
+            var colHeaderData =  hotProduct.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotProduct.getData();
+
+            var frmData = {};
+            frmData["productHeader"] = colHeaderData;
+            frmData["productData"] = tableData;
+            frmData["orderCd"] = orderCd;
+            frmData["address"] = address;
+            frmData["latitude"] = latitude;
+            frmData["longitude"] = longitude;
+            
+
+            $.ajax({
+                url : _ctx + "/order/save",
+                type : "POST",
+                contentType: "application/json",
+                data: JSON.stringify(frmData),
+                dataType: 'json',
+
+                success : function(result) {
+                    // reload data
+                	loadProducts(orderCd);
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
     </script>
 </body>
 </html>
