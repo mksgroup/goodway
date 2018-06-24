@@ -18,6 +18,8 @@
   <th:block th:include="fragments/address/select"></th:block>
  
    <script>
+        // Dòng Khách hàng đang chọn địa chỉ
+        var selectCustomerRow;
         var dataCustomers = [["", "" , "", ""]
         ];
         var hotCustomer = null;
@@ -27,10 +29,10 @@
             
         	hotCustomer = new Handsontable(containerCustomer, {
                 data: dataCustomers,
-                colHeaders: ['ID', customer_name, customer_code, short_name, phone, address],
-                colWidths: [50, 300, 150, 150, 130, 400],
+                colHeaders: ['ID', customer_name, customer_code, short_name, phone, address, "Address Id"],
+                colWidths: [50, 300, 150, 150, 130, 400, 20],
                 rowHeaders: true,
-                minRows: 5,
+                minRows: 12,
                 currentRowClassName: 'currentRow',
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
@@ -42,12 +44,19 @@
                     { "data": "cd" },
                     { "data": "shortName" },
              	    { "data": "phone" },
-             	    { "data": "addr" }
+             	    { "data": "addr" },
+             	    { "data": "addressId" }
                   ],
+                  hiddenColumns: {
+                    columns: [6],
+                    indicators: true
+                  },
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
 
                      // Display the dialog to search address
                      if (c == 5) {
+                    	 selectCustomerRow = r;
+                         console.log("Selected selectCustomerRow=" + selectCustomerRow)
                          displayDlgSelectAddress();
                      }
                   }
@@ -120,12 +129,11 @@
     <!--  Scripts for select address -->
     <script>
         function displayDlgSelectAddress() {
-            console.log("Display dialog");
         	$("#dlgSearchAddress").modal('show');
         }    
     </script>
 	<script>
-        // Lưu đối tượng table kết quả search
+        // Dispay dialog of addresses
         var selectAddressTable = null;
         
         $(document).ready(function() {
@@ -133,17 +141,50 @@
         	if (selectAddressTable == null) {
         		selectAddressTable = $("#selectAddressTable").DataTable({
                     ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
+//                     autoFill: true,
+//                     select: { style: 'single' },
                     "columns": [
                            {"render": function ( data, type, full, meta ) {
-                                return '<input type="radio" name="touchbutton" value="wibble">';
+                                return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
                            }},  // here's a radio button, modify to use data to populate it
                     	   { "data": "id" },
                     	   { "data": "displayAddress" }
-                    	   ]
+                    ]
                 });
         	} else {
         		// selectAddressTable.fnDraw();
             }
+        });
+
+        $('#btnSelectAddress').click(function(e) {
+
+        	var selectedDisplayAddress = $('input[name=addressRow]:checked').val();
+        	console.log("selectedDisplayAddress=" + selectedDisplayAddress + ";selectCustomerRow=" + selectCustomerRow);
+
+            // Set address into Address of the Customer
+            if (selectCustomerRow >=0 && (selectedDisplayAddress)) {
+                var rowData = dataCustomers[selectCustomerRow];
+
+                console.log("rowData=" + rowData);
+
+                if (rowData) {
+                   
+                	dataCustomers[selectCustomerRow][5] = selectedDisplayAddress;
+                	console.log("Current dataCustomers[selectCustomerRow][5]" + dataCustomers[selectCustomerRow][5]);
+                } else {
+                    console.log("Customer has not inputted yet.");
+                    dataCustomers.push(["", "", "", "", "" , selectedDisplayAddress]);
+                }
+
+                console.log("dataCustomers=" + dataCustomers);
+            	hotCustomer.loadData(dataCustomers);
+            	hotCustomer.render();
+
+            	
+            } else {
+            	 console.log("selectedDisplayAddress has no value; selectCustomerRow= " + selectCustomerRow);
+            }
+
         });
     </script>
 </body>
