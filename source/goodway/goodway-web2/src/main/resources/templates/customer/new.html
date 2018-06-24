@@ -13,7 +13,10 @@
 
   <th:block th:include="fragments/customer/new"></th:block>
   
+  <!-- Modal -->
   <th:block th:include="fragments/footer"></th:block>
+  <th:block th:include="fragments/address/select"></th:block>
+ 
    <script>
         var dataCustomers = [["", "" , "", ""]
         ];
@@ -40,7 +43,14 @@
                     { "data": "shortName" },
              	    { "data": "phone" },
              	    { "data": "addr" }
-                  ]
+                  ],
+                  afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+
+                     // Display the dialog to search address
+                     if (c == 5) {
+                         displayDlgSelectAddress();
+                     }
+                  }
               });
             loadCustomers();
         });
@@ -105,6 +115,35 @@
                     console.log("Error!");
                 }
             });
+        });
+    </script>
+    <!--  Scripts for select address -->
+    <script>
+        function displayDlgSelectAddress() {
+            console.log("Display dialog");
+        	$("#dlgSearchAddress").modal('show');
+        }    
+    </script>
+	<script>
+        // Lưu đối tượng table kết quả search
+        var selectAddressTable = null;
+        
+        $(document).ready(function() {
+            // Khởi tạo Table kết quả
+        	if (selectAddressTable == null) {
+        		selectAddressTable = $("#selectAddressTable").DataTable({
+                    ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
+                    "columns": [
+                           {"render": function ( data, type, full, meta ) {
+                                return '<input type="radio" name="touchbutton" value="wibble">';
+                           }},  // here's a radio button, modify to use data to populate it
+                    	   { "data": "id" },
+                    	   { "data": "displayAddress" }
+                    	   ]
+                });
+        	} else {
+        		// selectAddressTable.fnDraw();
+            }
         });
     </script>
 </body>

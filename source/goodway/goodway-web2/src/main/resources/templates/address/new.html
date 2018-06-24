@@ -12,7 +12,7 @@
   <!-- Horizontal navigation-->
 
     <th:block th:include="fragments/address/new"></th:block>
-  <th:block th:include="fragments/footer"></th:block>
+    <th:block th:include="fragments/footer"></th:block>
       <script>
       var dataAddresses = [];
 
@@ -90,7 +90,7 @@
                          var latLng = {lat: lat, lng: lng };
                          map.setCenter(latLng);
                      }
-                }
+                  }
               });
 
         	loadAddress();
