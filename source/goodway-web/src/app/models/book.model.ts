@@ -1,10 +1,10 @@
 export class Book {
     $key: string;
     bookId: String;
-    name: String;
+    name: string;
     quantity: number;
-    desciption: String;
-    author: String;
+    desciption: string;
+    author: string;
     createDate: number;
     status: string;
     statusLabel: string;

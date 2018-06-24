@@ -43,6 +43,7 @@ import { AdminBookNewComponent } from './admin/admin-book-new/admin-book-new.com
 import { AdminBorrowBookComponent } from './admin/admin-borrow-book/admin-borrow-book.component';
 import { BorrowService } from './borrow.service';
 import { AddBorrowNewComponent } from './admin/add-borrow-new/add-borrow-new.component';
+import { AdminListHistoryComponent } from './admin-list-history/admin-list-history.component';
 
 
 @NgModule({
@@ -67,7 +68,8 @@ import { AddBorrowNewComponent } from './admin/add-borrow-new/add-borrow-new.com
     AdminBookComponent,
     AdminBookNewComponent,
     AdminBorrowBookComponent,
-    AddBorrowNewComponent
+    AddBorrowNewComponent,
+    AdminListHistoryComponent
   ],
   imports: [
     BrowserModule,
@@ -141,6 +143,10 @@ import { AddBorrowNewComponent } from './admin/add-borrow-new/add-borrow-new.com
       {
         path: 'admin/borrow/new/:id', 
         component: AddBorrowNewComponent
+      },
+      {
+        path: 'admin/borrow/list', 
+        component: AdminListHistoryComponent
       }
       
     ])    

@@ -1,0 +1,24 @@
+<data-table [items]="items" [itemCount]="itemCount" (reload)="reloadItems($event)">
+ 
+  <data-table-column [property]="'account'" [header]="'Account'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+  <data-table-column [property]="'nameOfBook'" [header]="'Book'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+  <data-table-column [property]="'borrowDate'" [header]="'Borrow Date'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+  <data-table-column [property]="'returnDate'" [header]="'Return Date'" [sortable]="true" [resizable]="true">
+    <!-- <ng-template #dataTableCell let-item="item">
+      {{ item.price | currency:'USD':true }}
+    </ng-template> -->
+  </data-table-column>
+
+</data-table>
