@@ -14,31 +14,85 @@
     <th:block th:include="fragments/address/new"></th:block>
   <th:block th:include="fragments/footer"></th:block>
       <script>
-        var dataAddresses = [["", "" , "", ""]
-        ];
+      var dataAddresses = [];
+
         var hotAddress = null;
 
+        // Scripts for table. Refer: https://docs.handsontable.com/3.0.0/tutorial-quick-start.html
         $(function() {
         	var containerAddress = document.getElementById('tableAddress');
 
         	hotAddress = new Handsontable(containerAddress, {
                 data: dataAddresses,
-                colHeaders: ["Mã", "Địa chỉ", "Vĩ độ", "Kinh độ"],
-                colWidths: [50, 700, 150, 150],
+                colHeaders: ["Mã", "Nhãn", "Địa chỉ", "Vĩ độ", "Kinh độ"],
+                colWidths: [50, 50, 700, 150, 150],
                 rowHeaders: true,
-                minRows: 5,
-                currentRowClassName: 'currentRow',
-                currentColClassName: 'currentCol',
-            	manualColumnResize: true,
-                manualRowResize: true,
-                contextMenu: true,
+                height: 600,
+//                 currentRowClassName: 'currentRow',
+//                 currentColClassName: 'currentCol',
+//             	manualColumnResize: true,
+//                 manualRowResize: true,
+                contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true},
+                	{data: 'label'},
                     {data: 'displayAddress'},
                     {data: 'latitude', readOnly: true},
                     {data: 'longitude', readOnly: true}
-                  ]
+                  ],
+                  afterChange: function(changes, source) {
+                      if (changes != null) {
+                          // Change [row, col, old value, new value]
+                          // Refer: https://docs.handsontable.com/pro/3.0.0/Hooks.html#event:afterChange
+                          var newAddress = changes[0][3];
+                          var editingLabel = changes[0][1];
+                          var index = changes[0][0];
+    
+                          console.log("changes=" + changes);
+                          console.log("source=" + source);
+                          console.log("New Address:" + newAddress + "; label " + editingLabel);
+            
+                          // Update location
+                          var geocoder = new google.maps.Geocoder();
+                          geocoder.geocode( { 'address': newAddress}, function(results, status) {
+                              if (status == 'OK') {
+                                map.setCenter(results[0].geometry.location);
+    
+                                // Update the position of the corresponding marker.
+                                var marker = gmarkers[index];
+                                marker.setPosition(results[0].geometry.location);
+                              } else {
+                                alert('Geocode was not successful for the following reason: ' + status);
+                                
+                              }
+                            });
+                      } // if
+                  },
+                  // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
+                  afterRemoveRow: function (index, amount) {
+                      console.log("Removed row index " + index);
+
+                      var deletedMarker = gmarkers[index];
+                      // Set Center of the Map at the deleted marker
+                      var latLng = deletedMarker.getPosition(); // returns LatLng object
+
+                      map.setCenter(latLng);
+
+                      // Delete the corresponding marker from the map
+                      deletedMarker.setMap(null);
+                  },
+                  afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+                      // Hiển thị địa điểm được chọn tại trung tâm bản đồ
+                     var lat = dataAddresses[r].latitude;
+                     var lng = dataAddresses[r].longitude;
+
+                     if (lat && lng) {
+                         var latLng = {lat: lat, lng: lng };
+                         map.setCenter(latLng);
+                     }
+                }
               });
+
         	loadAddress();
         });
 
@@ -63,17 +117,51 @@
                 success : function(res) {
                     // Update data into the handsontable
                     dataAddresses = res;
+                    dataAddresses = setLabel(dataAddresses);
+
+                    console.log("dataAddresses=" + dataAddresses);
                     hotAddress.loadData(dataAddresses);
+
+                    checkIsLoadedMap();
                 },
                 error : function (e) {
                     console.log("Error: " + e);
                 }
             });
         }
+
+        /**
+         */
+        function setLabel(address) {
+        	var i;
+            var label;
+
+        	for (i = 0; i < address.length; i++) {
+                label = labels[i % labels.length];
+
+                if (i / labels.length >= 1) {
+                    label += Math.round(i / labels.length); 
+                }
+               
+        		address[i].label = label;
+        		// console.log(JSON.stringify(address[i]));
+        	}
+            
+            return address;
+        }
+
+        function checkIsLoadedMap() {
+            if (isLoadedMap == false) {
+               window.setTimeout(isLoadedMap, 1000); /* this checks the flag every 1000 milliseconds*/
+            } else {
+              indexLabel = initMarker();
+            }
+        }
+
     </script>
     
     <script>
-        $('#frmHot').submit(function(e) {
+        $('#btnSave').click(function(e) {
             e.preventDefault();
     
             var frm = $('#frmHot');
@@ -98,6 +186,9 @@
                 dataType: 'json',
 
                 success : function(result) {
+                    // Display result information
+                    $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+
                     // reload data
                 	loadAddress();
                 },
@@ -106,6 +197,147 @@
                 }
             });
         });
+    </script>
+
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+    </script>
+    <script>
+        <!-- Refer: https://developers.google.com/maps/documentation/javascript/adding-a-google-map -->
+
+          var indexLabel = 0;  // index of label, marker
+          var label;
+          var geocoder;
+          var map;
+          var gmarkers = [];
+          var isLoadedMap = false;
+          // Create an array of alphabetical characters used to label the markers.
+          var labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+          /**
+           * Init map.
+           * This method is called by embbed script:  <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+           * @param divMapId
+           */
+          function initMap() {
+            console.log("Initializing map...");
+            var hcm =  new google.maps.LatLng(10.854416599999999, 106.8001511);
+            var geocoder = new google.maps.Geocoder();
+
+            map = new google.maps.Map(document.getElementById('map'), {
+              zoom: 14,
+              center: hcm
+            });
+
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function (position) {
+                    initialLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                    map.setCenter(initialLocation);
+                    console.log("Current posotion:" + initialLocation);
+                });
+            }
+
+            // Process event click on the map
+            map.addListener('click', function(e) {
+                label = labels[indexLabel % labels.length];
+
+                if (indexLabel / labels.length >= 1) {
+                    label += Math.round(i / labels.length); 
+                }
+
+                placeMarkerAndPanTo(e.latLng, map, label, true);
+
+                // Debug
+                console.log("Location " + indexLabel + ": " + e.latLng + " with label " + label);
+
+                // https://developers.google.com/maps/documentation/javascript/geocoding
+                // Convert location (lat, lng) into address
+                var geocoder = new google.maps.Geocoder();
+
+                geocoder.geocode({'location': e.latLng}, function(results, status) {
+                    if (status === 'OK') {
+                      if (results[0]) {
+                        console.log(results[0].formatted_address);
+                        
+                        // Add new address into the handsontable in the left side
+                        newAddress(label, results[0].formatted_address, e.latLng.lat(), e.latLng.lng());
+                      } else {
+                          console.log('No results found');
+                      }
+                    } else {
+                        console.log('Geocoder failed due to: ' + status);
+                    }
+                  });
+
+                indexLabel++;
+
+                
+            });
+
+            isLoadedMap = true;
+          }
+
+            /**
+             * @global dataAddresses
+             * @return the length of addresses
+             */
+            function initMarker() {
+                var len = dataAddresses.length;
+            	var i;
+            	for (i = 0; i < len; i++) {
+            		var location = {lat: dataAddresses[i].latitude, lng: dataAddresses[i].longitude };
+                    
+            		placeMarkerAndPanTo(location, map, dataAddresses[i].label, false);
+            	}
+
+                if (len > 0) {
+                    // Pan to the last location
+                    var lastLocation = {lat: dataAddresses[len - 1].latitude, lng: dataAddresses[len - 1].longitude };
+                	map.panTo(lastLocation);
+    
+                    console.log("Pan to " + lastLocation);
+                }
+
+                return len;
+            }
+
+          function placeMarkerAndPanTo(latLng, map, label, isPan) {
+              var marker = new google.maps.Marker({
+                position: latLng,
+                label: label,
+                map: map
+              });
+              if (isPan) {
+                map.panTo(latLng);
+              }
+
+              // Save to array of makers
+              gmarkers.push(marker);
+            }
+
+        
+            /**
+             * Add new address into the handsontable.
+             * @param label
+             * @param address
+             * @param lat
+             * @param lng
+
+             * @returns
+             */
+            function newAddress(label, address, lat, lng) {
+                console.log("label, address, lat, lng = " + label + ": " + address + ": " + lat + ": " + lng);
+                
+
+                var addrJson = {id: "", label: label, displayAddress: address, latitude: lat, longitude: lng};
+                dataAddresses.push(addrJson);
+                console.log("dataAddresses=" + dataAddresses);
+                hotAddress.loadData(dataAddresses);
+                hotAddress.render();
+                
+            }
+
+
     </script>
 </body>
 </html>

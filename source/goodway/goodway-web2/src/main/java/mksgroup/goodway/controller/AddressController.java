@@ -13,7 +13,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +37,11 @@ import mksgroup.goodway.util.AppUtil;
 @Controller
 public class AddressController {
 
+	/** For logging. */
 	private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
+
+    @Value("${map.key}")
+    String mapKey;
 
 	@Autowired
 	private AddressRepository addressRepository;
@@ -51,7 +57,9 @@ public class AddressController {
 	}
 
 	@RequestMapping("/address/new")
-	public String goAddressrNew() {
+	public String goAddressrNew(ModelMap model) {
+	    model.addAttribute("map_key", mapKey);
+
 		return "address/new";
 	}
 

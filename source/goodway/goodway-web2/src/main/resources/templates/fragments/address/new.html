@@ -23,49 +23,72 @@
 		<div class="content-body">
 			<!-- Basic form layout section start -->
 			<th:block th:include="fragments/address/toolbar"></th:block>
-			<div class="content-body">
-				<section id="search-website" class="card overflow-hidden">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title" th:text="#{address.newtitle}">Task
-								title</h4>
-							<a class="heading-elements-toggle"><i
-								class="fa fa-ellipsis-v font-medium-3"></i></a>
-							<div class="heading-elements">
-								<ul class="list-inline mb-0">
-									<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-									<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-									<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-									<li><a data-action="close"><i class="ft-x"></i></a></li>
-								</ul>
-							</div>
-						</div>
-						<div class="card-content">
-
-							<div class="card-body pb-0">
-								<div class="table-responsive scroll-container">
-									<form id="frmHot" th:action="@{/address/save}" method="POST"
-										enctype="multipart/form-data">
-										<div id="tableAddress"
-											class="hot handsontable htRowHeaders htColumnHeaders"></div>
-										<div class="col-12">
-
-											<button class="btn btn-info" id="btn-save" onclick="$('#result').fadeToggle('slow'); $('#result').fadeOut(5000); ">
-												<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
-											</button>
-											<p id="resultSubmit"></p>
-											<div class="alert alert-success mb-2" role="alert"
-												style="display: none" id="result">
-												<strong>Save successed !!!</strong> 
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
-					</div>
-				</section>
-			</div>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+        			<div class="content-body">
+        				<section id="search-website" class="card overflow-hidden">
+        					<div class="card">
+        						<div class="card-header">
+        							<h4 class="card-title" th:text="#{address.newtitle}">Task
+        								title</h4>
+        							<a class="heading-elements-toggle"><i
+        								class="fa fa-ellipsis-v font-medium-3"></i></a>
+        							<div class="heading-elements">
+        								<ul class="list-inline mb-0">
+        									<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+        									<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+        									<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+        									<li><a data-action="close"><i class="ft-x"></i></a></li>
+        								</ul>
+        							</div>
+        						</div>
+        						<div class="card-content">
+        
+        							<div class="card-body pb-0">
+        								<div class="table-responsive scroll-container">
+<!--         									<form id="frmHot" th:action="@{/address/save}" method="POST" enctype="multipart/form-data"> -->
+        										<div id="tableAddress"
+        											class="hot handsontable htRowHeaders htColumnHeaders"></div>
+        										<div class="col-12">
+        
+        											<button class="btn btn-info" id="btnSave">
+        												<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+        											</button>
+        											<p id="resultSubmit"></p>
+        											<div id="result" class="alert alert-success mb-2 hidden-xs" role="alert" style="display: none">
+        												<strong th:text="#{save.ok}">Save OK</strong> 
+        											</div>
+        										</div>
+<!--         									</form> -->
+        								</div>
+        							</div>
+        						</div>
+        					</div>
+        				</section>
+        			</div>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title" th:text="#{address.select.tasktitle}">Bấm chọn địa điểm</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <div id="map" class="height-500"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
 			<!-- // Basic form layout section end -->
 		</div>
 	</div>

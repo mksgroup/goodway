@@ -8,6 +8,10 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import mksgroup.goodway.controller.VehicleController;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
@@ -27,6 +31,9 @@ import mksgroup.java.common.BeanUtil;
  *
  */
 public class AppUtil {
+    /** For logging. */
+    private final static Logger LOG = LoggerFactory.getLogger(AppUtil.class);
+
     /** Flag to parse data from handsontable: avoid the empty row. */
     final static boolean SKIP_EMPTYROW = true;
 
@@ -46,8 +53,9 @@ public class AppUtil {
     }
     
     public static Iterable<Address> parseAddress(AddressModel data) {
-        final String[] HEADERS = {"id", "displayAddress", "latitude", "longitude"};
+        final String[] HEADERS = {"id", "label", "displayAddress", "latitude", "longitude"};
 
+        LOG.info("Address data=" + data.getData());
         List<Address> listAddress = (List<Address>) BeanUtil.getDataList(data.getData(), HEADERS, Address.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
         
         return listAddress;
