@@ -8,6 +8,7 @@ package mksgroup.goodway.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -24,6 +25,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  *
@@ -91,16 +94,28 @@ public class Address implements Serializable {
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<Customer> customerList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId1", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<Customer> customerList1;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId2", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<Customer> customerList2;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId3", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<Customer> customerList3;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId4", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<Customer> customerList4;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId", fetch = FetchType.LAZY)
+
+    @JsonBackReference
     private List<OrderMaster> orderMasterList;
 
     public Address() {

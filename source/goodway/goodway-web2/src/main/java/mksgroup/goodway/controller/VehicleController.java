@@ -84,6 +84,7 @@ public class VehicleController {
         } else {
             Iterable<Vehicle> entities = AppUtil.parseVehicle(data);
             List<Vehicle> entityList = new ArrayList<Vehicle>();
+
             entities.forEach(e-> entityList.add(e));
             List<Vehicle> vehilces = (List<Vehicle>) vehicleRepository.findAll();
             for(Vehicle v : vehilces) {
