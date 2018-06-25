@@ -3,9 +3,13 @@
  */
 package mksgroup.goodway.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -22,11 +26,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
+import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.model.OrderModel;
+import mksgroup.goodway.repository.AddressRepository;
+import mksgroup.goodway.repository.CustomerRepository;
 import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.repository.OrderRepository;
+import mksgroup.goodway.repository.ProductRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -45,7 +54,16 @@ public class OrderController {
     private OrderRepository orderRepository;
     
     @Autowired
+    private ProductRepository productRepository;
+    
+    @Autowired
     private OrderProductRepository orderProductRepository;
+    
+    @Autowired
+    private AddressRepository addressRepository;
+    
+    @Autowired 
+    private CustomerRepository customerRepository;
     
     /**
      * Goto the index page.
@@ -85,23 +103,32 @@ public class OrderController {
     }
     
     /**
-     * Load orderMaster's details.
+     * Load orderMaster's products.
      * @param orderId
      * @return
      */
-    @GetMapping("/order/details/load-product")
+    @GetMapping("/order/load-product")
     @ResponseBody
-    public Iterable<OrderDetailProduct> loadOrderDetails(@RequestParam("orderId") Integer orderId) {
+    public List<Product> loadOrderDetails(@RequestParam("orderCd") String orderCd) {
 
-        OrderMaster order = orderRepository.findById(orderId).get();
+        Iterable<OrderMaster> orders = orderRepository.findAll();
+        OrderMaster order = new OrderMaster();
+        for(OrderMaster o : orders) {
+            if(o.getName().equalsIgnoreCase(orderCd)) {
+                order = o;
+            }
+        }
+        List<OrderDetailProduct> orderProducts = order.getOrderDetailProductList();
+        List<Product> productList = new ArrayList<Product>();
 
-        Iterable<OrderDetailProduct> orderProducts = orderProductRepository.findAll();
+        orderProducts.forEach(p -> productList.add(productRepository.findById(p.getProductId().getId()).get()));
         
-        return orderProducts;
+        return productList;
     }
     
     @PostMapping("/order/save")
     @ResponseBody
+    @Transactional
     public OrderMaster saveOrder(@Valid @RequestBody OrderModel data, Errors errors, HttpServletRequest request) {
         OrderMaster orderMaster = null;
         LOG.info("saveOrder....");
@@ -116,13 +143,21 @@ public class OrderController {
             return null;
         } else {
             orderMaster = AppUtil.parseOrder(data);
+            addressRepository.save(orderMaster.getAddressId());
             
+            Customer customer = customerRepository.findByName(orderMaster.getCustomerId().getName());
+            customer.setAddr(orderMaster.getCustomerId().getAddr());
+            customerRepository.save(customer);
+            
+            List<OrderDetailProduct> orderDetailProduct = orderMaster.getOrderDetailProductList();
+            for(OrderDetailProduct p : orderDetailProduct) {
+                productRepository.save(p.getProductId());
+            }
             
             orderRepository.save(orderMaster);
             LOG.info("Saved order with ID = " + orderMaster.getId());
         }
-        
-        
+      
         return orderMaster;
     }
 }
