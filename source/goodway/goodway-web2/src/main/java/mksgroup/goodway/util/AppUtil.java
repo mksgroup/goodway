@@ -4,6 +4,7 @@
 package mksgroup.goodway.util;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -134,7 +135,7 @@ public class AppUtil {
     }
 
     public static OrderMaster parseOrder(OrderModel model) {
-        final String[] HEADERS = {"name", "length", "width", "height", "weight"};
+        final String[] HEADERS = {"id", "name", "length", "width", "height", "weight"};
         OrderMaster order = new OrderMaster();
         
         order.setName(model.getOrderCd());
@@ -143,11 +144,15 @@ public class AppUtil {
         addr.setDisplayAddress(model.getAddress());
         addr.setLatitude(model.getLatitude());
         addr.setLongitude(model.getLongitude());
+        addr.setCreatedbyUsername("Nam Tang");
+        addr.setCreated(new Date());
         
         order.setAddressId(addr);
 
         Customer customer = new Customer();
+        customer.setName(model.getCustomer_name());
         customer.setAddr(model.getAddress());
+        customer.setCreatedbyUsername("Nam Tang");
         
         order.setCustomerId(customer);
         
@@ -161,11 +166,14 @@ public class AppUtil {
             orderDetailProduct = new OrderDetailProduct();
             orderDetailProduct.setProductId(product);
             orderDetailProduct.setProductName(product.getName());
-
+            orderDetailProduct.setCreatedbyUsername("Nam Tang");
+            orderDetailProduct.setCreated(new Date());
             orderDetailProductList.add(orderDetailProduct);
         }
         
         order.setOrderDetailProductList(orderDetailProductList);
+        order.setCreatedbyUsername("Nam Tang");
+        order.setCreated(new Date());
 
         return order;
     }
