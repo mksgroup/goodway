@@ -101,27 +101,31 @@ public class CustomerController {
             
             // Update default Address for Customer
             Address defaultAddr = addressRepository.findAll().iterator().next();
+            
+            List<Customer> entityList = new ArrayList<Customer>();
 
             entities.forEach(customer -> {
-                if (customer.getAddr() == null || customer.getAddr().isEmpty()) {
-                    customer.setAddressId(defaultAddr);
-                    customer.setAddressId1(defaultAddr);
-                    customer.setAddressId2(defaultAddr);
-                    customer.setAddressId3(defaultAddr);
-                    customer.setAddressId4(defaultAddr);
-                } else {
-                    // Load address from db
-                    Address addr = addressRepository.findById(customer.getAddrId()).get();
-                    customer.setAddressId(addr);
-                    customer.setAddressId1(addr);
-                    customer.setAddressId2(addr);
-                    customer.setAddressId3(addr);
-                    customer.setAddressId4(addr);
+                if (customer.getName() != null && !customer.getName().isEmpty()) {
+                    if (customer.getAddr() == null || customer.getAddr().isEmpty()) {
+                        customer.setAddressId(defaultAddr);
+                        customer.setAddressId1(defaultAddr);
+                        customer.setAddressId2(defaultAddr);
+                        customer.setAddressId3(defaultAddr);
+                        customer.setAddressId4(defaultAddr);
+                    } else {
+                        // Load address from db
+                        Address addr = addressRepository.findById(customer.getAddrId()).get();
+                        customer.setAddressId(addr);
+                        customer.setAddressId1(addr);
+                        customer.setAddressId2(addr);
+                        customer.setAddressId3(addr);
+                        customer.setAddressId4(addr);
+                    }
+                    entityList.add(customer);
                 }
             });
             
-            List<Customer> entityList = new ArrayList<Customer>();
-            entities.forEach(e-> entityList.add(e));
+
             List<Customer> customers = (List<Customer>) customerRepository.findAll();
             for (Customer c : customers) {
                 if (!entityList.contains(c)) {

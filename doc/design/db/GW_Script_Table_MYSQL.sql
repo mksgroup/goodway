@@ -28,7 +28,7 @@ create table goodway_address (
 
 create table goodway_customer (
       id int not null auto_increment
-    , cd varchar(64) 		           -- mã khách hàng.
+    , cd varchar(64) not null		   -- mã khách hàng.
 	, seq_no int not null              -- Số thứ tự tăng liên tục. Cho biết số thứ tự Khách hàng.
 	, address_id int not null		   -- Địa chỉ 1
 	, address_id1 int not null		   -- Địa chỉ 2

@@ -78,7 +78,7 @@ public class Customer implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "cd", length = 64)
+    @Column(name = "cd", nullable = false, length = 64)
     private String cd;
     @Basic(optional = false)
     @Column(name = "seq_no", nullable = false)
