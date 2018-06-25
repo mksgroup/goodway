@@ -14,9 +14,12 @@
 
     <!-- form body -->
     <th:block th:include="fragments/order/new"></th:block>
-    
+
     <!-- Dialog to select Customer -->
     <th:block th:include="fragments/customer/select"></th:block>
+
+    <!-- Google Map Modal -->
+    <th:block th:include="fragments/order/map"></th:block>
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
@@ -48,6 +51,8 @@
 //                     {data: 'weight'}
 //                   ]
               });
+
+     
         });
 
         // Load lại danh sách sản phẩm của đơn hàng
@@ -72,8 +77,8 @@
         }
     </script>
 
-   <!-- Save the order -->
-   <script>
+    <!-- Save the order -->
+    <script>
         $('#frmOrder').submit(function(e) {
             e.preventDefault();
     
@@ -177,5 +182,47 @@
 
         }
     </script>
+
+
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key}">
+    </script>
+
+    <script> 
+        $('#btnShowMap').click(function(e) {
+    	           initMap();
+     });
+    function initMap(){
+        var geocoder = new google.maps.Geocoder();
+        var address =  $('#customer_addr').val();
+        
+           geocoder.geocode({'address': address}, function(results, status) {
+              if (status === 'OK') {
+                console.log(results);
+//     	        var map = new google.maps.Map($('#map_canvas'), {
+//                    zoom: 15,
+//                    center: results[0].geometry.location
+//                 });
+                var myOptions = {
+    	           zoom: 20,
+                   center: results[0].geometry.location,
+                   mapTypeId: google.maps.MapTypeId.ROADMAP
+                 };
+                 
+                var map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+                var marker = new google.maps.Marker({
+                   map: map,
+                   position: results[0].geometry.location
+                });
+                $("#googleMapModal").modal('show');
+              } else {
+                 alert('Geocode was not successful for the following reason: ' + status);
+              }
+ 	      });
+
+    }
+
+
+  </script>
+
 </body>
 </html>

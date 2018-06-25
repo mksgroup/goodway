@@ -3,8 +3,6 @@
  */
 package mksgroup.goodway.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +11,9 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
-import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.repository.OrderRepository;
@@ -38,6 +37,9 @@ import mksgroup.goodway.util.AppUtil;
 public class OrderController {
     /** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(OrderController.class);
+    
+    @Value("${map.key}")
+    String mapKey;
 
     @Autowired
     private OrderRepository orderRepository;
@@ -56,7 +58,9 @@ public class OrderController {
     
     
     @GetMapping("/order/new")
-    public String goOrderDetails() {
+    public String goOrderDetails(Model model) {
+        model.addAttribute("map_key", mapKey);
+
         return "order/new";
     }
     
