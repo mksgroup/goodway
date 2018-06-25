@@ -21,7 +21,7 @@
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
     <script>
-        var dataProducts = [["", "" , "", "", ""]
+        var dataProducts = [["", "" , "", "", "", "", ""]
         ];
 
         var hotProduct = null;
@@ -32,7 +32,7 @@
         	hotProduct = new Handsontable(containerProduct, {
                 data: dataProducts,
                 colHeaders: ["ID", "Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)", "Số lượng"],
-                colWidths: [50, 300, 100, 100, 100, 100, 100],
+                colWidths: [50, 300, 100, 100, 100, 120, 100],
                 rowHeaders: true,
                 minRows: 5,
 //                 minCols: 5,
