@@ -78,7 +78,7 @@ public class Customer implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "cd", nullable = false, length = 32)
+    @Column(name = "cd", length = 64)
     private String cd;
     @Basic(optional = false)
     @Column(name = "seq_no", nullable = false)
@@ -90,7 +90,7 @@ public class Customer implements Serializable {
     @Column(name = "name", nullable = false, length = 128)
     private String name;
     @Basic(optional = false)
-    @Column(name = "short_name", nullable = false, length = 30)
+    @Column(name = "short_name", length = 30)
     private String shortName;
     @Column(name = "addr", length = 256)
     private String addr;
