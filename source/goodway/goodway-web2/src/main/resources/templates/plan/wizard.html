@@ -52,35 +52,34 @@
     	} else {
     		orderTable.fnDraw();
         }
-    });
-  
-	    	if (resultTable == null) {
-	            $("#resultTable").DataTable({
-	                ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
-	                "columns": [
-	                	   { "data": "id" },
-	                	   { "data": "name" },
-	                	   { "data": "length" },
-	                	   { "data": "width" },
-	                	   { "data": "height" },
-	                	   { "data": "capacity" }
-	                       ],
-	                columnDefs: [ {
-	                    orderable: false,
-	                    className: 'select-checkbox',
-	                    targets:   0
-	                } ],
-	                select: {
-	                    style:    'os',
-	                    selector: 'td:first-child'
-	                }
-	            });
-	    	} else {
-	            resultTable.fnDraw();
-	        }
-        }
 
-        
+  
+	    if (resultTable == null) {
+	        $("#resultTable").DataTable({
+	            ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
+	            "columns": [
+	              	   { "data": "id" },
+	               	   { "data": "name" },
+	               	   { "data": "length" },
+	               	   { "data": "width" },
+	               	   { "data": "height" },
+	               	   { "data": "capacity" }
+	                   ],
+	               columnDefs: [ {
+	                   orderable: false,
+	                   className: 'select-checkbox',
+	                   targets:   0
+	    	       } ],
+	               select: {
+	                   style:    'os',
+	                   selector: 'td:first-child'
+	               }
+	           });
+	   	} else {
+	           resultTable.fnDraw();
+	    }
+
+});     
     	
 </script>
 
