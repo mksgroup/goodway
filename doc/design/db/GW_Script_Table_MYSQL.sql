@@ -1,8 +1,8 @@
 drop table if exists goodway_delivery_batch;
 drop table if exists goodway_order_detail_product;
 drop table if exists goodway_order_master;
-drop table if exists goodway_address;
 drop table if exists goodway_customer;
+drop table if exists goodway_address;
 drop table if exists goodway_vehicle_status;
 drop table if exists goodway_vehicle;
 drop table if exists goodway_product;
@@ -28,7 +28,7 @@ create table goodway_address (
 
 create table goodway_customer (
       id int not null auto_increment
-    , cd varchar(32) not null          -- mã khách hàng.
+    , cd varchar(64) not null		   -- mã khách hàng.
 	, seq_no int not null              -- Số thứ tự tăng liên tục. Cho biết số thứ tự Khách hàng.
 	, address_id int not null		   -- Địa chỉ 1
 	, address_id1 int not null		   -- Địa chỉ 2
@@ -37,8 +37,9 @@ create table goodway_customer (
 	, address_id4 int not null		   -- Địa chỉ 5
 	, version int not null             -- support to change information of customer in order
     , name nvarchar(128) not null
-	, short_name varchar(30) not null  -- Tên viết tắt
+	, short_name varchar(30)		   -- Tên viết tắt
     , addr nvarchar(256)
+	, addr_id int					   -- Id của Address: hỗ trợ cho lúc nhập liệu
     , representative nvarchar(100)
 	, role nvarchar(100)               -- role of representative of customer
 	, tax_id varchar(20)			   -- tax identification number of customer

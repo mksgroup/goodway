@@ -40,18 +40,23 @@
                     <div class="card-content">
                     
                         <div class="card-body pb-0">
+                        <form id="frmHot" th:action="@{/customer/save}" method="POST" enctype="multipart/form-data">
                             <div class="table-responsive scroll-container">
-                                <form id="frmHot" th:action="@{/customer/save}" method="POST" enctype="multipart/form-data">
+                                
                                     <div id="tableCustomer" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                
+                            </div>
                                     <div class="col-12">
                                         
                                         <button class="btn btn-info">
                                             <i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
                                         </button>
+                                        <div id="result" class="alert alert-success mb-2 hidden-xs" role="alert" style="display: none">
+                                                        <strong th:text="#{save.ok}">Save OK</strong> 
+                                         </div>
                                         
                                     </div>
-                                </form>
-                            </div>
+                        </form>
                         </div>
                     </div>
                   </div>

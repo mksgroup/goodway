@@ -49,6 +49,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
     , @NamedQuery(name = "Customer.findByName", query = "SELECT c FROM Customer c WHERE c.name = :name")
     , @NamedQuery(name = "Customer.findByShortName", query = "SELECT c FROM Customer c WHERE c.shortName = :shortName")
     , @NamedQuery(name = "Customer.findByAddr", query = "SELECT c FROM Customer c WHERE c.addr = :addr")
+    , @NamedQuery(name = "Customer.findByAddrId", query = "SELECT c FROM Customer c WHERE c.addrId = :addrId")
     , @NamedQuery(name = "Customer.findByRepresentative", query = "SELECT c FROM Customer c WHERE c.representative = :representative")
     , @NamedQuery(name = "Customer.findByRole", query = "SELECT c FROM Customer c WHERE c.role = :role")
     , @NamedQuery(name = "Customer.findByTaxId", query = "SELECT c FROM Customer c WHERE c.taxId = :taxId")
@@ -77,22 +78,26 @@ public class Customer implements Serializable {
     @Column(name = "id", nullable = false)
     private Integer id;
     @Basic(optional = false)
-    @Column(name = "cd", nullable = false, length = 32)
+    @Column(name = "cd", nullable = false, length = 64)
     private String cd;
     @Basic(optional = false)
     @Column(name = "seq_no", nullable = false)
     private int seqNo;
     @Basic(optional = false)
     @Column(name = "version", nullable = false)
-    private int version;
+    private int version = 1;
     @Basic(optional = false)
     @Column(name = "name", nullable = false, length = 128)
     private String name;
     @Basic(optional = false)
-    @Column(name = "short_name", nullable = false, length = 30)
+    @Column(name = "short_name", length = 30)
     private String shortName;
     @Column(name = "addr", length = 256)
     private String addr;
+    
+    @Column(name = "addr_id")
+    private Integer addrId;
+    
     @Column(name = "representative", length = 100)
     private String representative;
     @Column(name = "role", length = 100)
@@ -240,6 +245,22 @@ public class Customer implements Serializable {
 
     public void setAddr(String addr) {
         this.addr = addr;
+    }
+
+    /**
+    * Get value of addr_id.
+    * @return the addr_id
+    */
+    public Integer getAddrId() {
+        return addrId;
+    }
+
+    /**
+     * Set the value for addr_id.
+     * @param addr_id the addr_id to set
+     */
+    public void setAddrId(Integer addrId) {
+        this.addrId = addrId;
     }
 
     public String getRepresentative() {
