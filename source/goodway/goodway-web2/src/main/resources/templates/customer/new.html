@@ -118,7 +118,7 @@
 
                 success : function(result) {
                     // reload data
-                	loadCustomer();
+                	loadCustomers();
                 },
                 error : function() {
                     console.log("Error!");
@@ -169,8 +169,8 @@
 
                 if (rowData) {
                    
-                	dataCustomers[selectCustomerRow][5] = selectedDisplayAddress;
-                	console.log("Current dataCustomers[selectCustomerRow][5]" + dataCustomers[selectCustomerRow][5]);
+                	dataCustomers[selectCustomerRow].addr = selectedDisplayAddress;
+                	// console.log("Current dataCustomers at row " +  selectCustomerRow + ": "+ JSON.stringify(dataCustomers[selectCustomerRow]));
                 } else {
                     console.log("Customer has not inputted yet.");
                     dataCustomers.push(["", "", "", "", "" , selectedDisplayAddress]);
