@@ -117,6 +117,9 @@
                 dataType: 'json',
 
                 success : function(result) {
+                	// Display result information
+                    $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+
                     // reload data
                 	loadCustomers();
                 },

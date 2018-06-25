@@ -100,7 +100,7 @@ public class CustomerController {
             Iterable<Customer> entities = AppUtil.parseCustomer(data);
             
             // Update default Address for Customer
-            Address defaultAddr = addressRepository.findById(1).get();
+            Address defaultAddr = addressRepository.findAll().iterator().next();
 
             entities.forEach(customer -> {
                 if (customer.getAddr() == null || customer.getAddr().isEmpty()) {
