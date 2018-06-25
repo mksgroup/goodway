@@ -8,6 +8,7 @@ package mksgroup.goodway.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -26,6 +27,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  *
@@ -75,14 +78,19 @@ public class OrderMaster implements Serializable {
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<OrderDetailProduct> orderDetailProductList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<DeliveryBatch> deliveryBatchList;
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     private Customer customerId;
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
+
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Address addressId;
 
     public OrderMaster() {
