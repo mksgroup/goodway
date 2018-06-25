@@ -115,6 +115,8 @@ public class CustomerController {
                     } else {
                         // Load address from db
                         Address addr = addressRepository.findById(customer.getAddrId()).get();
+                        
+                        if (addr == null ) { addr = defaultAddr; }
                         customer.setAddressId(addr);
                         customer.setAddressId1(addr);
                         customer.setAddressId2(addr);
@@ -133,7 +135,7 @@ public class CustomerController {
                 }
             }
             
-            customerRepository.saveAll(entities);
+            customerRepository.saveAll(entityList);
             LOG.info("customerModel=" + data + ";request=" + request);
         }
         

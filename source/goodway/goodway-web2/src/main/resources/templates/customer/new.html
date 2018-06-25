@@ -20,7 +20,7 @@
    <script>
         // Dòng Khách hàng đang chọn địa chỉ
         var selectCustomerRow;
-        var dataCustomers = [["", "" , "", ""]
+        var dataCustomers = [["", "" , "", "", "", ""]
         ];
         var hotCustomer = null;
 
@@ -32,6 +32,7 @@
                 colHeaders: ['ID', customer_name, customer_code, short_name, phone, address, "Address Id"],
                 colWidths: [50, 300, 150, 150, 130, 400, 20],
                 rowHeaders: true,
+//                 minSpareRows : 1
                 minRows: 12,
                 // currentRowClassName: 'currentRow',
                 // currentColClassName: 'currentCol',
@@ -81,9 +82,12 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    dataCustomers = res;
+                    console.log("customer res=" + res);
+                    if (res && res.length > 0) {
+                        dataCustomers = res;
+                    }
                     hotCustomer.loadData(dataCustomers);
-                },
+                                    },
                 error : function (e) {
                     console.log("Error: " + e);
                 }
