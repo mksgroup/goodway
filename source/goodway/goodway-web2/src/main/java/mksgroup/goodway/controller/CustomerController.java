@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.mail.internet.AddressException;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
@@ -104,18 +103,28 @@ public class CustomerController {
             Address defaultAddr = addressRepository.findById(1).get();
 
             entities.forEach(customer -> {
-                customer.setAddressId(defaultAddr);
-                customer.setAddressId1(defaultAddr);
-                customer.setAddressId2(defaultAddr);
-                customer.setAddressId3(defaultAddr);
-                customer.setAddressId4(defaultAddr);
+                if (customer.getAddr() == null || customer.getAddr().isEmpty()) {
+                    customer.setAddressId(defaultAddr);
+                    customer.setAddressId1(defaultAddr);
+                    customer.setAddressId2(defaultAddr);
+                    customer.setAddressId3(defaultAddr);
+                    customer.setAddressId4(defaultAddr);
+                } else {
+                    // Load address from db
+                    Address addr = addressRepository.findById(customer.getAddrId()).get();
+                    customer.setAddressId(addr);
+                    customer.setAddressId1(addr);
+                    customer.setAddressId2(addr);
+                    customer.setAddressId3(addr);
+                    customer.setAddressId4(addr);
+                }
             });
             
             List<Customer> entityList = new ArrayList<Customer>();
             entities.forEach(e-> entityList.add(e));
             List<Customer> customers = (List<Customer>) customerRepository.findAll();
-            for(Customer c : customers) {
-                if(!entityList.contains(c)) {
+            for (Customer c : customers) {
+                if (!entityList.contains(c)) {
                     customerRepository.delete(c);
                 }
             }

@@ -11,7 +11,6 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import mksgroup.goodway.controller.VehicleController;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
@@ -45,7 +44,7 @@ public class AppUtil {
     }
 
     public static Iterable<Customer> parseCustomer(@Valid CustomerModel data) {
-        final String[] HEADERS = {"id", "name", "cd", "shortName", "phone", "addr"};
+        final String[] HEADERS = {"id", "name", "cd", "shortName", "phone", "addr", "addrId"};
 
         List<Customer> listCustomer = (List<Customer>) BeanUtil.getDataList(data.getData(), HEADERS, Customer.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
         

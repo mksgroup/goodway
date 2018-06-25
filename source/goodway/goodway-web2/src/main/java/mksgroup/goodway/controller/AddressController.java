@@ -18,13 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.Address;
-import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.repository.AddressRepository;
 import mksgroup.goodway.util.AppUtil;
@@ -73,10 +73,19 @@ public class AddressController {
 	@ResponseBody
 	public Iterable<Address> loadAddress() {
 
-		Iterable<Address> address = addressRepository.findAll();
+		Iterable<Address> listAddress = addressRepository.findAll();
 
-		return address;
+		return listAddress;
 	}
+	
+    @GetMapping("/address/load-address/{id}")
+    @ResponseBody
+    public Address loadAddressById(@PathVariable("id") Integer addressId) {
+
+        Address address = addressRepository.findById(addressId).get();
+
+        return address;
+    }
 
 	@PostMapping("/address/save")
 	@ResponseBody
