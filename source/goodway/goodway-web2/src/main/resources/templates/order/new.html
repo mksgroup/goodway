@@ -14,6 +14,9 @@
 
     <!-- form body -->
     <th:block th:include="fragments/order/new"></th:block>
+    
+    <!-- Dialog to select Customer -->
+    <th:block th:include="fragments/customer/select"></th:block>
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
@@ -28,12 +31,13 @@
 
         	hotProduct = new Handsontable(containerProduct, {
                 data: dataProducts,
-                colHeaders: ["Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)"],
+                colHeaders: ["ID", "Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)", "Số lượng"],
+                colWidths: [50, 300, 100, 100, 100, 100, 100],
                 rowHeaders: true,
                 minRows: 5,
-                minCols: 5,
-                currentRowClassName: 'currentRow',
-                currentColClassName: 'currentCol',
+//                 minCols: 5,
+//                 currentRowClassName: 'currentRow',
+//                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
                 manualRowResize: true
 //                 , columns: [
@@ -110,6 +114,68 @@
                 }
             });
         });
+    </script>
+    <!--  Scripts for select customer -->
+    <script>
+        // Dispay dialog of addresses
+        var selectCustomerTable = null;
+    
+        $('#btnSelectCustomer').click(function(e) {
+            // Load dữ liệu khách hàng
+        	if (selectCustomerTable == null) {
+        		selectCustomerTable = $("#selectCustomerTable").DataTable({
+                    ajax: {'url': _ctx + 'customer/load-customer', 'dataSrc': ''},
+                    "columns": [
+                           {"render": function ( data, type, full, meta ) {
+                                // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
+                               // Assign address id and displayAddress
+                        	   return '<input type="radio" name="addressRow" value="' + full.id + '">';
+                           }},  // here's a radio button, modify to use data to populate it
+                    	   { "data": "id" },
+                    	   { "data": "name" },
+                    	   { "data": "addr" }
+                    ]
+                });
+        	} else {
+        		// selectAddressTable.fnDraw();
+            }
+
+            // Hiển thị hộp thoại
+        	$("#dlgSearchCustomer").modal('show');
+        });
+
+        $('#btnSelectedCustomer').click(function(e) {
+
+            var selectedCustomerId = $('input[name=addressRow]:checked').val();
+
+            // Get Fulll addres from Id
+            $.ajax({
+                url : _ctx + "customer/load-customer/" + selectedCustomerId,
+
+                success : function(result) {
+                    console.log("Load customer result =" + JSON.stringify(result));
+                    
+                    // fresh address
+                    refreshCustomer(result);
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
+
+        /**
+         * @param addrId
+         * @param fullAddr
+         * @global selectCustomerRow
+         */
+        function refreshCustomer(customer) {
+            // Set address into Address of the Customer
+            $('#customer_name').val(customer.name);
+            $('#customer_phone').val(customer.phone);
+            $('#customer_addr').val(customer.addr);
+
+        }
     </script>
 </body>
 </html>

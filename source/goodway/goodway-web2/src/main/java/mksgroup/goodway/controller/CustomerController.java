@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -71,6 +72,14 @@ public class CustomerController {
     	Iterable<Customer> customer = customerRepository.findAll();
     	
     	return customer;
+    }
+    
+    @GetMapping("/customer/load-customer/{id}")
+    @ResponseBody
+    public Customer loadCustomerById(@PathVariable("id") Integer customerId){
+        Customer customer = customerRepository.findById(customerId).get();
+        
+        return customer;
     }
     
     @GetMapping("/customer/delete")
