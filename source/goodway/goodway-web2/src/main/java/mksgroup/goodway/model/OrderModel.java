@@ -26,6 +26,9 @@ public class OrderModel {
 
     /** Kinh độ . */
     private Double longitude;
+    
+    /** Customer's Name */
+    private String customer_name;
 
     /**
      * Get value of productHeader.
@@ -133,5 +136,13 @@ public class OrderModel {
         return String.format(
                 "OrderModel [productHeader=%s, productData=%s, orderCd=%s, address=%s, latitude=%s, longitude=%s]",
                 productHeader, productData, orderCd, address, latitude, longitude);
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
     }
 }
