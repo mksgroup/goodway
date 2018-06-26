@@ -21,6 +21,7 @@ import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.model.OrderModel;
+import mksgroup.goodway.model.ProductModel;
 import mksgroup.goodway.model.VehicleModel;
 import mksgroup.java.common.BeanUtil;
 
@@ -176,5 +177,14 @@ public class AppUtil {
         order.setCreated(new Date());
 
         return order;
+    }
+    
+    public static Iterable<Product> parseProduct(ProductModel data) {
+        final String[] HEADERS = {"id", "name", "description", "height", "width", "length", "weight"};
+
+        LOG.info("Product data=" + data.getData());
+        List<Product> listProduct = (List<Product>) BeanUtil.getDataList(data.getData(), HEADERS, Product.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
+        
+        return listProduct;
     }
 }
