@@ -14,5 +14,69 @@
   <th:block th:include="fragments/order/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+  <script>
+    // Lưu đối tượng table kết quả search
+    var resultTable = null;
+    var vehicleData;
+    
+    $(document).ready(function() {
+        var customerId = 1;
+        
+        function getCustomerData(handleData) {
+	        $.ajax({
+	            url : _ctx + "customer/load-customer/" + customerId,
+	            type : "GET",
+	            contentType: "application/json",
+	            dataType: 'json',
+
+	            success : function(result) {
+	            	handleData(result);
+	            },
+	            error : function() {
+	                console.log("Error!");
+	            }
+	        });
+        }
+
+    	if (resultTable == null) {
+    		getCustomerData(function(output){
+    			console.log("output Data");	
+    			console.log(output);	      
+    		
+	            $("#resultTable").DataTable({
+	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
+	                "columns": [
+	                	   { "data": "id" },
+	                       { 
+	                           "data": null, 
+	                           render: function (data, type, row) {
+	                              
+	                                       return output.name;
+	                                   }
+	                       },
+	                       { 
+	                           "data": null, 
+	                           render: function (data, type, row) {
+	                    
+	                                       return output.phone;
+	                                   }
+	                       },
+	                       { 
+	                           "data": null, 
+	                           render: function (data, type, row) {
+	                                     
+	                                       return output.addr;
+	                                   }
+	                       },
+	                	   { "data": "deliveryDate" }
+	                       ]
+	            });
+  
+    	  });
+    	} else {
+            resultTable.fnDraw();
+        }
+    });
+</script>
 </body>
 </html>
