@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
@@ -59,11 +60,11 @@ public class OrderController {
     @Autowired
     private OrderProductRepository orderProductRepository;
     
-    @Autowired
-    private AddressRepository addressRepository;
-    
     @Autowired 
     private CustomerRepository customerRepository;
+    
+    @Autowired
+    private AddressRepository addressRepository;
     
     /**
      * Goto the index page.
@@ -142,17 +143,38 @@ public class OrderController {
 
             return null;
         } else {
+            
+            LOG.info("getting order's data");
             orderMaster = AppUtil.parseOrder(data);
-            addressRepository.save(orderMaster.getAddressId());
             
-            Customer customer = customerRepository.findByName(orderMaster.getCustomerId().getName());
-            customer.setAddr(orderMaster.getCustomerId().getAddr());
-            customerRepository.save(customer);
+            Customer customer = customerRepository.findById(orderMaster.getCustomerId().getId()).get();
+          
+            LOG.info(customer.toString());
+            orderMaster.setCustomerId(customer);
             
-            List<OrderDetailProduct> orderDetailProduct = orderMaster.getOrderDetailProductList();
-            for(OrderDetailProduct p : orderDetailProduct) {
-                productRepository.save(p.getProductId());
+            Address addr = new Address();
+            List<Address> addressList = (List<Address>) addressRepository.findAll();
+            for(Address a : addressList) {
+                if(a.getDisplayAddress().equalsIgnoreCase(orderMaster.getAddressId().getDisplayAddress())) {
+                    addr = a;
+                }
             }
+            LOG.info(addr.toString());
+            orderMaster.setAddressId(addr);
+                       
+            Product product = new Product();            
+            LOG.info("getting orderProduct's data");
+            List<OrderDetailProduct> orderDetailProductList = orderMaster.getOrderDetailProductList();
+            for(OrderDetailProduct o : orderDetailProductList) {
+                product = productRepository.findById(o.getProductId().getId()).get();
+                o.setProductId(product);
+                o.setProductName(product.getName());
+                o.setOrderId(orderMaster);
+            }
+            LOG.info(orderDetailProductList.toString());
+            
+            orderMaster.setCreatedbyUsername("Nam Tang");
+            orderMaster.setDeliveryDate(new Date());
             
             orderRepository.save(orderMaster);
             LOG.info("Saved order with ID = " + orderMaster.getId());
