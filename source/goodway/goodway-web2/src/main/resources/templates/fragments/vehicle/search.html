@@ -26,7 +26,7 @@
                 <section id="search-website" class="card overflow-hidden">
                   <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Search vehicles</h4>
+                        <h4 class="card-title" th:text="#{vehicle.search.tip}">Search vehicles</h4>
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -40,7 +40,7 @@
                     <div class="card-content">
                         <div class="card-body pb-0">
                             <fieldset class="form-group position-relative mb-0">                
-                                <input type="text" class="form-control form-control-xl input-xl" id="iconLeft1" placeholder="Search vehicles">
+                                <input type="text" class="form-control form-control-xl input-xl" id="iconLeft1" th:placeholder="#{vehicle.search.tip}">
                                 <div class="form-control-position">
                                     <i class="ft-mic font-medium-4"></i>
                                 </div>

@@ -1,4 +1,4 @@
-<div class="app-content content">
+	<div class="app-content content">
     <div class="content-wrapper">
       <div class="content-header row">
         <div class="content-header-left col-md-6 col-12 mb-2">
@@ -25,7 +25,7 @@
                 <section id="search-website" class="card overflow-hidden">
                   <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">Search products</h4>
+                        <h4 class="card-title" th:text="#{product.search.tip}">Search products</h4>
                         <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                         <div class="heading-elements">
                             <ul class="list-inline mb-0">
@@ -39,7 +39,7 @@
                     <div class="card-content">
                         <div class="card-body pb-0">
                             <fieldset class="form-group position-relative mb-0">                
-                                <input type="text" class="form-control form-control-xl input-xl" id="iconLeft1" placeholder="Search products">
+                                <input type="text" class="form-control form-control-xl input-xl" id="iconLeft1" th:placeholder="#{product.search.tip}">
                                 <div class="form-control-position">
                                     <i class="ft-mic font-medium-4"></i>
                                 </div>
@@ -58,7 +58,7 @@
                                     <th>Chiều cao (m)</th>
                                     <th>Chiều rộng (m)</th>
                                     <th>Chiều dài (m)</th>
-                                    <th>Trọng tải (kg)</th>
+                                    <th>Trọng lượng (kg)</th>
                                 </tr>
                             </thead>
                           </table>
