@@ -20,6 +20,7 @@ import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.model.CustomerModel;
+import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.model.ProductModel;
 import mksgroup.goodway.model.VehicleModel;
@@ -136,44 +137,48 @@ public class AppUtil {
     }
 
     public static OrderMaster parseOrder(OrderModel model) {
-        final String[] HEADERS = {"id", "name", "length", "width", "height", "weight"};
+        final String[] HEADERS = {"id", "name", "length", "width", "height", "weight", "quantity"};
         OrderMaster order = new OrderMaster();
         
         order.setName(model.getOrderCd());
         
         Address addr = new Address();
         addr.setDisplayAddress(model.getAddress());
-        addr.setLatitude(model.getLatitude());
-        addr.setLongitude(model.getLongitude());
-        addr.setCreatedbyUsername("Nam Tang");
-        addr.setCreated(new Date());
-        
+       
+        // Set order's Address.
         order.setAddressId(addr);
 
         Customer customer = new Customer();
-        customer.setName(model.getCustomer_name());
-        customer.setAddr(model.getAddress());
-        customer.setCreatedbyUsername("Nam Tang");
+        customer.setId(model.getCustomer_id());
         
+        // Set order's Customer.
         order.setCustomerId(customer);
         
-        List<Product> listProduct = (List<Product>) BeanUtil.getDataList(model.getProductData(), HEADERS, Product.class, true);
+        // Get Data from Order's handsonTable.
+        List<OrderDetailProductModel> listOrderDetailProduct = (List<OrderDetailProductModel>) BeanUtil.getDataList(model.getProductData(), HEADERS, OrderDetailProductModel.class, true);
         
         List<OrderDetailProduct> orderDetailProductList = new ArrayList<>();
 
         OrderDetailProduct orderDetailProduct = new OrderDetailProduct();
+        Product product = new Product();
 
-        for (Product product : listProduct) {
+        for (OrderDetailProductModel detailProduct : listOrderDetailProduct) {
             orderDetailProduct = new OrderDetailProduct();
+            product = new Product();
+            
+            product.setId(detailProduct.getId());
+            
+            // Set OrderDetailProduct's Data
             orderDetailProduct.setProductId(product);
-            orderDetailProduct.setProductName(product.getName());
-            orderDetailProduct.setCreatedbyUsername("Nam Tang");
+            orderDetailProduct.setQuantity(detailProduct.getQuantity());
             orderDetailProduct.setCreated(new Date());
+            orderDetailProduct.setCreatedbyUsername("Nam Tang");
+            
             orderDetailProductList.add(orderDetailProduct);
         }
         
+        // Set order's OrderDetailProduct
         order.setOrderDetailProductList(orderDetailProductList);
-        order.setCreatedbyUsername("Nam Tang");
         order.setCreated(new Date());
 
         return order;

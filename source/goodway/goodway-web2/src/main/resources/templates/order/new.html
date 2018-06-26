@@ -83,11 +83,10 @@
     
             var frm = $('#frmOrder');
             var orderCd = $('#orderCd').val();
-            var address = $('#address').val();
+            var address = $('#customer_addr').val();
             var latitude = $('#latitude').val();
             var longitude = $('#longitude').val();
-            var customer_name = $('#customer_name').val();
-            console.log(customer_name);
+            var customer_id = $('#customer_id').val();
     
             // Get header name
             var colHeaderData =  hotProduct.getColHeader();
@@ -102,7 +101,7 @@
             frmData["address"] = address;
             frmData["latitude"] = latitude;
             frmData["longitude"] = longitude;
-            frmData["customer_name"] = customer_name;
+            frmData["customer_id"] = customer_id;
             console.log(frmData);
 
             $.ajax({
@@ -114,7 +113,7 @@
 
                 success : function(result) {
                     // reload data
-                	loadProducts(orderCd);
+                    console.log("success");
                 },
                 error : function() {
                     console.log("Error!");
@@ -178,6 +177,7 @@
          */
         function refreshCustomer(customer) {
             // Set address into Address of the Customer
+            $('#customer_id').val(customer.id);
             $('#customer_name').val(customer.name);
             $('#customer_phone').val(customer.phone);
             $('#customer_addr').val(customer.addr);
