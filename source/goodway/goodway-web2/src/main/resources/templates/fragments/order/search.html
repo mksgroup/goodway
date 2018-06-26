@@ -45,14 +45,14 @@
         								<div class="form-group row">
         
         									<input type="text" id="userinput2"
-        										class="form-control border-primary" placeholder="Mã đơn hàng"
+        										class="form-control border-primary" th:placeholder="#{order.search.orderId}"
         										name="idDH">
         
         								</div>
         							</div>
         							<div class="col-md-4">
         								<div class="form-group row">
-        									<label class="col-md-5 label-control" for="userinput2">Ngày
+        									<label class="col-md-5 label-control" for="userinput2" th:text="#{order.search.deliveryDate}">Ngày
         										giao từ</label>
         									<div class="col-md-7">
         										<input type="date" id="userinput2"
@@ -63,7 +63,7 @@
         							</div>
         							<div class="col-md-4">
         								<div class="form-group row">
-        									<label class="col-md-3 label-control" for="userinput2">đến</label>
+        									<label class="col-md-3 label-control" for="userinput2" th:text="#{order.search.to}">đến</label>
         									<div class="col-md-9">
         										<input type="date" id="userinput2"
         											class="form-control border-primary" placeholder="dd/mm/yyyy"
@@ -72,7 +72,7 @@
         								</div>
         							</div>
         							<div class="col-md-1">
-        								<button type="submit" class="btn btn-info">
+        								<button type="submit" class="btn btn-info" th:text="#{order.search.find	}">
         									<i class="fa"></i> Tìm kiếm
         								</button>
         							</div>
@@ -87,12 +87,12 @@
                           <table id="resultTable" class="table table-striped table-bordered">
                             <thead class="bg-teal bg-lighten-4">
         								<tr>
-        									<th>Mã mặt hàng</th>
-        									<th>Khách hàng</th>
-        									<th>Số điện thoại</th>
-        									<th>Địa điểm</th>
-        									<th>Ngày giao</th>
-        									<th>Trạng thái</th>
+        									<th th:text="#{product.id}">Mã mặt hàng</th>
+        									<th th:text="#{customer.name}">Khách hàng</th>
+        									<th th:text="#{customer.phone}">Số điện thoại</th>
+        									<th th:text="#{address.displayAddress}">Địa điểm</th>
+        									<th th:text="#{order.search.deliveryDate}">Ngày giao</th>
+        									<th th:text="#{order.status}">Trạng thái</th>
         									<th><input id="check" type="checkbox"></th>
         								</tr>
         							</thead>

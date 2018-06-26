@@ -59,11 +59,11 @@
 				<table id="resultTable" class="table table-striped table-bordered">
 					<thead>
 						<tr>
-							<th>Mã</th>
-							<th>Tên thành phố</th>
-							<th>Địa chỉ</th>
-							<th>Đường</th>
-							<th>Quận</th>
+							<th th:text="#{address.id}">Mã</th>
+							<th th:text="#{address.city}">Tên thành phố</th>
+							<th th:text="#{address.displayAddress}">Địa chỉ</th>
+							<th th:text="#{address.street}">Đường</th>
+							<th th:text="#{address.district}">Quận</th>
 						</tr>
 					</thead>
 				</table>

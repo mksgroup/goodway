@@ -34,7 +34,7 @@
 				<div class="card-content">
 					<div class="card-body card-dashboard" align="left">
 						<p>
-						<h1>Xác nhận đơn hàng</h1>
+						<h1 th:text="#{delivery.search.confirm}">Xác nhận đơn hàng</h1>
 						</p>
 					</div>
 					<div class="table-responsive">
@@ -43,13 +43,13 @@
 								<thead>
 									<tr>
 										<th>#</th>
-										<th>Mã đơn hàng</th>
-										<th>Khách Hàng</th>
-										<th>Số điện thoại</th>
-										<th>Địa điểm</th>
-										<th>Ngày giao</th>
-										<th>Trạng thái</th>
-										<th>Bỏ qua</th>
+										<th th:text="#{order.search.orderId}">Mã đơn hàng</th>
+										<th th:text="#{customer.name}">Khách Hàng</th>
+										<th th:text="#{customer.phone}">Số điện thoại</th>
+										<th th:text="#{address.displayAddress}">Địa điểm</th>
+										<th th:text="#{order.search.deliveryDate}">Ngày giao</th>
+										<th th:text="#{order.status}">Trạng thái</th>
+										<th th:text="#{cancel}">Bỏ qua</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -68,10 +68,10 @@
 									</tr>
 								</tbody>
 							</table>
-							<button type="submit" class="btn btn-primary">
+							<button type="submit" class="btn btn-primary" th:text="#{continue}">
 								Tiếp Tục<i class="ft-thumbs-up position-right"></i>
 							</button>
-							<button type="button" class="btn btn-warning">
+							<button type="button" class="btn btn-warning" th:text="#{back}">
 								<a href="/">Trở lại</a> <i
 									class="ft-refresh-cw position-right"></i>
 							</button>

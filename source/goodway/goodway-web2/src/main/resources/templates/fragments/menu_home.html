@@ -2,7 +2,7 @@
 <div id="page-content">
 <section id="image-gallery" class="card">
           <div class="card-header">
-            <h4 class="card-title">Chọn mô đun chức năng</h4>
+            <h4 class="card-title" th:text="#{app.select}">Chọn mô đun chức năng</h4>
             <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
             <div class="heading-elements">
               <ul class="list-inline mb-0">
@@ -16,7 +16,7 @@
           <div class="card-content">
             <div class="card-body">
               <div class="card-text">
-                <p>Bấm chọn mô đun bên dưới</p>
+                <p th:text="#{app.click}">Bấm chọn mô đun bên dưới</p>
               </div>
             </div>
             <div class="card-body my-gallery" itemscope="" itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">

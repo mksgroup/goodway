@@ -4,39 +4,39 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header">
-                    <h4 class="card-title" id="horz-layout-basic">Nhập thông tin đơn hàng</h4>
+                    <h4 class="card-title" id="horz-layout-basic" th:text="#{order.new.tip}">Nhập thông tin đơn hàng</h4>
                 </div>
                 <div class="card-content collpase show">
                     <div class="card-body">
                         <form id="frmOrder" class="form form-horizontal" action="#" method="post">
                             <div class="form-body">
-                                <h4 class="form-section">
-                                    <i class="ft-user"></i> Thông tin người nhận
+                                <h4 class="form-section" th:text="#{order.new.receiver}">
+                                    <i class="ft-user" ></i> Thông tin người nhận
                                 </h4>
                                 <div class="form-group row">
-                                    <label class="col-md-3 label-control" for="projectinput1">Mã đơn hàng</label>
+                                    <label class="col-md-3 label-control" for="projectinput1" th:text="#{order.search.orderId}">Mã đơn hàng</label>
                                     <div class="col-md-3">
                                         <input type="text" id="orderCd" class="form-control"
-                                            placeholder="Mã đơn hàng" name="id">
+                                            th:placeholder="#{order.search.orderId}" name="id">
                                     </div>
                                     <div class="col-md-3">
                                         <button type="button" id="btnSelectCustomer" class="btn btn-info mr-1" th:text="#{customer.select}">Select Customer</button>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 label-control" for="projectinput2">Tên khách hàng</label>
+                                    <label class="col-md-3 label-control" for="projectinput2" th:text="#{customer.name}">Tên khách hàng</label>
                                     <div class="col-md-3">
-                                        <input type="text" id="customer_name" class="form-control" placeholder="Tên khách hàng" name="customer.name">
+                                        <input type="text" id="customer_name" class="form-control" th:placeholder="#{customer.name}" name="customer.name">
                                     </div>
-                                    <label class="col-md-1 label-control" for="projectinput3">Số điện thoại</label>
+                                    <label class="col-md-1 label-control" for="projectinput3" th:text="#{customer.phone}">Số điện thoại</label>
                                     <div class="col-md-2">
-                                        <input type="text" id="customer_phone" class="form-control" placeholder="Số điện thoại khách hàng" name="phone">
+                                        <input type="text" id="customer_phone" class="form-control" th:placeholder="#{customer.phone}" name="phone">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-md-3 label-control" for="projectinput4">Địa chỉ</label>
+                                    <label class="col-md-3 label-control" for="projectinput4" th:text="#{address.displayAddress}">Địa chỉ</label>
                                     <div class="col-md-6">
-                                        <input type="text" id="customer_addr" class="form-control" placeholder="Địa chỉ đầy đủ" name="street">
+                                        <input type="text" id="customer_addr" class="form-control" th:placeholder="#{address.displayAddress}" name="street">
                                           <input type="hidden" id="latitude" name="latitude">
                                           <input type="hidden" id="longitude" name="longitude">
                                         
@@ -44,8 +44,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <h4 class="form-section">
-                                <i class="ft-clipboard"></i> Mặt hàng
+                            <h4 class="form-section" th:text="#{product}">
+                                <i class="ft-clipboard" ></i> Mặt hàng
                             </h4>
                             
                             <!-- Mobiles and tablets for products -->
@@ -77,10 +77,10 @@
                             </section>
 
                             <div class="form-actions">
-                                <button type="submit" class="btn btn-primary">
-                                    <i class="fa fa-check-square-o"></i> Lưu
+                                <button type="submit" class="btn btn-primary" th:text="#{save}">
+                                    <i class="fa fa-check-square-o" ></i> Lưu
                                 </button>
-                                <a style="color: white;" href="/load-order/details/address" class="btn btn-warning mr-1">
+                                <a style="color: white;" href="/load-order/details/address" class="btn btn-warning mr-1" th:text="#{cancel}">
                                     <i class="ft-x"></i> Hủy
                                 </a>
                             </div>

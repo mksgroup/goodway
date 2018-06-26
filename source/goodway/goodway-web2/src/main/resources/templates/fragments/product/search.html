@@ -52,13 +52,13 @@
                           <table id="resultTable" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Tên sản phẩm</th>
-                                    <th>Mô tả sản phẩm</th>
-                                    <th>Chiều cao (m)</th>
-                                    <th>Chiều rộng (m)</th>
-                                    <th>Chiều dài (m)</th>
-                                    <th>Trọng lượng (kg)</th>
+                                    <th th:text="#{product.id}">ID</th>
+                                    <th th:text="#{product.name}">Tên sản phẩm</th>
+                                    <th th:text="#{product.description}">Mô tả sản phẩm</th>
+                                    <th th:text="#{product.height}">Chiều cao (m)</th>
+                                    <th th:text="#{product.width}">Chiều rộng (m)</th>
+                                    <th th:text="#{product.length}">Chiều dài (m)</th>
+                                    <th th:text="#{product.weight}">Trọng lượng (kg)</th>
                                 </tr>
                             </thead>
                           </table>
