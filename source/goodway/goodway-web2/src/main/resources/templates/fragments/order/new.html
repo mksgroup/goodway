@@ -78,6 +78,11 @@
                             </section>
 
                             <div class="form-actions">
+                                <p id="resultSubmit"></p>
+                                <div id="result" class="alert alert-success mb-2 hidden-xs" role="alert"
+                                    style="display: none">
+                                    <strong th:text="#{save.ok}">Save OK</strong>
+                                </div>
                                 <button type="submit" class="btn btn-primary" th:text="#{save}">
                                     <i class="fa fa-check-square-o" ></i> Lưu
                                 </button>
