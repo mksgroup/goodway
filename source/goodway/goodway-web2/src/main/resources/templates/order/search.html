@@ -46,7 +46,11 @@
 	            $("#resultTable").DataTable({
 	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
 	                "columns": [
-	                	   { "data": "id" },
+	                	{"render": function ( data, type, full, meta ) {
+                            // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
+                           // Assign address id and displayAddress
+                    	   return '<a href="order/new">'+full.id+'</a>';
+                       }}, 
 	                       { 
 	                           "data": null, 
 	                           render: function (data, type, row) {
