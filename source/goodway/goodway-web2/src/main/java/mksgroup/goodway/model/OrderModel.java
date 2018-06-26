@@ -28,7 +28,7 @@ public class OrderModel {
     private Double longitude;
     
     /** Customer's Name */
-    private String customer_name;
+    private Integer customer_id;
 
     /**
      * Get value of productHeader.
@@ -138,11 +138,11 @@ public class OrderModel {
                 productHeader, productData, orderCd, address, latitude, longitude);
     }
 
-    public String getCustomer_name() {
-        return customer_name;
+    public Integer getCustomer_id() {
+        return customer_id;
     }
 
-    public void setCustomer_name(String customer_name) {
-        this.customer_name = customer_name;
+    public void setCustomer_id(Integer customer_id) {
+        this.customer_id = customer_id;
     }
 }
