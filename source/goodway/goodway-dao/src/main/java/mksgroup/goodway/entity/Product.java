@@ -25,6 +25,8 @@ import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 /**
  *
  * @author ThachLN
@@ -81,6 +83,7 @@ public class Product implements Serializable {
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "productId", fetch = FetchType.LAZY)
+    @JsonBackReference
     private List<OrderDetailProduct> orderDetailProductList;
 
     public Product() {
