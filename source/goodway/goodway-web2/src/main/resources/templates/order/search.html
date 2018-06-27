@@ -20,11 +20,10 @@
     var vehicleData;
     
     $(document).ready(function() {
-        var customerId = 1;
         
         function getCustomerData(handleData) {
 	        $.ajax({
-	            url : _ctx + "customer/load-customer/" + customerId,
+	            url : _ctx + "customer/load-customer",
 	            type : "GET",
 	            contentType: "application/json",
 	            dataType: 'json',
@@ -40,47 +39,81 @@
 
     	if (resultTable == null) {
     		getCustomerData(function(output){
-    			console.log("output Data");	
-    			console.log(output);	      
-    		
-	            $("#resultTable").DataTable({
-	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
-	                "columns": [
-	                	{"render": function ( data, type, full, meta ) {
-                            // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
-                           // Assign address id and displayAddress
-                    	   return '<a href="order/new">'+full.id+'</a>';
-                       }}, 
-	                       { 
-	                           "data": null, 
-	                           render: function (data, type, row) {
-	                              
-	                                       return output.name;
-	                                   }
-	                       },
-	                       { 
-	                           "data": null, 
-	                           render: function (data, type, row) {
-	                    
-	                                       return output.phone;
-	                                   }
-	                       },
-	                       { 
-	                           "data": null, 
-	                           render: function (data, type, row) {
-	                                     
-	                                       return output.addr;
-	                                   }
-	                       },
-	                	   { "data": "deliveryDate" }
-	                       ]
-	            });
-  
-    	  });
-    	} else {
-            resultTable.fnDraw();
+
+    			   var table = $("#resultTable").DataTable();
+                   for(var i = 0; i < output.length; i++){
+                   var customer = output[i];
+                   for(var j = 0; j < customer.orderMasterList.length; j++){
+                	      var order = customer.orderMasterList[j];
+
+                          table.row.add(['<a href="order/new">'+order.name+'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
+                     }
+                  }
+              }); 
+        } else {
+                resultTable.fnDraw();
         }
-    });
+     });     
+    		
+// 	            $("#resultTable").DataTable({
+// 	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
+// 	                "columns": [
+// 	                	{"render": function ( data, type, full, meta ) {
+//                             // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
+//                            // Assign address id and displayAddress
+//                     	   return '<a href="order/new">'+full.id+'</a>';
+//                        }}, 
+// 	                       { 
+// 	                           "data": null, 
+// 	                           render: function ( data, type, full, meta ) {
+// 	                                       var name;
+//                                            for(var i = 0; i < output.length; i++){
+//                                                var op = output[i];
+//                                                for(var j = 0; j < op.orderMasterList.length; j++){
+//                                                         var order = op.orderMasterList[j];
+
+//                                                         if(order.id == full.id){ name = op.name; }
+//                                                }
+//                                            }
+// 	                                       return name;
+// 	                                   }
+// 	                       },
+// 	                       { 
+// 	                           "data": null, 
+// 	                           render: function ( data, type, full, meta ) {
+// 	                                       var phone;
+//                                            for(var i = 0; i < output.length; i++){
+//                                                var op = output[i];
+//                                                for(var j = 0; j < op.orderMasterList.length; j++){
+//                                                         var order = op.orderMasterList[j];
+
+//                                                         if(order.id == full.id){ phone = op.phone; }
+//                                                }
+//                                            }
+// 	                                       return phone;
+// 	                                   }
+// 	                       },
+// 	                       { 
+// 	                           "data": null, 
+// 	                           render: function ( data, type, full, meta ) {
+// 	                                       var address;
+//                                            for(var i = 0; i < output.length; i++){
+//                                                var op = output[i];
+//                                                for(var j = 0; j < op.orderMasterList.length; j++){
+//                                                         var order = op.orderMasterList[j];
+
+//                                                         if(order.id == full.id){ address = op.addr; }
+//                                                }
+//                                            }
+// 	                                       return address;
+// 	                                   }
+// 	                       },
+// 	                	   { "data": "deliveryDate" }
+// 	                       ]
+// 	            });
+  
+    	 
+
 </script>
 </body>
 </html>

@@ -29,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  *
@@ -83,12 +84,13 @@ public class OrderMaster implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId", fetch = FetchType.LAZY)
     @JsonBackReference
     private List<DeliveryBatch> deliveryBatchList;
+    
     @JoinColumn(name = "customer_id", referencedColumnName = "id", nullable = false)
-    @JsonBackReference
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Customer customerId;
+    
     @JoinColumn(name = "address_id", referencedColumnName = "id", nullable = false)
-
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JsonBackReference
     private Address addressId;

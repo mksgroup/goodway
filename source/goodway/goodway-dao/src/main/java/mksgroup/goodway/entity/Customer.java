@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 /**
  *
@@ -170,7 +171,7 @@ public class Customer implements Serializable {
     @JsonBackReference
     private Address addressId4;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private List<OrderMaster> orderMasterList;
 
     public Customer() {
