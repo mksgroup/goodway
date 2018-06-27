@@ -31,6 +31,7 @@ import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.entity.Product;
+import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.repository.AddressRepository;
 import mksgroup.goodway.repository.CustomerRepository;
@@ -83,10 +84,51 @@ public class OrderController {
         return "order/new";
     }
     
+    /**
+     * Go to order edit page.
+     * @param orderCd
+     * @param model
+     * @return
+     */
+    @GetMapping("order/edit")
+    public String goOrderEdit(@RequestParam("orderCd") String orderCd, Model model) {
+        model.addAttribute("orderCode", orderCd);
+        model.addAttribute("map_key", mapKey);
+        
+        return "order/new";
+    }
     
-    @GetMapping("order/load-order/address")
-    public String goOrderDetailsAddressManagement() {
-        return "customer/address-management";
+    /**
+     * Load order's product list.
+     * @param orderCd
+     * @return
+     */
+    @GetMapping("/order/load-orderProduct")
+    @ResponseBody
+    public List<OrderDetailProductModel> getOrderProduct(@RequestParam("orderCd") String orderCd){
+        OrderMaster orderMaster = orderRepository.findByName(orderCd);
+        LOG.info(orderMaster.toString());
+        
+        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) orderProductRepository.findAllByOrderId(orderMaster);
+        LOG.info(orderProductList.toString());
+        
+        List<OrderDetailProductModel> products = new ArrayList<>();
+        OrderDetailProductModel model = new OrderDetailProductModel();
+        
+        for(OrderDetailProduct o : orderProductList) {
+                model.setId(o.getProductId().getId());
+                model.setDescription(o.getProductId().getDescription());
+                model.setName(o.getProductId().getName());
+                model.setHeight(o.getProductId().getHeight());
+                model.setWidth(o.getProductId().getWidth());
+                model.setLength(o.getProductId().getLength());
+                model.setWeight(o.getProductId().getWeight());
+                model.setQuantity(o.getQuantity());
+                
+                products.add(model);     
+        }
+        
+        return products;
     }
     
     /**
