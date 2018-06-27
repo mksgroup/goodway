@@ -17,6 +17,9 @@
 
     <!-- Dialog to select Customer -->
     <th:block th:include="fragments/customer/select"></th:block>
+    
+    <!-- Dialog to select Product -->
+    <th:block th:include="fragments/product/select"></th:block>
 
     <!-- Google Map Modal -->
     <th:block th:include="fragments/order/map"></th:block>
@@ -24,8 +27,7 @@
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
     <script>
-        var dataProducts = [["", "" , "", "", "", "", ""]
-        ];
+        var dataProducts = ["", "" , "", "", "", "", ""];
 
         var hotProduct = null;
 
@@ -37,37 +39,46 @@
                 colHeaders: ["ID", "Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)", "Số lượng"],
                 colWidths: [50, 300, 100, 100, 100, 120, 100],
                 rowHeaders: true,
-                minRows: 5,
-//                 minCols: 5,
-//                 currentRowClassName: 'currentRow',
-//                 currentColClassName: 'currentCol',
-            	manualColumnResize: true,
-                manualRowResize: true
-//                 , columns: [
-//                     {data: 'name'},
-//                     {data: 'length'},
-//                     {data: 'width'},
-//                     {data: 'height'},
-//                     {data: 'weight'}
-//                   ]
-              });
-
-     
-        });
+//              minCols : 6,
+                minRows: 12,
+             // currentRowClassName: 'currentRow',
+             // currentColClassName: 'currentCol',
+         	    manualColumnResize: true,
+                manualRowResize: true,
+                contextMenu: true,
+                columns: [
+                     { "data": "id", readOnly: true },
+                     { "data": "name", readOnly: true },
+                     { "data": "description", readOnly: true },
+                     { "data": "height", readOnly: true },
+                     { "data": "width", readOnly: true },
+                     { "data": "length", readOnly: true },
+                     { "data": "weight", readOnly: true },     
+                     { "data": "quantity" }
+               ],
+                hiddenColumns: {
+                     columns: 7,
+                     indicators: true
+                },
+                afterSelection: function(r,c){
+                     displayDlgSelectProduct();
+                }
+           });
+     });
 
         // Load lại danh sách sản phẩm của đơn hàng
-        function loadProducts(orderCd) {
-            // load demo data.
-
+        function loadProduct(orderCd) {
+            url = _ctx + 'product/load-product?orderCd=' + orderCd;
+                
             $.ajax({
-                url : _ctx + 'load-product?orderCd=' + orderCd,
+                url : url,
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    console.log("res=" + res);
-                    dataProducts = JSON.parse(res);
-                    hotProduct.loadData(dataProducts);
+                    // Update data into the handsontable
+                    dataVehicles = res;
+                    hotProduct.loadData(dataVehicles);
                 },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -115,7 +126,7 @@
                 	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
                      
                     // reload data
-                	loadProducts(orderCd);
+                    alert("some thing happened");
                 },
                 error : function() {
                     console.log("Error!");
@@ -226,6 +237,76 @@
  	        });
         }
   </script>
+  
+  <script>
+        function displayDlgSelectProduct() {
+            $("#dlgSearchProduct").modal('show');
+        }    
+  </script>
+  
+  <script>
+        // Dispay dialog of addresses
+        var selectProductTable = null;
+    
+        $(document).ready(function() {
+            // Load dữ liệu khách hàng
+            if (selectProductTable == null) {
+                selectProductTable = $("#selectProductTable").DataTable({
+                    ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
+                    "columns": [
+                           {"render": function ( data, type, full, meta ) {
 
+                               return '<input type="checkbox" name="productRow" value="' + full.id + '">';
+                           }},  // here's a radio button, modify to use data to populate it
+                    	   { "data": "id" },
+                    	   { "data": "name" },
+                    	   { "data": "description" },
+                    	   { "data": "height" },
+                    	   { "data": "width" },
+                    	   { "data": "length" },
+                    	   { "data": "weight" }     
+                    ]
+                });
+            } else {
+                // selectAddressTable.fnDraw();
+            }
+
+        });
+
+        $('#btnSelectedProduct').click(function(e) {
+        
+            var selectedProducts = [];
+            $("input:checkbox[name=productRow]:checked").each(function(){
+            	selectedProducts.push($(this).val());
+            });
+
+            // Get Fulll addres from Id
+            $.ajax({
+                url : _ctx + "product/load-product",
+                type : "GET",
+                contentType: "application/json",
+                dataType: 'json',
+                
+                success : function(result) {
+                    dataProducts = [];
+                    for (var i = 0; i < result.length; i++) {
+                        var res = result[i];
+
+                        for(var j = 0; j < selectedProducts.length; j++){   
+                            var checkedId = selectedProducts[j];
+                            
+                            if(res.id == checkedId){
+                            	dataProducts.push(res);
+                            }
+                        }
+                    }
+                    hotProduct.loadData(dataProducts);
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
