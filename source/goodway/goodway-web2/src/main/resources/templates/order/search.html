@@ -39,14 +39,13 @@
 
     	if (resultTable == null) {
     		getCustomerData(function(output){
-
     			   var table = $("#resultTable").DataTable();
                    for(var i = 0; i < output.length; i++){
                    var customer = output[i];
                    for(var j = 0; j < customer.orderMasterList.length; j++){
                 	      var order = customer.orderMasterList[j];
 
-                          table.row.add(['<a href="order/new">'+order.name+'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
+                          table.row.add(['<a href="order/edit?orderCd='+order.name + '">' +order.name +'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
                      }
                   }
               }); 

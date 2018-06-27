@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
+import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.repository.AddressRepository;
 import mksgroup.goodway.repository.CustomerRepository;
@@ -73,6 +74,29 @@ public class CustomerController {
     	
     	return customer;
     }
+    
+    /**
+     * 
+     * Load customer by order's name.
+     * @return
+     */
+    @GetMapping("/customer/load-customerBy")
+    @ResponseBody
+    public Customer loadCustomerByOrderName(@RequestParam("orderCd") String orderCd){
+        List<Customer> customerList = (List<Customer>) customerRepository.findAll();       
+        Customer customer = new Customer();
+        
+        for(Customer c : customerList) {
+            for(OrderMaster o : c.getOrderMasterList()) {
+                if(o.getName().equalsIgnoreCase(orderCd)) {
+                    return c;
+                }
+            }
+        }
+        
+        return customer;
+    }
+    
     
     @GetMapping("/customer/load-customer/{id}")
     @ResponseBody

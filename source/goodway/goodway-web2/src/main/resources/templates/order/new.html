@@ -28,11 +28,11 @@
     <th:block th:include="fragments/footer"></th:block>
     <script>
         var dataProducts = ["", "" , "", "", "", "", ""];
-
         var hotProduct = null;
 
         $(function() {
         	var containerProduct = document.getElementById('tableProduct');
+            var orderCode = $('#orderCd').val();         
 
         	hotProduct = new Handsontable(containerProduct, {
                 data: dataProducts,
@@ -55,18 +55,38 @@
                      { "data": "weight", readOnly: true },     
                      { "data": "quantity" }
                ],
-
+                hiddenColumns: {
+                     columns: 7,
+                     indicators: true
+                },
                 afterSelection: function(r,c){
                     if(c==1){
                         displayDlgSelectProduct();
                     }
                 }
            });
+
+            if(orderCode != null){   
+                loadOrderProduct(orderCode);
+                
+                $.ajax({
+                    url : _ctx + "customer/load-customerBy?orderCd=" + orderCode,
+
+                    success : function(result) {
+                        
+                        // refresh Customer
+                        refreshCustomer(result);
+                    },
+                    error : function() {
+                        console.log("Error!");
+                    }
+                });
+            }
      });
 
         // Load lại danh sách sản phẩm của đơn hàng
-        function loadProduct(orderCd) {
-            url = _ctx + 'product/load-product?orderCd=' + orderCd;
+        function loadOrderProduct(orderCd) {
+            url = _ctx + 'order/load-orderProduct?orderCd=' + orderCd;
                 
             $.ajax({
                 url : url,
@@ -75,8 +95,8 @@
                 contentType : 'application/json',
                 success : function(res) {
                     // Update data into the handsontable
-                    dataVehicles = res;
-                    hotProduct.loadData(dataVehicles);
+                    dataProduct = res;
+                    hotProduct.loadData(dataProduct);
                 },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -122,9 +142,6 @@
 
                 success : function(result) {
                 	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
-                     
-                    // reload data
-                    alert("some thing happened");
                 },
                 error : function() {
                     console.log("Error!");

@@ -16,7 +16,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 label-control" for="projectinput1" th:text="#{order.search.orderId}">Mã đơn hàng</label>
                                     <div class="col-md-3">
-                                        <input type="text" id="orderCd" class="form-control"
+                                        <input type="text" id="orderCd" class="form-control" th:value="${orderCode}"
                                             th:placeholder="#{order.search.orderId}" name="id">
                                     </div>
                                     <div class="col-md-3">
