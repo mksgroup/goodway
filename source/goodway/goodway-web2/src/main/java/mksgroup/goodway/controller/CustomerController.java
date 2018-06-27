@@ -83,18 +83,8 @@ public class CustomerController {
     @GetMapping("/customer/load-customerBy")
     @ResponseBody
     public Customer loadCustomerByOrderName(@RequestParam("orderCd") String orderCd){
-        List<Customer> customerList = (List<Customer>) customerRepository.findAll();       
-        Customer customer = new Customer();
         
-        for(Customer c : customerList) {
-            for(OrderMaster o : c.getOrderMasterList()) {
-                if(o.getName().equalsIgnoreCase(orderCd)) {
-                    return c;
-                }
-            }
-        }
-        
-        return customer;
+        return customerRepository.findByOrderCode(orderCd);
     }
     
     

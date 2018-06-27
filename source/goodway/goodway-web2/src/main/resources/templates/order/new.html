@@ -65,7 +65,6 @@
                     }
                 }
            });
-
             if(orderCode != null){   
                 loadOrderProduct(orderCode);
                 
@@ -73,8 +72,9 @@
                     url : _ctx + "customer/load-customerBy?orderCd=" + orderCode,
 
                     success : function(result) {
+                        console.log("Load customer result =" + JSON.stringify(result));
                         
-                        // refresh Customer
+                        // fresh address
                         refreshCustomer(result);
                     },
                     error : function() {
@@ -96,6 +96,7 @@
                 success : function(res) {
                     // Update data into the handsontable
                     dataProduct = res;
+                    console.log(JSON.stringify(res));
                     hotProduct.loadData(dataProduct);
                 },
                 error : function (e) {
@@ -142,6 +143,9 @@
 
                 success : function(result) {
                 	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
+                     
+                    // reload data
+                    alert("success");
                 },
                 error : function() {
                     console.log("Error!");

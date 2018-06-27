@@ -93,6 +93,7 @@ public class OrderController {
     @GetMapping("order/edit")
     public String goOrderEdit(@RequestParam("orderCd") String orderCd, Model model) {
         model.addAttribute("orderCode", orderCd);
+        model.addAttribute("map_key", mapKey);
         
         return "order/new";
     }
@@ -106,12 +107,15 @@ public class OrderController {
     @ResponseBody
     public List<OrderDetailProductModel> getOrderProduct(@RequestParam("orderCd") String orderCd){
         OrderMaster orderMaster = orderRepository.findByName(orderCd);
-        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) orderProductRepository.findAll();
+        LOG.info(orderMaster.toString());
+        
+        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) orderProductRepository.findAllByOrderId(orderMaster);
+        LOG.info(orderProductList.toString());
+        
         List<OrderDetailProductModel> products = new ArrayList<>();
         OrderDetailProductModel model = new OrderDetailProductModel();
         
         for(OrderDetailProduct o : orderProductList) {
-            if(o.getOrderId().equals(orderMaster)) {
                 model.setId(o.getProductId().getId());
                 model.setDescription(o.getProductId().getDescription());
                 model.setName(o.getProductId().getName());
@@ -121,8 +125,7 @@ public class OrderController {
                 model.setWeight(o.getProductId().getWeight());
                 model.setQuantity(o.getQuantity());
                 
-                products.add(model);
-            }
+                products.add(model);     
         }
         
         return products;
