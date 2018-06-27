@@ -26,34 +26,8 @@
     var vehicleData;
   
     $(document).ready(function() {
-        // Khởi tạo Table kết quả
-        
-    	if (orderTable == null) {
-            $("#orderTable").DataTable({
-                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
-                "columns": [
-                	   { "data": "id" },
-                	   { "data": "customer.name" },
-                	   { "data": "customer.phone" },
-                	   { "data": "customer.addr" },
-//                 	   { "data": "height" },
-//                 	   { "data": "capacity" }
-                       ],
-                columnDefs: [ {
-                    orderable: false,
-                    className: 'select-checkbox',
-                    targets:   0
-                } ],
-                select: {
-                    style:    'os',
-                    selector: 'td:first-child'
-                }
-            });
-    	} else {
-    		orderTable.fnDraw();
-        }
 
-  
+    	// Khởi tạo Table kết quả
 	    if (resultTable == null) {
 	        $("#resultTable").DataTable({
 	            ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
@@ -82,6 +56,54 @@
 });     
     	
 </script>
+	 
+<script>
+var resultTable1 = null;;
 
+	$('a[href^="#finish"]').on('click',function(e){
+		e.preventDefault();
+		
+// 		$.ajax({
+// 		    url: _ctx + 'order/load-byCustomer?customerId=1'  ,
+// 		    type: 'GET',    
+		    
+// 		    success: function (data) {
+// 		     	console.log(JSON.stringify(data))
+// 		    },
+// 		    error: function () {
+// 		        alert('error');
+// 		    }
+// 		});
+
+		// Khởi tạo Table kết quả
+	    if (resultTable == null) {
+	        $("#resultTable1").DataTable({
+	            ajax: {'url': _ctx + 'order/load-byCustomer', 'dataSrc': ''},
+	            "columns": [
+	              	   { "data": "id" },
+	               	   { "data": "customerId" },
+	               	   { "data": "phone" },
+	               	   { "data": "addr" },
+	               	   { "data": "deliveryDate" }
+	                   ],
+	               columnDefs: [ {
+	                   orderable: false,
+	                   className: 'select-checkbox',
+	                   targets:   0
+	    	       } ],
+	               select: {
+	                   style:    'os',
+	                   selector: 'td:first-child'
+	               }
+	           });
+	   	} else {
+	           resultTable1.fnDraw();
+	    }
+	});	
+
+
+	
+
+</script>
 </body>
 </html>
