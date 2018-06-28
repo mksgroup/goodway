@@ -6,6 +6,7 @@ drop table if exists goodway_address;
 drop table if exists goodway_vehicle_status;
 drop table if exists goodway_vehicle;
 drop table if exists goodway_product;
+drop table if exists goodway_question;
 
 create table goodway_address (
       id int not null auto_increment
@@ -180,4 +181,22 @@ CREATE TABLE `goodway_question` (
   `day_responded` date DEFAULT NULL,
   `name_status` tinyint(1) DEFAULT '0',
     PRIMARY KEY(id_question)
+)
+
+CREATE TABLE goodway_question (
+  id int(11) NOT NULL AUTO_INCREMENT,
+  category varchar(100) NOT NULL,
+  question varchar(1000) NOT NULL,
+  ask_person varchar(100) NOT NULL,
+  ask_date date NOT NULL,
+  answer varchar(1000) NOT NULL,
+  answer_person varchar(100) DEFAULT NULL,
+  answer_date date DEFAULT NULL,
+  `status` tinyint(1) DEFAULT '0',
+  created datetime not null,
+  createdby_username varchar(50) not null,
+  lastmodified datetime,
+  lastmodifiedby_username varchar(50),
+
+  PRIMARY KEY(id)
 )
