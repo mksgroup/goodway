@@ -15,7 +15,7 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
-        var dataQuestions = ["", "" , "", "", "", "", "", ""];
+        var dataQuestions = ["", "", "" , "", "", "", "", "", ""];
         var hotQuestion = null;
 
         $(function() {
@@ -23,8 +23,8 @@
 
         	hotQuestion = new Handsontable(containerQuestion, {
                 data: dataQuestions,
-                colHeaders: ["Chức năng", "Câu hỏi", "Người hỏi", "Ngày hỏi", "Câu trả lời", "Người trả lời", "Ngày trả lời", "Trạng thái"],
-                colWidths: [150, 250, 170, 150, 250, 170, 150, 100],
+                colHeaders: ["Id", "Chức năng", "Câu hỏi", "Người hỏi", "Ngày hỏi", "Câu trả lời", "Người trả lời", "Ngày trả lời", "Trạng thái"],
+                colWidths: [50, 150, 250, 170, 150, 250, 170, 150, 100],
                 rowHeaders: true,
                 minRows: 10,
                 currentRowClassName: 'currentRow',
@@ -33,6 +33,7 @@
                 manualRowResize: true,
                 contextMenu: true,
                 columns: [
+                	{data: 'id', readOnly: true},
                 	{data: 'category'},
                     {data: 'question'},
                     {data: 'ask_person'},
@@ -43,8 +44,64 @@
                     {data: 'status'}
                   ]
               });
+        	loadQuestions();
         });
-	
+
+        function loadQuestions() {
+
+            $.ajax({
+                url : url = _ctx + 'question/load-question',
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                    // Update data into the handsontable
+                    dataQuestions = res;
+                    hotQuestion.loadData(dataQuestions);
+                },
+                error : function (e) {
+                    console.log("Error: " + e);
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        $('#frmHot').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmHot');
+            var selectPoolId = $('#poolId').val();
+            var frmData = new FormData(this);
+    
+            // Get header name
+            var colHeaderData =  hotQuestion.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotQuestion.getData();
+
+            var frmData = {};
+            frmData["header"] = colHeaderData;
+            frmData["data"] = tableData;
+
+            $.ajax({
+                url : _ctx + "question/save",
+                type : "POST",
+                contentType: "application/json",
+                data: JSON.stringify(frmData),
+                dataType: 'json',
+
+                success : function(result) {
+                     $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+                     
+                    // reload data
+                    loadQuestions();
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
     </script>
 </body>
 </html>
