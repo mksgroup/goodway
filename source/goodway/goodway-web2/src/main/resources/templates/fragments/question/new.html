@@ -44,22 +44,29 @@
 						<div class="card-content">
 
 							<div class="card-body pb-0">
-								<div class="table-responsive scroll-container"
-									style="padding-left: 110px">
+								<div class="table-responsive scroll-container">
 									<form id="frmHot" th:action="@{/question/save}" method="POST"
 										enctype="multipart/form-data">
 										<div id="tableQuestion"
 											class="hot handsontable htRowHeaders htColumnHeaders"></div>
 										<div class="col-12">
-
-											<button class="btn btn-info">
-												<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
-											</button>
 											<p id="resultSubmit"></p>
 											<div id="result" class="alert alert-success mb-2 hidden-xs"
 												role="alert" style="display: none">
 												<strong th:text="#{save.ok}">Save OK</strong>
 											</div>
+											<div class="row">
+												<div class="col-1">
+													<button class="btn btn-info" style="padding-right: 10px;">
+														<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+													</button>
+												</div>
+												<button class="btn btn-info " style="padding-left: 20px;">
+													<i class="ft-save"></i>&nbsp;<span th:text="#{export}">Export</span>
+												</button>
+
+											</div>
+
 										</div>
 									</form>
 								</div>
