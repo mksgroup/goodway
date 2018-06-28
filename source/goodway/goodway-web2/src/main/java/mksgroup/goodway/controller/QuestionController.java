@@ -1,11 +1,13 @@
 package mksgroup.goodway.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -25,7 +27,7 @@ import mksgroup.goodway.repository.QuestionRepository;
 import mksgroup.goodway.util.AppUtil;
 
 @Controller
-public class QuestionController {
+public class QuestionController extends BaseController {
 	
 	/** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(QuestionController.class);
@@ -87,5 +89,51 @@ public class QuestionController {
         Iterable<Question> questions = questionRepository.findAll();
         
         return questions;
+    }
+    
+    @GetMapping("/question/download")
+    @ResponseBody
+    public String downloadQuestion(HttpServletResponse response) {
+        LOG.debug("download questions....");
+        
+        try {
+            downloadData2(response);
+        } catch (IOException ex) {
+            LOG.error("Could not download question.", ex);
+            return ex.getMessage();
+        }
+
+        
+        return "Downloaded";
+    }
+
+    /**
+     * Downloaded file name for question.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getFilename()
+     */
+    @Override
+    String getFilename() {
+        return "Question.xlsx";
+    }
+
+    /**
+     * Template for downloading quetions.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getTemplate()
+     */
+    @Override
+    String getTemplate() {
+        return "/excel-templates/Template_Question.xlsx";
+    }
+
+    /**
+     * Get all question for downloading.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getDownloadData()
+     */
+    @Override
+    Iterable<?> getDownloadData() {
+        return questionRepository.findAll();
     }
 }
