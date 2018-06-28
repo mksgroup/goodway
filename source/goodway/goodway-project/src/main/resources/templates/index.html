@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:replace="fragments/head :: head"></div>
+</head>
+<body class="vertical-layout vertical-overlay-menu 2-columns   menu-expanded fixed-navbar" data-open="click" data-menu="vertical-overlay-menu" data-col="2-columns">
+  <!-- fixed-top-->
+  <div th:replace="fragments/nav :: nav"></div>
+
+  <!-- Horizontal navigation-->
+  <div th:replace="fragments/hnav :: hnav"></div>
+  <!-- Horizontal navigation-->
+
+  <div th:replace="fragments/dashboard/summary :: screen-body"></div>
+  
+  <div th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
