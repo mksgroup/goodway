@@ -200,7 +200,7 @@ public class AppUtil {
         final String[] HEADERS = {"id", "category", "question", "ask_person", "ask_date", "answer", "answer_person", "answer_date", "status"};
         
         LOG.info("Question data=" + data.getData());
-        List<Question> questionList = (List<Question>) BeanUtil.getDataList(data.getData(), HEADERS, Question.class, SKIP_EMPTYROW);
+        List<Question> questionList = (List<Question>) BeanUtil.getDataList(data.getData(), HEADERS, Question.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
         
         return questionList;
     }

@@ -1,6 +1,7 @@
 package mksgroup.goodway.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,10 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import mksgroup.goodway.entity.Address;
-import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.entity.Question;
-import mksgroup.goodway.model.ProductModel;
 import mksgroup.goodway.model.QuestionModel;
 import mksgroup.goodway.repository.QuestionRepository;
 import mksgroup.goodway.util.AppUtil;
@@ -63,9 +61,10 @@ public class QuestionController {
             LOG.error(errors.getAllErrors()
                         .stream().map(x -> x.getDefaultMessage())
                         .collect(Collectors.joining(",")));
-
+        LOG.info("step1");
             return null;
         } else {
+        	LOG.info("step2");
             Iterable<Question> entities = AppUtil.parseQuestion(data);
             List<Question> entityList = new ArrayList<Question>();
 
@@ -74,6 +73,9 @@ public class QuestionController {
             for(Question q : question) {
             	if(!entityList.contains(q)) {
             		questionRepository.delete(q);
+            	} else {
+            		LOG.info("step3");
+            		q.setCreated(new Date());
             	}
             }
             
