@@ -197,7 +197,7 @@ public class AppUtil {
     }
     
     public static Iterable<Question> parseQuestion(QuestionModel data){
-        final String[] HEADERS = {"id", "category", "question", "ask_person", "ask_date", "answer", "answer_person", "answer_date", "status"};
+        final String[] HEADERS = {"id", "category", "question", "askPerson", "askDate", "answer", "answerPerson", "answerDate", "status"};
         
         LOG.info("Question data=" + data.getData());
         List<Question> questionList = (List<Question>) BeanUtil.getDataList(data.getData(), HEADERS, Question.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
