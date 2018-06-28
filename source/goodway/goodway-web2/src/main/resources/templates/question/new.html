@@ -23,8 +23,8 @@
 
         	hotQuestion = new Handsontable(containerQuestion, {
                 data: dataQuestions,
-                colHeaders: ["Chức năng", "Câu hỏi", "Người hỏi", "Ngày hỏi", "Câu trả lời", "Người trả lời", "Ngày trả lời", "Trạng thái"],
-                colWidths: [150, 250, 170, 150, 250, 170, 150, 100],
+                colHeaders: ["Id", "Chức năng", "Câu hỏi", "Người hỏi", "Ngày hỏi", "Câu trả lời", "Người trả lời", "Ngày trả lời", "Trạng thái"],
+                colWidths: [50, 150, 250, 170, 150, 250, 170, 150, 100],
                 rowHeaders: true,
                 minRows: 10,
                 currentRowClassName: 'currentRow',
@@ -44,13 +44,13 @@
                     {data: 'status'}
                   ]
               });
-        	loadQuestions();
+//         	loadQuestions();
         });
 
         function loadQuestions() {
 
             $.ajax({
-                url : url = _ctx + 'question/load-question';,
+                url : url = _ctx + 'question/load-question',
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
