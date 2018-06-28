@@ -55,14 +55,7 @@ public class AppUtil {
         
         return listCustomer;
     }
-    
-    public static Iterable<Question> parseQuestion(@Valid QuestionModel data) {
-        final String[] HEADERS = {"id", "category", "question", "askPerson", "askDate", "answer", "answerPerson", "answerDate", "status"};
-
-        List<Question> listQuestion = (List<Question>) BeanUtil.getDataList(data.getData(), HEADERS, Customer.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
-        
-        return listQuestion;
-    }
+  
     
     public static Iterable<Address> parseAddress(AddressModel data) {
         final String[] HEADERS = {"id", "label", "displayAddress", "latitude", "longitude"};
