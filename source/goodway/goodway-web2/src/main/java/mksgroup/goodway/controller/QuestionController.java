@@ -97,7 +97,7 @@ public class QuestionController extends BaseController {
         LOG.debug("download questions....");
         
         try {
-            downloadData2(response);
+            downloadExcel(response);
         } catch (IOException ex) {
             LOG.error("Could not download question.", ex);
             return ex.getMessage();
