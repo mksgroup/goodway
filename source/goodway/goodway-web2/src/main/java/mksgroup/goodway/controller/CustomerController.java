@@ -137,7 +137,7 @@ public class CustomerController {
                         customer.setAddressId4(defaultAddr);
                     } else {
                         // Load address from db
-                        Address addr = addressRepository.findById(customer.getAddrId()).get();
+                        Address addr = addressRepository.findByDisplayAddress(customer.getAddr());
                         
                         if (addr == null ) { addr = defaultAddr; }
                         customer.setAddressId(addr);
