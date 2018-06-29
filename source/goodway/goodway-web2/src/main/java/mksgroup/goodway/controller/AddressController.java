@@ -3,8 +3,6 @@
  */
 package mksgroup.goodway.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -24,9 +22,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.AddressBiz;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.model.AddressModel;
-import mksgroup.goodway.repository.AddressRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -44,7 +42,7 @@ public class AddressController {
     String mapKey;
 
 	@Autowired
-	private AddressRepository addressRepository;
+	private AddressBiz addressBiz;
 
 	/**
 	 * Goto the index page.
@@ -73,7 +71,7 @@ public class AddressController {
 	@ResponseBody
 	public Iterable<Address> loadAddress() {
 
-		Iterable<Address> listAddress = addressRepository.findAll();
+		Iterable<Address> listAddress = addressBiz.getRepo().findAll();
 
 		return listAddress;
 	}
@@ -82,7 +80,7 @@ public class AddressController {
     @ResponseBody
     public Address loadAddressById(@PathVariable("id") Integer addressId) {
 
-        Address address = addressRepository.findById(addressId).get();
+        Address address = addressBiz.getRepo().findById(addressId).get();
 
         return address;
     }
@@ -101,21 +99,11 @@ public class AddressController {
 			return null;
 		} else {
 			Iterable<Address> entities = AppUtil.parseAddress(data);
-			List<Address> entityList = new ArrayList<Address>();
-			entities.forEach(e-> entityList.add(e));
-			List<Address> address = (List<Address>)addressRepository.findAll();
-			for(Address a : address) {
-				if(!entityList.contains(a)) {
-					addressRepository.delete(a);
-				}
-			}
-			
-			addressRepository.saveAll(entities);
-			LOG.info("addressModel=" + data + ";request=" + request);
+            addressBiz.updateAddresses(entities, data.getDeletedIds());
 		}
 
 		// Reload data from db
-		Iterable<Address> address = addressRepository.findAll();
+		Iterable<Address> address = addressBiz.getRepo().findAll();
 
 		return address;
 	}
