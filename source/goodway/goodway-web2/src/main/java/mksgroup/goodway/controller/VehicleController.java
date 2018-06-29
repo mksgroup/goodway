@@ -3,11 +3,11 @@
  */
 package mksgroup.goodway.controller;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.io.IOException;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.VehicleBiz;
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.VehicleModel;
-import mksgroup.goodway.repository.VehicleRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -31,13 +31,12 @@ import mksgroup.goodway.util.AppUtil;
  * @author ThachLN
  */
 @Controller
-public class VehicleController {
+public class VehicleController extends BaseController {
     /** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
-
-    @Autowired
-    private VehicleRepository vehicleRepository;
     
+    @Autowired
+    private VehicleBiz vehicleBiz;
     /**
      * Goto the index page.
      * @return
@@ -62,7 +61,7 @@ public class VehicleController {
     @ResponseBody
     public Iterable<Vehicle> loadVehicles() {
 
-        Iterable<Vehicle> vehicles = vehicleRepository.findAll();
+        Iterable<Vehicle> vehicles = vehicleBiz.getRepo().findAll();
         
         return vehicles;
     }
@@ -83,23 +82,64 @@ public class VehicleController {
             return null;
         } else {
             Iterable<Vehicle> entities = AppUtil.parseVehicle(data);
-            List<Vehicle> entityList = new ArrayList<Vehicle>();
-
-            entities.forEach(e-> entityList.add(e));
-            List<Vehicle> vehilces = (List<Vehicle>) vehicleRepository.findAll();
-            for(Vehicle v : vehilces) {
-            	if(!entityList.contains(v)) {
-            		vehicleRepository.delete(v);
-            	}
-            }
-            
-            vehicleRepository.saveAll(entities);
-            LOG.info("vehicleModel=" + data + ";request=" + request);
+            vehicleBiz.updateVehicles(entities, data.getDeletedIds());
+//            List<Vehicle> entityList = new ArrayList<Vehicle>();
+//
+//            if (data.getDeletedIds() != null) {
+//                data.getDeletedIds().forEach(deletedId -> {
+//                    vehicleRepository.deleteById(deletedId);
+//                });
+//            }
+//            
+//            vehicleRepository.saveAll(entities);
+//            LOG.info("vehicleModel=" + data + ";request=" + request);
         }
         
         // Reload data from db
-        Iterable<Vehicle> orders = vehicleRepository.findAll();
+        Iterable<Vehicle> orders = vehicleBiz.getRepo().findAll();
         
         return orders;
+    }
+
+    @GetMapping("/vehicle/export")
+    @ResponseBody
+    public void downloadVehicle(HttpServletResponse response) {
+        LOG.debug("download vehicle....");
+        
+        try {
+            downloadExcel(response);
+        } catch (IOException ex) {
+            LOG.error("Could not download vehicle.", ex);
+        }
+    }
+
+    /**
+     * Downloaded file name for vehicle.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getFilename()
+     */
+    @Override
+    String getFilename() {
+        return "Vehicle.xlsx";
+    }
+
+    /**
+     * Template for downloading vehicles.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getTemplate()
+     */
+    @Override
+    String getTemplate() {
+        return "/excel-templates/Template_Vehicle.xlsx";
+    }
+
+    /**
+     * Get all vehicle for downloading.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getDownloadData()
+     */
+    @Override
+    Iterable<?> getDownloadData() {
+        return vehicleBiz.getRepo().findAll();
     }
 }

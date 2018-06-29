@@ -15,6 +15,7 @@
     <th:block th:include="fragments/footer"></th:block>
       <script>
       var dataAddresses = [];
+      var deletedIds = [];
 
         var hotAddress = null;
 
@@ -72,8 +73,8 @@
                       } // if
                   },
                   // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
-                  afterRemoveRow: function (index, amount) {
-                      console.log("Removed row index " + index);
+                  beforeRemoveRow: function (index, amount) {
+                      console.log("Removed row index =" + index + ";amount=" + amount);
 
                       var deletedMarker = gmarkers[index];
                       // Set Center of the Map at the deleted marker
@@ -83,6 +84,23 @@
 
                       // Delete the corresponding marker from the map
                       deletedMarker.setMap(null);
+
+                      // Support to submit deleted id into server
+                      console.log("index=" + index);
+                      var lastIndex = index + amount;
+                      var i;
+                      for (i = index; i < lastIndex; i++) {
+                          console.log("dataAddresses=" + JSON.stringify(dataAddresses));
+                          var deletedAddress = dataAddresses[i];
+                          var deletedId = deletedAddress.id;
+
+                          console.log("Row = " + i + ";deletedId = " + deletedId);
+                          if (deletedId) {
+                        	  deletedIds.push(deletedId);
+                          }
+                      }
+
+                      console.log("list deletedIds=" + deletedIds);
                   },
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
                       // Hiển thị địa điểm được chọn tại trung tâm bản đồ
@@ -182,6 +200,7 @@
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
+            frmData["deletedIds"] = deletedIds;
             
             $.ajax({
                 url : _ctx + "address/save",

@@ -11,6 +11,9 @@ import java.util.List;
 public class VehicleModel {
     private List header;
     private List data;
+    
+    /** Store id of addresses marked deleting. */
+    private List<Integer> deletedIds;
     /**
     * Get value of header.
     * @return the header
@@ -40,6 +43,20 @@ public class VehicleModel {
         this.data = data;
     }
 
+    /**
+    * Get value of deletedIds.
+    * @return the deletedIds
+    */
+    public List<Integer> getDeletedIds() {
+        return deletedIds;
+    }
+    /**
+     * Set the value for deletedIds.
+     * @param deletedIds the deletedIds to set
+     */
+    public void setDeletedIds(List<Integer> deletedIds) {
+        this.deletedIds = deletedIds;
+    }
     /**
      * [Explain the description for this method here].
      * @return

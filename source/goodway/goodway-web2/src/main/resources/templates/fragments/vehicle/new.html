@@ -41,16 +41,17 @@
                     
                         <div class="card-body pb-0">
                             <div class="table-responsive scroll-container">
-                                <form id="frmHot" th:action="@{/vehicle/save}" method="POST" enctype="multipart/form-data">
                                     <div id="tableVehicle" class="hot handsontable htRowHeaders htColumnHeaders"></div>
                                     <div class="col-12">
                                         
-                                        <button class="btn btn-info">
+                                        <button class="btn btn-info" id="btnSave">
                                             <i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
                                         </button>
-                                        
+
+                                        <a class="btn btn-info" th:href="@{/vehicle/export}" target="_blank">
+                                            <i class="fa fa-download"></i>&nbsp;<span th:text="#{export}">Export</span>
+                                        </a>                                        
                                     </div>
-                                </form>
                             </div>
                         </div>
                     </div>

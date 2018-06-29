@@ -94,12 +94,8 @@
     </script>
     
     <script>
-        $('#frmHot').submit(function(e) {
+        $('#btnSave').click(function(e) {
             e.preventDefault();
-    
-            var frm = $('#frmHot');
-            var selectPoolId = $('#poolId').val();
-            var frmData = new FormData(this);
     
             // Get header name
             var colHeaderData =  hotVehicle.getColHeader();
