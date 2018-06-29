@@ -15,7 +15,17 @@
     <th:block th:include="fragments/customer/search"></th:block>
 
     <th:block th:include="fragments/footer"></th:block>
-    <script type="text/javascript" src="/js/searchDatatable.js"></script>
+    <script>
+    $(document).ready(function(){
+    	$('input[type=search]').on('keyup'), function(){
+    		var value = $(this).val().toLowerCase();
+    		$('#resultTable tbody tr').filter(function() {
+    			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+    		});
+    	};
+    });
+    </script>
+    
     <script>
     // Lưu đối tượng table kết quả search
     var resultTable = null;
@@ -38,7 +48,11 @@
 //                                         return '<input type="radio" name="customerId" value="' + data + '">';
 //                                    }
 //                        }
-                       ]
+                       ],
+                	   "initComplete": function(settings, json){ 
+                           var info = this.api().page.info();
+                           total.innerHTML = info.recordsTotal;
+                       }
             });
     	} else {
             resultTable.fnDraw();
