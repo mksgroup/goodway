@@ -8,12 +8,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import mksgroup.goodway.entity.DeliveryBatch;
 import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.model.MakePlanModel;
 import mksgroup.goodway.repository.DeliveryBatchRepository;
+import mksgroup.goodway.repository.OrderRepository;
 import mksgroup.goodway.repository.ProductRepository;
 
 @Controller
@@ -24,6 +27,9 @@ public class PlanController {
 
 	@Autowired
 	private DeliveryBatchRepository deliveryRepository;
+	
+	@Autowired
+	private OrderRepository orderRepository;
 	
 	@Autowired
     private ProductRepository productRepository;
@@ -50,6 +56,14 @@ public class PlanController {
         resultBatchs.add(batch);
         
         return resultBatchs;
+    }
+    
+    @GetMapping("/plan/load-orderCustomer")
+    @ResponseBody
+    public List loadCustomer(){
+    	List orders = orderRepository.findOrderCustomer();
+    	
+    	return orders;
     }
 	
 }
