@@ -1,0 +1,1388 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div th:fragment="screen-body">
+        <div class="app-content content">
+            <div class="content-wrapper">
+                <div class="content-header row">
+                    <div class="content-header-left col-md-6 col-12 mb-2">
+                        <h3 class="content-header-title">Scrum Board</h3>
+                        <div class="row breadcrumbs-top">
+                            <div class="breadcrumb-wrapper col-12">
+                                <ol class="breadcrumb">
+                                    <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                                    <li class="breadcrumb-item active">Scrum Board</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="content-header-right col-md-6 col-12">
+                        <div class="media width-250 float-right">
+                            <media-left class="media-middle">
+                            <div id="sp-bar-total-sales">
+                                <canvas width="152" height="30"
+                                    style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas>
+                            </div>
+                            </media-left>
+                            <div class="media-body media-right text-right">
+                                <h3 class="m-0">$5,668</h3>
+                                <span class="text-muted">Sales</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="content-body">
+                    <!-- Sample Project Scrumboard -->
+                    <section id="sample-project-scrumboard" class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Sample Project Scrumboard</h4>
+                                    <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="overflow-hidden">
+                                            <div id="todo-lists-basic-demo"
+                                                class="lobilists-wrapper lobilists single-line ui-sortable ps-container ps-theme-dark ps-active-x"
+                                                data-ps-id="049b716f-6916-c2b6-7aae-c62d841863fa">
+                                                <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                    data-ps-id="25fbd94e-786f-5cd8-d97f-e22a1aee4dc1">
+                                                    <div id="lobilist-list-0" class="lobilist lobilist-primary">
+                                                        <div class="lobilist-header ui-sortable-handle">
+                                                            <div class="lobilist-actions">
+                                                                <div class="dropdown">
+                                                                    <button type="button" data-toggle="dropdown"
+                                                                        class="btn btn-default btn-xs">
+                                                                        <i class="ft-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <div class="lobilist-default"></div>
+                                                                        <div class="lobilist-danger"></div>
+                                                                        <div class="lobilist-success"></div>
+                                                                        <div class="lobilist-warning"></div>
+                                                                        <div class="lobilist-info"></div>
+                                                                        <div class="lobilist-primary"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-edit-2"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                    <i class="ft-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                    <i class="ft-x"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="lobilist-title">Backlog</div>
+                                                        </div>
+                                                        <div class="lobilist-body">
+                                                            <ul class="lobilist-items ui-sortable">
+                                                                <li data-id="1" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">Complete the
+                                                                        page header</div>
+                                                                    <div class="lobilist-item-description">Phasellus
+                                                                        vel elit volutpat, egestas urna a, pharetra
+                                                                        nibh.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-31</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="2" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Menu open
+                                                                        issue on top</div>
+                                                                    <div class="lobilist-item-description">Proin
+                                                                        varius libero at magna dignissim lacinia.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-22</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="3" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">Integrate
+                                                                        ChartJS Page</div>
+                                                                    <div class="lobilist-item-description">Curabitur
+                                                                        tempor, quam vel pulvinar finibus.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-29</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="4" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">UI/UX Design
+                                                                        for the new Mobile APP</div>
+                                                                    <div class="lobilist-item-description">Rowed
+                                                                        cloven frolic thereby, vivamus pining gown
+                                                                        intruding strangers prank treacherously
+                                                                        darkling.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-28</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                            </ul>
+                                                            <form class="lobilist-add-todo-form hide">
+                                                                <input type="hidden" name="id">
+                                                                <div class="form-group">
+                                                                    <input type="text" name="title" class="form-control"
+                                                                        placeholder="TODO title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea rows="2" name="description"
+                                                                        class="form-control"
+                                                                        placeholder="TODO description"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="dueDate"
+                                                                        class="form-control datepicker-default hasDatepicker"
+                                                                        placeholder="Due Date" id="dp1530250265737">
+                                                                </div>
+                                                                <div class="lobilist-form-footer">
+                                                                    <button
+                                                                        class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                        / Update</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="lobilist-footer">
+                                                            <button type="button" class="btn-link btn-show-form">Add
+                                                                New / Update Existing task.</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail"
+                                                        style="top: 0px; height: 448px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 282px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                    data-ps-id="e0ccddb3-27c2-05fc-accb-c6bd96c70772">
+                                                    <div id="lobilist-list-1" class="lobilist lobilist-danger">
+                                                        <div class="lobilist-header ui-sortable-handle">
+                                                            <div class="lobilist-actions">
+                                                                <div class="dropdown">
+                                                                    <button type="button" data-toggle="dropdown"
+                                                                        class="btn btn-default btn-xs">
+                                                                        <i class="ft-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <div class="lobilist-default"></div>
+                                                                        <div class="lobilist-danger"></div>
+                                                                        <div class="lobilist-success"></div>
+                                                                        <div class="lobilist-warning"></div>
+                                                                        <div class="lobilist-info"></div>
+                                                                        <div class="lobilist-primary"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-edit-2"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                    <i class="ft-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                    <i class="ft-x"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="lobilist-title">To do</div>
+                                                        </div>
+                                                        <div class="lobilist-body">
+                                                            <ul class="lobilist-items ui-sortable">
+                                                                <li data-id="5" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">PSD Creation
+                                                                        for the ABC APP</div>
+                                                                    <div class="lobilist-item-description">Hoary
+                                                                        rattle exulting suspendisse elit paradises craft
+                                                                        wistful. Bayonets allures prefer traits wrongs
+                                                                        flushed. Tent wily matched bold polite slab
+                                                                        coinage celerities gales beams.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-28</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="6" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">Fix bootstrap
+                                                                        progress bar issue</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="7" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Support Alib
+                                                                        on form wizard</div>
+                                                                    <div class="lobilist-item-description">Came
+                                                                        champlain live leopards twilight whenever warm
+                                                                        read wish squirrel rock.</div>
+                                                                    <div class="lobilist-item-duedate">2016-02-04</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="8" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Support Charls
+                                                                        Users</div>
+                                                                    <div class="lobilist-item-description">Leopards
+                                                                        twilight whenever warm read wish squirrel rock.</div>
+                                                                    <div class="lobilist-item-duedate">2016-02-04</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                            </ul>
+                                                            <form class="lobilist-add-todo-form hide">
+                                                                <input type="hidden" name="id">
+                                                                <div class="form-group">
+                                                                    <input type="text" name="title" class="form-control"
+                                                                        placeholder="TODO title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea rows="2" name="description"
+                                                                        class="form-control"
+                                                                        placeholder="TODO description"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="dueDate"
+                                                                        class="form-control datepicker-default hasDatepicker"
+                                                                        placeholder="Due Date" id="dp1530250265738">
+                                                                </div>
+                                                                <div class="lobilist-form-footer">
+                                                                    <button
+                                                                        class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                        / Update</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="lobilist-footer">
+                                                            <button type="button" class="btn-link btn-show-form">Add
+                                                                New / Update Existing task.</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail"
+                                                        style="top: 0px; height: 448px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 285px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                    data-ps-id="6ca21107-39f3-7b78-88e0-baf5b7606124">
+                                                    <div id="lobilist-list-2" class="lobilist lobilist-warning">
+                                                        <div class="lobilist-header ui-sortable-handle">
+                                                            <div class="lobilist-actions">
+                                                                <div class="dropdown">
+                                                                    <button type="button" data-toggle="dropdown"
+                                                                        class="btn btn-default btn-xs">
+                                                                        <i class="ft-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <div class="lobilist-default"></div>
+                                                                        <div class="lobilist-danger"></div>
+                                                                        <div class="lobilist-success"></div>
+                                                                        <div class="lobilist-warning"></div>
+                                                                        <div class="lobilist-info"></div>
+                                                                        <div class="lobilist-primary"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-edit-2"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                    <i class="ft-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                    <i class="ft-x"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="lobilist-title">In Progress</div>
+                                                        </div>
+                                                        <div class="lobilist-body">
+                                                            <ul class="lobilist-items ui-sortable">
+                                                                <li data-id="9" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">Fix bootstrap
+                                                                        progress bar issue</div>
+                                                                    <div class="lobilist-item-description">Hoary
+                                                                        rattle exulting suspendisse elit paradises craft
+                                                                        wistful. Bayonets allures prefer traits wrongs
+                                                                        flushed. Tent wily matched bold polite slab
+                                                                        coinage celerities gales beams.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-04</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="10" class="lobilist-item"><div
+                                                                        class="lobilist-item-title">Integrate D3
+                                                                        JS Page</div>
+                                                                    <div class="lobilist-item-description">Aliquam
+                                                                        finibus tellus magna, eget viverra augue gravida
+                                                                        eget.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-05</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="11" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Contact Charls
+                                                                        for Vertical Menu issue</div>
+                                                                    <div class="lobilist-item-description">Came
+                                                                        champlain live leopards twilight whenever warm
+                                                                        read wish squirrel rock.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-12</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                            </ul>
+                                                            <form class="lobilist-add-todo-form hide">
+                                                                <input type="hidden" name="id">
+                                                                <div class="form-group">
+                                                                    <input type="text" name="title" class="form-control"
+                                                                        placeholder="TODO title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea rows="2" name="description"
+                                                                        class="form-control"
+                                                                        placeholder="TODO description"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="dueDate"
+                                                                        class="form-control datepicker-default hasDatepicker"
+                                                                        placeholder="Due Date" id="dp1530250265739">
+                                                                </div>
+                                                                <div class="lobilist-form-footer">
+                                                                    <button
+                                                                        class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                        / Update</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="lobilist-footer">
+                                                            <button type="button" class="btn-link btn-show-form">Add
+                                                                New / Update Existing task.</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail"
+                                                        style="top: 0px; height: 448px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 297px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                    data-ps-id="486e388a-9456-43f4-b6a1-a78a3016dc11">
+                                                    <div id="lobilist-list-3" class="lobilist lobilist-info">
+                                                        <div class="lobilist-header ui-sortable-handle">
+                                                            <div class="lobilist-actions">
+                                                                <div class="dropdown">
+                                                                    <button type="button" data-toggle="dropdown"
+                                                                        class="btn btn-default btn-xs">
+                                                                        <i class="ft-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <div class="lobilist-default"></div>
+                                                                        <div class="lobilist-danger"></div>
+                                                                        <div class="lobilist-success"></div>
+                                                                        <div class="lobilist-warning"></div>
+                                                                        <div class="lobilist-info"></div>
+                                                                        <div class="lobilist-primary"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-edit-2"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                    <i class="ft-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                    <i class="ft-x"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="lobilist-title">Done</div>
+                                                        </div>
+                                                        <div class="lobilist-body">
+                                                            <ul class="lobilist-items ui-sortable">
+                                                                <li data-id="12" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Admin PSD
+                                                                        Creation for the ABC APP</div>
+                                                                    <div class="lobilist-item-description">Hoary
+                                                                        rattle exulting suspendisse elit paradises craft
+                                                                        wistful. Bayonets allures prefer traits wrongs
+                                                                        flushed. Tent wily matched bold polite slab
+                                                                        coinage celerities gales beams.</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="13" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Complete
+                                                                        dashboard page design</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="14" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Horizontal
+                                                                        Menu Test on Mobile</div>
+                                                                    <div class="lobilist-item-description">Came
+                                                                        champlain live leopards twilight whenever warm
+                                                                        read wish squirrel rock.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-24</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                            </ul>
+                                                            <form class="lobilist-add-todo-form hide">
+                                                                <input type="hidden" name="id">
+                                                                <div class="form-group">
+                                                                    <input type="text" name="title" class="form-control"
+                                                                        placeholder="TODO title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea rows="2" name="description"
+                                                                        class="form-control"
+                                                                        placeholder="TODO description"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="dueDate"
+                                                                        class="form-control datepicker-default hasDatepicker"
+                                                                        placeholder="Due Date" id="dp1530250265740">
+                                                                </div>
+                                                                <div class="lobilist-form-footer">
+                                                                    <button
+                                                                        class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                        / Update</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="lobilist-footer">
+                                                            <button type="button" class="btn-link btn-show-form">Add
+                                                                New / Update Existing task.</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail"
+                                                        style="top: 0px; height: 448px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 316px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                    data-ps-id="dbc11342-5634-20ef-d2ec-cbe5dfd26ecd">
+                                                    <div id="lobilist-list-4" class="lobilist lobilist-success">
+                                                        <div class="lobilist-header ui-sortable-handle">
+                                                            <div class="lobilist-actions">
+                                                                <div class="dropdown">
+                                                                    <button type="button" data-toggle="dropdown"
+                                                                        class="btn btn-default btn-xs">
+                                                                        <i class="ft-grid"></i>
+                                                                    </button>
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                                        <div class="lobilist-default"></div>
+                                                                        <div class="lobilist-danger"></div>
+                                                                        <div class="lobilist-success"></div>
+                                                                        <div class="lobilist-warning"></div>
+                                                                        <div class="lobilist-info"></div>
+                                                                        <div class="lobilist-primary"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-edit-2"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                    <i class="ft-check"></i>
+                                                                </button>
+                                                                <button
+                                                                    class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                    <i class="ft-x"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-plus"></i>
+                                                                </button>
+                                                                <button class="btn btn-default btn-xs">
+                                                                    <i class="ft-trash"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="lobilist-title">Verify</div>
+                                                        </div>
+                                                        <div class="lobilist-body">
+                                                            <ul class="lobilist-items ui-sortable">
+                                                                <li data-id="15" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Menu PSD
+                                                                        Creation for the ABC APP</div>
+                                                                    <div class="lobilist-item-description">Hoary
+                                                                        rattle exulting suspendisse elit paradises craft
+                                                                        wistful. Bayonets allures prefer traits wrongs
+                                                                        flushed. Tent wily matched bold polite slab
+                                                                        coinage celerities gales beams.</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                                <li data-id="16" class="lobilist-item item-done"><div
+                                                                        class="lobilist-item-title">Vertical Menu
+                                                                        Test on Mobile</div>
+                                                                    <div class="lobilist-item-description">Came
+                                                                        champlain live leopards twilight whenever warm
+                                                                        read wish squirrel rock.</div>
+                                                                    <div class="lobilist-item-duedate">2016-12-24</div>
+                                                                    <label class="checkbox-inline lobilist-check"><input
+                                                                        type="checkbox"></label>
+                                                                <div class="todo-actions">
+                                                                        <div class="edit-todo todo-action">
+                                                                            <i class="ft-edit-2"></i>
+                                                                        </div>
+                                                                        <div class="delete-todo todo-action">
+                                                                            <i class="ft-trash"></i>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="drag-handler"></div></li>
+                                                            </ul>
+                                                            <form class="lobilist-add-todo-form hide">
+                                                                <input type="hidden" name="id">
+                                                                <div class="form-group">
+                                                                    <input type="text" name="title" class="form-control"
+                                                                        placeholder="TODO title">
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <textarea rows="2" name="description"
+                                                                        class="form-control"
+                                                                        placeholder="TODO description"></textarea>
+                                                                </div>
+                                                                <div class="form-group">
+                                                                    <input type="text" name="dueDate"
+                                                                        class="form-control datepicker-default hasDatepicker"
+                                                                        placeholder="Due Date" id="dp1530250265741">
+                                                                </div>
+                                                                <div class="lobilist-form-footer">
+                                                                    <button
+                                                                        class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                        / Update</button>
+                                                                    <button type="button"
+                                                                        class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                            </form>
+                                                        </div>
+                                                        <div class="lobilist-footer">
+                                                            <button type="button" class="btn-link btn-show-form">Add
+                                                                New / Update Existing task.</button>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail"
+                                                        style="top: 0px; height: 448px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 363px;"></div>
+                                                    </div>
+                                                </div>
+                                                <div class="ps-scrollbar-x-rail"
+                                                    style="width: 1245px; left: 0px; bottom: 3px;">
+                                                    <div class="ps-scrollbar-x" tabindex="0"
+                                                        style="left: 0px; width: 909px;"></div>
+                                                </div>
+                                                <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                    <div class="ps-scrollbar-y" tabindex="0"
+                                                        style="top: 0px; height: 0px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--/ Sample Project Scrumboard -->
+
+                    <!--Custom controls-->
+                    <section id="custom-controls" class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Custom controls</h4>
+                                    <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            <p>Custom controls allow you to show/hide controls on list card.</p>
+                                            <div class="overflow-hidden">
+                                                <div id="todo-lists-demo-controls"
+                                                    class="lobilists-wrapper lobilists single-line ui-sortable ps-container ps-theme-dark ps-active-x"
+                                                    data-ps-id="8b1fbf82-cbb1-abf1-75bf-a4a470664757">
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark"
+                                                        data-ps-id="fb06d381-336a-b3a5-0031-5a6555bf309c">
+                                                        <div id="lobilist-list-5" class="lobilist lobilist-info">
+                                                            <div class="lobilist-header ui-sortable-handle">
+                                                                <div class="lobilist-actions">
+                                                                    <div class="dropdown">
+                                                                        <button type="button" data-toggle="dropdown"
+                                                                            class="btn btn-default btn-xs">
+                                                                            <i class="ft-grid"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <div class="lobilist-default"></div>
+                                                                            <div class="lobilist-danger"></div>
+                                                                            <div class="lobilist-success"></div>
+                                                                            <div class="lobilist-warning"></div>
+                                                                            <div class="lobilist-info"></div>
+                                                                            <div class="lobilist-primary"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-edit-2"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                        <i class="ft-check"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="lobilist-title">TODO</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items ui-sortable">
+                                                                    <li data-id="1" class="lobilist-item"><div
+                                                                            class="lobilist-item-title">Floor cool
+                                                                            cinders</div>
+                                                                        <div class="lobilist-item-description">Thunder
+                                                                            fulfilled travellers folly, wading, lake.</div>
+                                                                        <div class="lobilist-item-duedate">2015-01-31</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions">
+                                                                            <div class="edit-todo todo-action">
+                                                                                <i class="ft-edit-2"></i>
+                                                                            </div>
+                                                                            <div class="delete-todo todo-action">
+                                                                                <i class="ft-trash"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265742">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 0px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark"
+                                                        data-ps-id="f14a0989-2f47-f105-ec6f-cad5e1c1bb3b">
+                                                        <div id="lobilist-list-6" class="lobilist lobilist-danger">
+                                                            <div class="lobilist-header ui-sortable-handle">
+                                                                <div class="lobilist-actions">
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-edit-2"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                        <i class="ft-check"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-plus"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="lobilist-title">Custom checkboxes</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items ui-sortable">
+                                                                    <li data-id="2" class="lobilist-item item-done"><div
+                                                                            class="lobilist-item-title">Periods
+                                                                            pride</div>
+                                                                        <div class="lobilist-item-description">Accepted
+                                                                            was mollis</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions">
+                                                                            <div class="edit-todo todo-action">
+                                                                                <i class="ft-edit-2"></i>
+                                                                            </div>
+                                                                            <div class="delete-todo todo-action">
+                                                                                <i class="ft-trash"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265743">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 0px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                        data-ps-id="145b8011-ee87-abf3-8de0-729b49a3bbe9">
+                                                        <div id="lobilist-list-7" class="lobilist lobilist-primary">
+                                                            <div class="lobilist-header ui-sortable-handle">
+                                                                <div class="lobilist-actions"></div>
+                                                                <div class="lobilist-title">Controls disabled</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items ui-sortable">
+                                                                    <li data-id="3" class="lobilist-item"><div
+                                                                            class="lobilist-item-title">Composed
+                                                                            trays</div>
+                                                                        <div class="lobilist-item-description">Hoary
+                                                                            rattle exulting suspendisse elit paradises
+                                                                            craft wistful. Bayonets allures prefer
+                                                                            traits wrongs flushed. Tent wily matched
+                                                                            bold polite slab coinage celerities gales
+                                                                            beams.</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions">
+                                                                            <div class="edit-todo todo-action">
+                                                                                <i class="ft-edit-2"></i>
+                                                                            </div>
+                                                                            <div class="delete-todo todo-action">
+                                                                                <i class="ft-trash"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265744">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail"
+                                                            style="top: 0px; height: 448px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 439px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                        data-ps-id="a17eca45-0a6f-88d2-21c4-f57c57f18b11">
+                                                        <div id="lobilist-list-8" class="lobilist lobilist-warning">
+                                                            <div class="lobilist-header ui-sortable-handle">
+                                                                <div class="lobilist-actions">
+                                                                    <div class="dropdown">
+                                                                        <button type="button" data-toggle="dropdown"
+                                                                            class="btn btn-default btn-xs">
+                                                                            <i class="ft-grid"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <div class="lobilist-default"></div>
+                                                                            <div class="lobilist-danger"></div>
+                                                                            <div class="lobilist-success"></div>
+                                                                            <div class="lobilist-warning"></div>
+                                                                            <div class="lobilist-info"></div>
+                                                                            <div class="lobilist-primary"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-edit-2"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                        <i class="ft-check"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-plus"></i>
+                                                                    </button>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-trash"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="lobilist-title">Disabled todo
+                                                                    edit/remove</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items ui-sortable">
+                                                                    <li data-id="4" class="lobilist-item"><div
+                                                                            class="lobilist-item-title">Composed
+                                                                            trays</div>
+                                                                        <div class="lobilist-item-description">Hoary
+                                                                            rattle exulting suspendisse elit paradises
+                                                                            craft wistful. Bayonets allures prefer
+                                                                            traits wrongs flushed. Tent wily matched
+                                                                            bold polite slab coinage celerities gales
+                                                                            beams.</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions"></div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265745">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail"
+                                                            style="top: 0px; height: 448px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 439px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail"
+                                                        style="width: 1245px; left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 1136px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 0px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--/ Custom controls-->
+
+                    <!--Disabled drag & drop-->
+                    <section id="disabled-drag-drop" class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title">Disabled drag &amp; drop</h4>
+                                    <a class="heading-elements-toggle"><i class="ft-ellipsis-h font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <div class="card-body">
+                                        <div class="card-text">
+                                            <p>Disabled drag &amp; drop feature for list card.</p>
+                                            <div class="overflow-hidden">
+                                                <div id="todo-lists-demo-sorting"
+                                                    class="lobilists-wrapper lobilists single-line no-sortable ps-container ps-theme-dark"
+                                                    data-ps-id="d4463a07-4b85-cf3d-2c71-d7e12037154f">
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark"
+                                                        data-ps-id="0ef0f138-6120-0426-0647-3f22547f3666">
+                                                        <div id="lobilist-list-9" class="lobilist lobilist-info">
+                                                            <div class="lobilist-header">
+                                                                <div class="lobilist-actions">
+                                                                    <div class="dropdown">
+                                                                        <button type="button" data-toggle="dropdown"
+                                                                            class="btn btn-default btn-xs">
+                                                                            <i class="ft-grid"></i>
+                                                                        </button>
+                                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                                            <div class="lobilist-default"></div>
+                                                                            <div class="lobilist-danger"></div>
+                                                                            <div class="lobilist-success"></div>
+                                                                            <div class="lobilist-warning"></div>
+                                                                            <div class="lobilist-info"></div>
+                                                                            <div class="lobilist-primary"></div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <button class="btn btn-default btn-xs">
+                                                                        <i class="ft-edit-2"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-finish-title-editing">
+                                                                        <i class="ft-check"></i>
+                                                                    </button>
+                                                                    <button
+                                                                        class="btn btn-default btn-xs btn-cancel-title-editing">
+                                                                        <i class="ft-x"></i>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="lobilist-title">TODO</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items">
+                                                                    <li data-id="1" class="lobilist-item"><div
+                                                                            class="lobilist-item-title">Floor cool
+                                                                            cinders</div>
+                                                                        <div class="lobilist-item-description">Thunder
+                                                                            fulfilled travellers folly, wading, lake.</div>
+                                                                        <div class="lobilist-item-duedate">2015-01-31</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions">
+                                                                            <div class="edit-todo todo-action">
+                                                                                <i class="ft-edit-2"></i>
+                                                                            </div>
+                                                                            <div class="delete-todo todo-action">
+                                                                                <i class="ft-trash"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265746">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 0px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="lobilist-wrapper ps-container ps-theme-dark ps-active-y"
+                                                        data-ps-id="abc8885e-2551-43db-d1aa-ff7e491a17c9">
+                                                        <div id="lobilist-list-10" class="lobilist lobilist-success">
+                                                            <div class="lobilist-header">
+                                                                <div class="lobilist-actions"></div>
+                                                                <div class="lobilist-title">Controls disabled</div>
+                                                            </div>
+                                                            <div class="lobilist-body">
+                                                                <ul class="lobilist-items">
+                                                                    <li data-id="2" class="lobilist-item"><div
+                                                                            class="lobilist-item-title">Composed
+                                                                            trays</div>
+                                                                        <div class="lobilist-item-description">Hoary
+                                                                            rattle exulting suspendisse elit paradises
+                                                                            craft wistful. Bayonets allures prefer
+                                                                            traits wrongs flushed. Tent wily matched
+                                                                            bold polite slab coinage celerities gales
+                                                                            beams.</div>
+                                                                        <label class="checkbox-inline lobilist-check"><input
+                                                                            type="checkbox"></label>
+                                                                    <div class="todo-actions">
+                                                                            <div class="edit-todo todo-action">
+                                                                                <i class="ft-edit-2"></i>
+                                                                            </div>
+                                                                            <div class="delete-todo todo-action">
+                                                                                <i class="ft-trash"></i>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="drag-handler"></div></li>
+                                                                </ul>
+                                                                <form class="lobilist-add-todo-form hide">
+                                                                    <input type="hidden" name="id">
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="title"
+                                                                            class="form-control"
+                                                                            placeholder="TODO title">
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <textarea rows="2" name="description"
+                                                                            class="form-control"
+                                                                            placeholder="TODO description"></textarea>
+                                                                    </div>
+                                                                    <div class="form-group">
+                                                                        <input type="text" name="dueDate"
+                                                                            class="form-control datepicker-default hasDatepicker"
+                                                                            placeholder="Due Date" id="dp1530250265747">
+                                                                    </div>
+                                                                    <div class="lobilist-form-footer">
+                                                                        <button
+                                                                            class="btn btn-secondery btn-sm btn-add-todo">Add
+                                                                            / Update</button>
+                                                                        <button type="button"
+                                                                            class="btn btn-secondery btn-sm btn-discard-todo">
+                                                                            <i class="ft-x"></i>
+                                                                        </button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                            <div class="lobilist-footer">
+                                                                <button type="button" class="btn-link btn-show-form">Add
+                                                                    New / Update Existing task.</button>
+                                                            </div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                            <div class="ps-scrollbar-x" tabindex="0"
+                                                                style="left: 0px; width: 0px;"></div>
+                                                        </div>
+                                                        <div class="ps-scrollbar-y-rail"
+                                                            style="top: 0px; height: 448px; right: 3px;">
+                                                            <div class="ps-scrollbar-y" tabindex="0"
+                                                                style="top: 0px; height: 439px;"></div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 3px;">
+                                                        <div class="ps-scrollbar-x" tabindex="0"
+                                                            style="left: 0px; width: 0px;"></div>
+                                                    </div>
+                                                    <div class="ps-scrollbar-y-rail" style="top: 0px; right: 3px;">
+                                                        <div class="ps-scrollbar-y" tabindex="0"
+                                                            style="top: 0px; height: 0px;"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!--/ Disabled drag & drop-->
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
