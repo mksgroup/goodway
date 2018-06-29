@@ -58,13 +58,27 @@
 	        $("#orderTable").DataTable({
 	            ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
 	            "columns": [
-	              	   { "data": 0 },
+	              	   { "data": 0,
+		              	   "render" : function(data, row, meta){
+									data = '<a href="order/edit?orderCd='+ data + '">' + data +'</a>';
+			              	   return data;
+				            }
+	              	    },
 	               	   { "data": 1 },
 	               	   { "data": 2 },
 	               	   { "data": 3 },
 	               	   { "data": 4 }
 	               
 	                   ],
+	               columnDefs: [ {
+	                   orderable: false,
+	                   className: 'select-checkbox',
+	                   targets:   0
+	    	       } ],
+	               select: {
+	                   style:    'os',
+	                   selector: 'td:first-child'
+	               }
 	           });
 	   	} else {
 	           resultTable.fnDraw();
