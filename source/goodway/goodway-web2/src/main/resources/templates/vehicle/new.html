@@ -94,12 +94,8 @@
     </script>
     
     <script>
-        $('#frmHot').submit(function(e) {
+        $('#btnSave').click(function(e) {
             e.preventDefault();
-    
-            var frm = $('#frmHot');
-            var selectPoolId = $('#poolId').val();
-            var frmData = new FormData(this);
     
             // Get header name
             var colHeaderData =  hotVehicle.getColHeader();
@@ -121,24 +117,6 @@
                 success : function(result) {
                     // reload data
                 	loadVehicle();
-                },
-                error : function() {
-                    console.log("Error!");
-                }
-            });
-        });
-    </script>
-    
-    <!-- Scripts for export to Excel -->
-    <script>
-        $('#btnExport').click(function(e) {
-            e.preventDefault();
-    
-            $.ajax({
-                url : _ctx + "/vehicle/export",
-                dataType: 'json',
-                success : function(result) {
-                    console.log("OK");
                 },
                 error : function() {
                     console.log("Error!");

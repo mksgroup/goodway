@@ -136,4 +136,14 @@ public class QuestionController extends BaseController {
     Iterable<?> getDownloadData() {
         return questionRepository.findAll();
     }
+
+    /**
+     * Get header row index from the template.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getHeaderRow()
+     */
+    @Override
+    int getHeaderRow() {
+        return 6;
+    }
 }

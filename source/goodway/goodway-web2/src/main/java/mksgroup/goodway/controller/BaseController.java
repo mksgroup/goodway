@@ -27,7 +27,6 @@ import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import mksgroup.java.common.BeanUtil;
@@ -44,13 +43,11 @@ abstract public class BaseController {
 
     private static final String TMP_DIR = System.getProperty("java.io.tmpdir");
 
-    final static int IDX_HEADERROW = 6;
     @Autowired
     private ServletContext servletContext;
  
     // http://localhost:8080/download1?fileName=abc.zip
     // Using ResponseEntity<InputStreamResource>
-    @RequestMapping("/download1")
     public ResponseEntity<InputStreamResource> downloadData1(@RequestParam String fileName) throws IOException {
  
         MediaType mediaType = getMediaTypeForFileName(this.servletContext, fileName);
@@ -78,8 +75,7 @@ abstract public class BaseController {
                 .contentLength(file.length()) //
                 .body(resource);
     }
-    
-    @RequestMapping("/download2")
+
     public void downloadExcel(HttpServletResponse resonse) throws IOException {
  
         String fileName = getFilename();
@@ -98,7 +94,7 @@ abstract public class BaseController {
         Iterable<?> listData = getDownloadData();
         
         // Start row of data
-        int rowIdx = IDX_HEADERROW + 1;
+        int rowIdx = getHeaderRow() + 1;
         Integer headerIndex;
         for (Object obj : listData) {
             
@@ -139,7 +135,7 @@ abstract public class BaseController {
         BufferedOutputStream outStream = new BufferedOutputStream(resonse.getOutputStream());
         wb.write(outStream);
         outStream.flush();
-
+        outStream.close();
      }
     
     /**
@@ -152,12 +148,13 @@ abstract public class BaseController {
         Map<String, Integer> headerMap = new HashMap<String, Integer>();
         Sheet sheet = wb.getSheetAt(0);
         
-        Row headRow = sheet.getRow(IDX_HEADERROW);
+        int indexHeaderRow = getHeaderRow();
+        Row headRow = sheet.getRow(indexHeaderRow);
         int lastCellNum = headRow.getLastCellNum();
         String headerValue;
         Comment headerComment;
         for (int i = headRow.getFirstCellNum(); i <= lastCellNum; i++) {
-            headerComment = sheet.getCellComment(IDX_HEADERROW, i);
+            headerComment = sheet.getCellComment(indexHeaderRow, i);
 
             headerValue = (headerComment != null && headerComment.getString() != null )? headerComment.getString().getString() : null;
 
@@ -181,8 +178,18 @@ abstract public class BaseController {
             return MediaType.APPLICATION_OCTET_STREAM;
         }
     }
+
+    /**
+     * Get index of header row.
+     * @return index of header row. Start from 0.
+     */
+    int getHeaderRow() {
+        // Default header row
+        return 0;
+    }
     
     abstract String getFilename();
     abstract String getTemplate();
     abstract Iterable<?> getDownloadData();
+    
 }

@@ -3,11 +3,13 @@
  */
 package mksgroup.goodway.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -31,7 +33,7 @@ import mksgroup.goodway.util.AppUtil;
  * @author ThachLN
  */
 @Controller
-public class VehicleController {
+public class VehicleController extends BaseController {
     /** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
 
@@ -101,5 +103,47 @@ public class VehicleController {
         Iterable<Vehicle> orders = vehicleRepository.findAll();
         
         return orders;
+    }
+
+    @GetMapping("/vehicle/export")
+    @ResponseBody
+    public void downloadVehicle(HttpServletResponse response) {
+        LOG.debug("download vehicle....");
+        
+        try {
+            downloadExcel(response);
+        } catch (IOException ex) {
+            LOG.error("Could not download vehicle.", ex);
+        }
+    }
+
+    /**
+     * Downloaded file name for vehicle.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getFilename()
+     */
+    @Override
+    String getFilename() {
+        return "Vehicle.xlsx";
+    }
+
+    /**
+     * Template for downloading vehicles.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getTemplate()
+     */
+    @Override
+    String getTemplate() {
+        return "/excel-templates/Template_Vehicle.xlsx";
+    }
+
+    /**
+     * Get all vehicle for downloading.
+     * @return
+     * @see mksgroup.goodway.controller.BaseController#getDownloadData()
+     */
+    @Override
+    Iterable<?> getDownloadData() {
+        return vehicleRepository.findAll();
     }
 }
