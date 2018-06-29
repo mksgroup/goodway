@@ -24,7 +24,8 @@
     var resultTable = null;
     var orderTable = null;
     var vehicleData;
-  
+    var dataOrderDatatable = null;
+  	
     $(document).ready(function() {
 
     	// Khởi tạo Table kết quả
@@ -32,60 +33,91 @@
 	        $("#resultTable").DataTable({
 	            ajax: {'url': _ctx + 'vehicle/load-vehicle', 'dataSrc': ''},
 	            "columns": [
-	              	   { "data": "id" },
+	            	  { 
+		            	   "render": function(data, type, full, meta){
+		            		   return '<input type="checkbox" name="vehicleRow" value="' + full.id + '">';
+			            	   } 
+	            	   },
 	               	   { "data": "name" },
 	               	   { "data": "length" },
 	               	   { "data": "width" },
 	               	   { "data": "height" },
 	               	   { "data": "capacity" }
 	                   ],
-	               columnDefs: [ {
-	                   orderable: false,
-	                   className: 'select-checkbox',
-	                   targets:   0
-	    	       } ],
-	               select: {
-	                   style:    'os',
-	                   selector: 'td:first-child'
-	               }
+	              
+
 	           });
 	   	} else {
 	           resultTable.fnDraw();
 	    }
 
-
+		
 	    if (orderTable == null) {
-	        $("#orderTable").DataTable({
+	        dataOrderDatatable = $("#orderTable").DataTable({
 	            ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
 	            "columns": [
-	              	   { "data": 0,
+	            	   { 
+		            	   "render": function(data, type, full, meta){
+		            		   return '<input type="checkbox" name="orderRow" value="' + full[0] + '">';
+			            	   } 
+	            	   },
+	              	   { "data": 1,
 		              	   "render" : function(data, row, meta){
 									data = '<a href="order/edit?orderCd='+ data + '">' + data +'</a>';
 			              	   return data;
 				            }
 	              	    },
-	               	   { "data": 1 },
 	               	   { "data": 2 },
 	               	   { "data": 3 },
-	               	   { "data": 4 }
+	               	   { "data": 4 },
+	               	   { "data": 5 }
 	               
 	                   ],
-	               columnDefs: [ {
-	                   orderable: false,
-	                   className: 'select-checkbox',
-	                   targets:   0
-	    	       } ],
-	               select: {
-	                   style:    'os',
-	                   selector: 'td:first-child'
-	               }
+	             
 	           });
 	   	} else {
 	           resultTable.fnDraw();
 	    }
 	    
+		
+		$('a[href^="#finish"]').on('click', function(e){
+			e.preventDefault();
+			console.log(dataOrderDatatable.rows({selected: true}));  
 
+			var selectedOrders = [];
+            $("input:checkbox[name=orderRow]:checked").each(function(){
+            	selectedOrders.push($(this).val());
+            });
+            console.log(selectedOrders);
 
+            var selectedVehicles = [];
+            $("input:checkbox[name=vehicleRow]:checked").each(function(){
+            	selectedVehicles.push($(this).val());
+            });
+            console.log(selectedVehicles);
+
+            
+       	 var frmData = {};
+            frmData["vehicleIds"] = selectedVehicles;
+            frmData["orderIds"] = selectedOrders;
+            
+            $.ajax({
+                
+                url : _ctx + "plan/makePlan",
+                type : "GET",
+                contentType: "application/json",
+                dataType: 'json',
+                data: JSON.stringify(frmData),
+                
+                success : function(result) {
+                  	console.log(JSON.stringify(result));
+                    alert('success');
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+		});
 	    
     	
     	
@@ -125,70 +157,6 @@
     	
 </script>
 	
-<script >
-	var selectOrderTable = null;
-	$('a[href^="#finish"]').on('click', function(e){
-		e.preventDefault();
-		
-		// Dispay dialog of form orderPlan
-        	// Load dữ liệu order
-        	if (selectOrderTable == null) {
-        		selectCustomerTable = $("#selectCustomerTable").DataTable({
-                    ajax: {'url': _ctx + 'customer/load-customer', 'dataSrc': ''},
-                    "columns": [
-                           {"render": function ( data, type, full, meta ) {
-                                // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
-                               // Assign address id and displayAddress
-                        	   return '<input type="radio" name="addressRow" value="' + full.id + '">';
-                           }},  // here's a radio button, modify to use data to populate it
-                    	   { "data": "id" },
-                    	   { "data": "name" },
-                    	   { "data": "addr" }
-                    ]
-                });
-        	} else {
-        		// selectAddressTable.fnDraw();
-            }
 
-            // Hiển thị hộp thoại
-        	$("#dlgSearchCustomer").modal('show');
-        });
-
-        $('#btnSelectedCustomer').click(function(e) {
-
-            var selectedCustomerId = $('input[name=addressRow]:checked').val();
-
-            // Get Fulll addres from Id
-            $.ajax({
-                url : _ctx + "customer/load-customer/" + selectedCustomerId,
-
-                success : function(result) {
-                    console.log("Load customer result =" + JSON.stringify(result));
-                    
-                    // fresh address
-                    refreshCustomer(result);
-                },
-                error : function() {
-                    console.log("Error!");
-                }
-            });
-        });
-
-        /**
-         * @param addrId
-         * @param fullAddr
-         * @global selectCustomerRow
-         */
-        function refreshCustomer(customer) {
-            // Set address into Address of the Customer
-            $('#customer_id').val(customer.id);
-            $('#customer_name').val(customer.name);
-            $('#customer_phone').val(customer.phone);
-            $('#customer_addr').val(customer.addr);
-
-        }
-   		
-
-</script>
 </body>
 </html>
