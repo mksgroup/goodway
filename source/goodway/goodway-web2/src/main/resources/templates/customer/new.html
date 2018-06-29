@@ -16,20 +16,20 @@
   <!-- Modal -->
   <th:block th:include="fragments/footer"></th:block>
   <th:block th:include="fragments/address/select"></th:block>
- 
+     <script type="text/javascript" src="/js/searchDatatable.js"></script>
    <script>
         // Dòng Khách hàng đang chọn địa chỉ
         var selectCustomerRow;
-        var dataCustomers = [["", "" , "", "", "", ""]
-        ];
+        var dataCustomers = ["", "" , "", "", "", ""];
         var hotCustomer = null;
 
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
+        	
             
         	hotCustomer = new Handsontable(containerCustomer, {
                 data: dataCustomers,
-                colHeaders: ["ID", "Tên khách hàng", "Mã khách hàng", "Tên viết tắt", "Số điện thoại", "Địa chỉ", "Mã địa chỉ"],
+                colHeaders: ["ID", "Tên khách hàng", "Mã khách hàng", "Tên viết tắt", "Số điện thoại", "Địa chỉ"],
                 colWidths: [50, 300, 150, 150, 130, 400, 20],
                 rowHeaders: true,
 //                 minCols : 6,
@@ -45,8 +45,7 @@
                     { "data": "cd" },
                     { "data": "shortName" },
              	    { "data": "phone" },
-             	    { "data": "addr", readOnly: true },
-             	    { "data": "addrId", readOnly: true }
+             	    { "data": "addr", readOnly: true }
                   ],
                   hiddenColumns: {
                     columns: [6],
@@ -65,10 +64,12 @@
             loadCustomers();
         });
 
+
+
         // Load lại danh sách 
         function loadCustomers(customerId) {
            var url;
-
+           var total = document.getElementById('total');
             
             if (customerId === undefined) {
                 url = _ctx + 'customer/load-customer';
@@ -82,11 +83,13 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    console.log("customer res=" + res);
-                    if (res && res.length > 0) {
+                	total.innerHTML = res.length;
+
+                	if (res && res.length > 0) {
                         dataCustomers = res;
                     }
                     hotCustomer.loadData(dataCustomers);
+                    
                                     },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -146,7 +149,7 @@
         $(document).ready(function() {
             // Khởi tạo Table kết quả
         	if (selectAddressTable == null) {
-        		selectAddressTable = $("#selectAddressTable").DataTable({
+        		selectAddressTable = $("#selectTable").DataTable({
                     ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
 //                     autoFill: true,
 //                     select: { style: 'single' },

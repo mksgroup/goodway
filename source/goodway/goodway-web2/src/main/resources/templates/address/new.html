@@ -13,6 +13,7 @@
 
     <th:block th:include="fragments/address/new"></th:block>
     <th:block th:include="fragments/footer"></th:block>
+    <script type="text/javascript" src="/js/searchDatatable.js"></script>
       <script>
       var dataAddresses = [];
 
@@ -21,7 +22,7 @@
         // Scripts for table. Refer: https://docs.handsontable.com/3.0.0/tutorial-quick-start.html
         $(function() {
         	var containerAddress = document.getElementById('tableAddress');
-
+            
         	hotAddress = new Handsontable(containerAddress, {
                 data: dataAddresses,
                 colHeaders: ["Mã", "Nhãn", "Địa chỉ", "Vĩ độ", "Kinh độ"],
@@ -95,16 +96,16 @@
                      }
                   }
               });
-
         	loadAddress();
         });
+
 
         /**
          * @param addressId: -1 means loading all
          */
         function loadAddress(addressId) {
             var url;
-
+            var total = document.getElementById('total');
             
             if (addressId === undefined) {
                 url = _ctx + 'address/load-address';
@@ -118,6 +119,8 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
+                    total.innerHTML = res.length;
+                    
                     // Update data into the handsontable
                     dataAddresses = res;
                     dataAddresses = setLabel(dataAddresses);

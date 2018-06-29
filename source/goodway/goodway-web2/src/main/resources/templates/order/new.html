@@ -23,6 +23,7 @@
 
     <!-- Google Map Modal -->
     <th:block th:include="fragments/order/map"></th:block>
+    <script type="text/javascript" src="/js/searchDatatable.js"></script>
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
@@ -65,7 +66,8 @@
                     }
                 }
            });
-            if(orderCode != null){   
+            
+            if(orderCode != ""){   
                 loadOrderProduct(orderCode);
                 
                 $.ajax({
@@ -270,7 +272,7 @@
         $(document).ready(function() {
             // Load dữ liệu khách hàng
             if (selectProductTable == null) {
-                selectProductTable = $("#selectProductTable").DataTable({
+                selectProductTable = $("#selectTable").DataTable({
                     ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
                     "columns": [
                            {"render": function ( data, type, full, meta ) {
