@@ -15,8 +15,8 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
-        var dataProducts = [["", "" , "", "", "", "", ""]
-        ];
+        var dataProducts = [];
+        var deletedIds = [];
         var hotProduct = null;
 
         $(function() {
@@ -27,12 +27,7 @@
                 colHeaders: ["ID", "Tên sản phẩm", "Mô tả", "Cao (m)", "Rộng (m)", "Dài (m)", "Trọng lượng (kg)"],
                 colWidths: [50, 250, 250, 100, 100, 120,100],
                 rowHeaders: true,
-                minRows: 5,
-                currentRowClassName: 'currentRow',
-                currentColClassName: 'currentCol',
-            	manualColumnResize: true,
-                manualRowResize: true,
-                contextMenu: true,
+                contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true},
                     {data: 'name'},
@@ -41,7 +36,23 @@
                     {data: 'width'},
                     {data: 'length'},
                     {data: 'weight'}
-                  ]
+                  ],
+                  beforeRemoveRow: function (index, amount) {
+                	  var lastIndex = index + amount;
+                      var i;
+                      for (i = index; i < lastIndex; i++) {
+                          console.log("dataProducts=" + JSON.stringify(dataProducts));
+                          var deletedProducts = dataProducts[i];
+                          var deletedId = deletedProducts.id;
+
+                          console.log("Row = " + i + ";deletedId = " + deletedId);
+                          if (deletedId) {
+                        	  deletedIds.push(deletedId);
+                          }
+                      }
+
+                      console.log("list deletedIds=" + deletedIds);
+                  },
               });
         	loadProducts();
         });
@@ -96,7 +107,7 @@
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
-
+            frmData["deletedIds"] = deletedIds;
             $.ajax({
                 url : _ctx + "product/save",
                 type : "POST",
