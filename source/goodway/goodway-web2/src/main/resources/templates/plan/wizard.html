@@ -73,6 +73,10 @@
 	               	   { "data": 5 }
 	               
 	                   ],
+	                   "initComplete": function(settings, json){ 
+                           var info = this.api().page.info();
+                           total.innerHTML = info.recordsTotal;
+                       }
 	             
 	           });
 	   	} else {
