@@ -271,7 +271,7 @@
         $(document).ready(function() {
             // Load dữ liệu khách hàng
             if (selectProductTable == null) {
-                selectProductTable = $("#selectProductTable").DataTable({
+                selectProductTable = $("#selectTable").DataTable({
                     ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
                     "columns": [
                            {"render": function ( data, type, full, meta ) {
