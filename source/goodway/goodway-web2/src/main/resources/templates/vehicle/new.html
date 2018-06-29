@@ -125,5 +125,23 @@
             });
         });
     </script>
+    
+    <!-- Scripts for export to Excel -->
+    <script>
+        $('#btnExport').click(function(e) {
+            e.preventDefault();
+    
+            $.ajax({
+                url : _ctx + "/vehicle/export",
+                dataType: 'json',
+                success : function(result) {
+                    console.log("OK");
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
+    </script>
 </body>
 </html>
