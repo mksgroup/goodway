@@ -45,6 +45,7 @@
 		<module>goodway-dao</module>
 		<module>goodway-domain</module>
 		<module>goodway-web2</module>
+		<module>goodway-project</module>
     </modules>
 
     <!-- Build step is required to include the spring boot artifacts in generated jars -->
