@@ -28,28 +28,30 @@
     // Lưu đối tượng table kết quả search
     var resultTable = null;
     var vehicleData;
+
     
-    $(document).ready(function() {
-    	if (resultTable == null) {
-	        $("#resultTable").DataTable({
-	            ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
-	            "columns": [
-	              	   { "data": 0,
-		              	 "render": function(data, row, meta){
-								return '<a href="order/edit?orderCd=' + data + '">' + data + '</a>';	
-			              	   }
-	              	   },
-		              	   
-	               	   { "data": 1 },
-	               	   { "data": 2 },
-	               	   { "data": 3 },
-	               	   { "data": 4 }
-	               
-	                   ],
-	           });
-	   	} else {
-	           resultTable.fnDraw();
-	    }
+    if (resultTable == null) {
+         $("#resultTable").DataTable({
+            ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
+            "columns": [
+            	   { "data": 0 },
+              	   { "data": 1,
+	              	   "render" : function(data, row, meta){
+								data = '<a href="order/edit?orderCd='+ data + '">' + data +'</a>';
+		              	   return data;
+			            }
+              	    },
+               	   { "data": 2 },
+               	   { "data": 3 },
+               	   { "data": 4 },
+               	   { "data": 5 }
+               
+                   ],
+             
+           });
+   	} else {
+   		resultTable.fnDraw();
+    }
 //         function getCustomerData(handleData) {
 // 	        $.ajax({
 // 	            url : _ctx + "customer/load-customer",
