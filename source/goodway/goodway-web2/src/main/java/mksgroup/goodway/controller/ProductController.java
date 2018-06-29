@@ -1,7 +1,5 @@
 package mksgroup.goodway.controller;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,10 +15,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.ProductBiz;
 import mksgroup.goodway.entity.Product;
-import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.ProductModel;
-import mksgroup.goodway.repository.ProductRepository;
 import mksgroup.goodway.util.AppUtil;
 
 @Controller
@@ -29,7 +26,7 @@ public class ProductController {
     private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
 
     @Autowired
-    private ProductRepository productRepository;
+    private ProductBiz productBiz;
 
     /**
      * Go to product's index page.
@@ -60,7 +57,8 @@ public class ProductController {
     @ResponseBody()
     public Iterable<Product> loadProducts(){
         
-        return productRepository.findAll();
+    	Iterable<Product> listProducts = productBiz.getRepo().findAll();
+        return listProducts;
     }
 
     @PostMapping("/product/save")
@@ -78,22 +76,11 @@ public class ProductController {
             return null;
         } else {
             Iterable<Product> entities = AppUtil.parseProduct(data);
-            List<Product> entityList = new ArrayList<Product>();
-
-            entities.forEach(e-> entityList.add(e));
-            List<Product> products = (List<Product>) productRepository.findAll();
-            for(Product v : products) {
-            	if(!entityList.contains(v)) {
-            		productRepository.delete(v);
-            	}
-            }
-            
-            productRepository.saveAll(entities);
-            LOG.info("productModel=" + data + ";request=" + request);
+            productBiz.updateProducts(entities, data.getDeletedIds());
         }
         
         // Reload data from db
-        Iterable<Product> orders = productRepository.findAll();
+        Iterable<Product> orders = productBiz.getRepo().findAll();
         
         return orders;
     }
