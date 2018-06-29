@@ -104,13 +104,13 @@
             $.ajax({
                 
                 url : _ctx + "plan/makePlan",
-                type : "GET",
+                type : "POST",
                 contentType: "application/json",
                 dataType: 'json',
                 data: JSON.stringify(frmData),
                 
                 success : function(result) {
-                  	console.log(JSON.stringify(result));
+                  	console.log(result);
                     alert('success');
                 },
                 error : function() {
