@@ -23,10 +23,28 @@
 
     <!-- Google Map Modal -->
     <th:block th:include="fragments/order/map"></th:block>
-    <script type="text/javascript" src="/js/searchDatatable.js"></script>
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
+    
+    <script>
+	$(document).ready(function(){
+		$('input[type=search]').on('keyup'), function(){
+			var value = $(this).val().toLowerCase();
+			$('#selectCustomerTable tbody tr').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		};
+
+		$('input[type=search]').on('keyup'), function(){
+			var value = $(this).val().toLowerCase();
+			$('#selectProductTable tbody tr').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		};
+	});
+	</script>
+	
     <script>
         var dataProducts = ["", "" , "", "", "", "", ""];
         var hotProduct = null;
@@ -272,7 +290,7 @@
         $(document).ready(function() {
             // Load dữ liệu khách hàng
             if (selectProductTable == null) {
-                selectProductTable = $("#selectTable").DataTable({
+                selectProductTable = $("#selectProductTable").DataTable({
                     ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
                     "columns": [
                            {"render": function ( data, type, full, meta ) {
