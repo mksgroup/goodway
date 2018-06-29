@@ -1,7 +1,7 @@
 /**
  * Copyright 2018, MKS GROUP.
  */
-package mksgroup.goodway.controller;
+package mksgroup.goodway.entry.project.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author ThachLN
  */
 @Controller
-public class HomeController {
+public class DashboardController {
 
     /**
      * Goto the index page.
      * @return
      */
-    @RequestMapping("/")
+    @RequestMapping("/dashboard")
     public String login() {
-        return "index";
+        return "dashboard/summary";
     }
 }
