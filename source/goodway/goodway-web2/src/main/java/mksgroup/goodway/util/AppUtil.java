@@ -49,7 +49,7 @@ public class AppUtil {
     }
 
     public static Iterable<Customer> parseCustomer(@Valid CustomerModel data) {
-        final String[] HEADERS = {"id", "name", "cd", "shortName", "phone", "addr", "addrId"};
+        final String[] HEADERS = {"id", "name", "cd", "shortName", "phone", "addr"};
 
         List<Customer> listCustomer = (List<Customer>) BeanUtil.getDataList(data.getData(), HEADERS, Customer.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
         

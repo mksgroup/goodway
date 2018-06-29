@@ -19,45 +19,58 @@
    <script>
         // Dòng Khách hàng đang chọn địa chỉ
         var selectCustomerRow;
-        var dataCustomers = ["", "" , "", "", "", ""];
+        var dataCustomers = [];
         var hotCustomer = null;
-
+        var deletedIds = [];
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
         	
-            
         	hotCustomer = new Handsontable(containerCustomer, {
                 data: dataCustomers,
                 colHeaders: ["ID", "Tên khách hàng", "Mã khách hàng", "Tên viết tắt", "Số điện thoại", "Địa chỉ"],
-                colWidths: [50, 300, 150, 150, 130, 400, 20],
+                colWidths: [50, 300, 150, 150, 130, 400],
                 rowHeaders: true,
-//                 minCols : 6,
-                minRows: 12,
-                // currentRowClassName: 'currentRow',
-                // currentColClassName: 'currentCol',
+                minRows: 10,
+                currentRowClassName: 'currentRow',
+                currentColClassName: 'currentCol',
             	manualColumnResize: true,
                 manualRowResize: true,
-                contextMenu: true
-                , columns: [
-                	{ "data": "id", readOnly: true },
-                    { "data": "name" },
-                    { "data": "cd" },
-                    { "data": "shortName" },
-             	    { "data": "phone" },
-             	    { "data": "addr", readOnly: true }
+                contextMenu: true,
+                columns: [
+                	{ data: "id", readOnly: true },
+                    { data: "name" },
+                    { data: "cd" },
+                    { data: "shortName" },
+             	    { data: "phone" },
+             	    { data: "addr", readOnly: true }
                   ],
-                  hiddenColumns: {
-                    columns: [6],
-                    indicators: true
-                  },
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
 
                      // Display the dialog to search address
                      if (c == 5) {
                     	 selectCustomerRow = r;
-                         console.log("Selected selectCustomerRow=" + selectCustomerRow)
+//                          console.log("Selected selectCustomerRow=" + selectCustomerRow)
                          displayDlgSelectAddress();
                      }
+                  },
+                  beforeRemoveRow: function (index, amount) {
+                      console.log("Removed row index =" + index + ";amount=" + amount);                
+                      console.log("index=" + index);
+                      
+                      var lastIndex = index + amount;
+                      var i;
+                      for (i = index; i < lastIndex; i++) {
+                          console.log("dataCustomers=" + JSON.stringify(dataCustomers));
+                          var deletedCustomer = dataCustomers[i];
+                          var deletedId = deletedCustomer.id;
+
+                          console.log("Row = " + i + ";deletedId = " + deletedId);
+                          if (deletedId) {
+                              deletedIds.push(deletedId);
+                          }
+                      }
+
+                      console.log("list deletedIds=" + deletedIds);
                   }
               });
             loadCustomers();
@@ -66,15 +79,12 @@
 
 
         // Load lại danh sách 
-        function loadCustomers(customerId) {
+        function loadCustomers() {
            var url;
            var total = document.getElementById('total');
             
-            if (customerId === undefined) {
                 url = _ctx + 'customer/load-customer';
-            } else {
-                url = _ctx + 'customer/load-customer?id=' + customerId;
-            }
+
 
             $.ajax({
                 url : url,
@@ -87,9 +97,9 @@
                 	if (res && res.length > 0) {
                         dataCustomers = res;
                     }
-                    hotCustomer.loadData(dataCustomers);
                     
-                                    },
+                    hotCustomer.loadData(dataCustomers);                    
+                },
                 error : function (e) {
                     console.log("Error: " + e);
                 }
@@ -114,6 +124,7 @@
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
+            frmData["deletedIds"] = deletedIds;
             
             $.ajax({
                 url : _ctx + "customer/save",
@@ -202,7 +213,7 @@
                 if (addrId) {
                    
                 	dataCustomers[selectCustomerRow].addr = fullAddr;
-                	dataCustomers[selectCustomerRow].addrId = addrId;
+//                 	dataCustomers[selectCustomerRow].addrId = addrId;
                 	// console.log("Current dataCustomers at row " +  selectCustomerRow + ": "+ JSON.stringify(dataCustomers[selectCustomerRow]));
                 } else {
                     console.log("Customer has not inputted yet.");

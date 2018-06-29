@@ -16,8 +16,11 @@
   <th:block th:include="fragments/footer"></th:block>
 
     <script>
-        var dataVehicles = [["", "" , "", "", ""]
-        ];
+
+    	
+    	var deletedIds = [];
+        var dataVehicles = [];
+        
         var hotVehicle = null;
 
         $(function() {
@@ -33,7 +36,7 @@
                 currentColClassName: 'currentCol',
             	manualColumnResize: true,
                 manualRowResize: true,
-                contextMenu: true,
+                contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true},
                     {data: 'name'},
@@ -41,9 +44,36 @@
                     {data: 'width'},
                     {data: 'height'},
                     {data: 'capacity'}
-                  ]
+                  ],
+
+               // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
+                  beforeRemoveRow: function (index, amount) {
+                      console.log("Removed row index =" + index + ";amount=" + amount);
+
+
+                      // Support to submit deleted id into server
+                      console.log("index=" + index);
+                      var lastIndex = index + amount;
+                      var i;
+                      for (i = index; i < lastIndex; i++) {
+                          console.log("dataVehicles=" + JSON.stringify(dataVehicles));
+                          var deletedVehicle = dataVehicles[i];
+                          var deletedId = deletedVehicle.id;
+
+                          console.log("Row = " + i + ";deletedId = " + deletedId);
+                          if (deletedId) {
+                        	  deletedIds.push(deletedId);
+                          }
+                      }
+
+                      console.log("list deletedIds=" + deletedIds);
+                  },
               });
+
         	loadVehicle();
+            
+        });
+        	
 
 
 //         	var menuItems = document.getElementsByClassName("htItemWrapper");
@@ -54,7 +84,7 @@
 
 //         	    deleteVehicle();
 //         	});
-        });
+//         });
 
 
 //         function deleteVehicle(){
@@ -106,7 +136,8 @@
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
-
+            frmData["deletedIds"] = deletedIds;
+            
             $.ajax({
                 url : _ctx + "/vehicle/save",
                 type : "POST",
