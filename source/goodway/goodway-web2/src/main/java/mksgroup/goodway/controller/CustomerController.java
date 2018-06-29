@@ -23,9 +23,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.AddressBiz;
+import mksgroup.goodway.biz.CustomerBiz;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
-import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.model.CustomerModel;
 import mksgroup.goodway.repository.AddressRepository;
 import mksgroup.goodway.repository.CustomerRepository;
@@ -42,10 +43,10 @@ public class CustomerController {
     private final static Logger LOG = LoggerFactory.getLogger(CustomerController.class);
 
     @Autowired
-    private AddressRepository addressRepository;
+    private AddressBiz addressBiz;
     
 	@Autowired
-	private CustomerRepository customerRepository;
+	private CustomerBiz customerBiz;
 	
     /**
      * Goto the index page.
@@ -70,7 +71,7 @@ public class CustomerController {
     @GetMapping("/customer/load-customer")
     @ResponseBody
     public Iterable<Customer> loadCustomer(){
-    	Iterable<Customer> customer = customerRepository.findAll();
+    	Iterable<Customer> customer = customerBiz.getRepo().findAll();
     	
     	return customer;
     }
@@ -84,14 +85,14 @@ public class CustomerController {
     @ResponseBody
     public Customer loadCustomerByOrderName(@RequestParam("orderCd") String orderCd){
         
-        return customerRepository.findByOrderCode(orderCd);
+        return ((CustomerRepository) customerBiz.getRepo()).findByOrderCode(orderCd);
     }
     
     
     @GetMapping("/customer/load-customer/{id}")
     @ResponseBody
     public Customer loadCustomerById(@PathVariable("id") Integer customerId){
-        Customer customer = customerRepository.findById(customerId).get();
+        Customer customer = customerBiz.getRepo().findById(customerId).get();
         
         return customer;
     }
@@ -100,8 +101,8 @@ public class CustomerController {
     @ResponseBody
     public Iterable<Customer> loadCustomer(@RequestParam("customerId") Integer customerId){
         
-        customerRepository.deleteById(customerId);        
-        Iterable<Customer> customers = customerRepository.findAll();
+        customerBiz.getRepo().deleteById(customerId);        
+        Iterable<Customer> customers = customerBiz.getRepo().findAll();
         
         return customers;
     }
@@ -123,7 +124,7 @@ public class CustomerController {
             Iterable<Customer> entities = AppUtil.parseCustomer(data);
             
             // Update default Address for Customer
-            Address defaultAddr = addressRepository.findAll().iterator().next();
+            Address defaultAddr = addressBiz.getRepo().findAll().iterator().next();
             
             List<Customer> entityList = new ArrayList<Customer>();
 
@@ -137,7 +138,7 @@ public class CustomerController {
                         customer.setAddressId4(defaultAddr);
                     } else {
                         // Load address from db
-                        Address addr = addressRepository.findByDisplayAddress(customer.getAddr());
+                        Address addr = ((AddressRepository) addressBiz.getRepo()).findByDisplayAddress(customer.getAddr());
                         
                         if (addr == null ) { addr = defaultAddr; }
                         customer.setAddressId(addr);
@@ -150,22 +151,12 @@ public class CustomerController {
                 }
             });
             
-
-            List<Customer> customers = (List<Customer>) customerRepository.findAll();
-            for (Customer c : customers) {
-                if (!entityList.contains(c)) {
-                    customerRepository.delete(c);
-                }
-            }
-            
-            customerRepository.saveAll(entityList);
+            customerBiz.updateCustomer(entities, data.getDeletedIds());
             LOG.info("customerModel=" + data + ";request=" + request);
         }
         
         // Reload data from db
-        Iterable<Customer> orders = customerRepository.findAll();
-        
-        return orders;
+        return customerBiz.getRepo().findAll();
     }
 
 }
