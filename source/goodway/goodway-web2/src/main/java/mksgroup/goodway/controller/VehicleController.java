@@ -4,8 +4,6 @@
 package mksgroup.goodway.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,9 +21,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.VehicleBiz;
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.VehicleModel;
-import mksgroup.goodway.repository.VehicleRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -36,10 +34,9 @@ import mksgroup.goodway.util.AppUtil;
 public class VehicleController extends BaseController {
     /** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
-
-    @Autowired
-    private VehicleRepository vehicleRepository;
     
+    @Autowired
+    private VehicleBiz vehicleBiz;
     /**
      * Goto the index page.
      * @return
@@ -64,7 +61,7 @@ public class VehicleController extends BaseController {
     @ResponseBody
     public Iterable<Vehicle> loadVehicles() {
 
-        Iterable<Vehicle> vehicles = vehicleRepository.findAll();
+        Iterable<Vehicle> vehicles = vehicleBiz.getRepo().findAll();
         
         return vehicles;
     }
@@ -85,22 +82,21 @@ public class VehicleController extends BaseController {
             return null;
         } else {
             Iterable<Vehicle> entities = AppUtil.parseVehicle(data);
-            List<Vehicle> entityList = new ArrayList<Vehicle>();
-
-            entities.forEach(e-> entityList.add(e));
-            List<Vehicle> vehilces = (List<Vehicle>) vehicleRepository.findAll();
-            for(Vehicle v : vehilces) {
-            	if(!entityList.contains(v)) {
-            		vehicleRepository.delete(v);
-            	}
-            }
-            
-            vehicleRepository.saveAll(entities);
-            LOG.info("vehicleModel=" + data + ";request=" + request);
+            vehicleBiz.updateVehicles(entities, data.getDeletedIds());
+//            List<Vehicle> entityList = new ArrayList<Vehicle>();
+//
+//            if (data.getDeletedIds() != null) {
+//                data.getDeletedIds().forEach(deletedId -> {
+//                    vehicleRepository.deleteById(deletedId);
+//                });
+//            }
+//            
+//            vehicleRepository.saveAll(entities);
+//            LOG.info("vehicleModel=" + data + ";request=" + request);
         }
         
         // Reload data from db
-        Iterable<Vehicle> orders = vehicleRepository.findAll();
+        Iterable<Vehicle> orders = vehicleBiz.getRepo().findAll();
         
         return orders;
     }
@@ -144,6 +140,6 @@ public class VehicleController extends BaseController {
      */
     @Override
     Iterable<?> getDownloadData() {
-        return vehicleRepository.findAll();
+        return vehicleBiz.getRepo().findAll();
     }
 }
