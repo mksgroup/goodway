@@ -14,46 +14,74 @@
   <th:block th:include="fragments/order/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
-  
+  <script>
+	$(document).ready(function(){
+		$('input[type=search]').on('keyup'), function(){
+			var value = $(this).val().toLowerCase();
+			$('#resultTable tbody tr').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		};
+	});
+	</script>
   <script>
     // Lưu đối tượng table kết quả search
     var resultTable = null;
     var vehicleData;
     
     $(document).ready(function() {
-        
-        function getCustomerData(handleData) {
-	        $.ajax({
-	            url : _ctx + "customer/load-customer",
-	            type : "GET",
-	            contentType: "application/json",
-	            dataType: 'json',
-
-	            success : function(result) {
-	            	handleData(result);
-	            },
-	            error : function() {
-	                console.log("Error!");
-	            }
-	        });
-        }
-
     	if (resultTable == null) {
-    		getCustomerData(function(output){
-    			   var table = $("#resultTable").DataTable();
-                   for(var i = 0; i < output.length; i++){
-                   var customer = output[i];
-                   for(var j = 0; j < customer.orderMasterList.length; j++){
-                	      var order = customer.orderMasterList[j];
+	        $("#resultTable").DataTable({
+	            ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
+	            "columns": [
+	              	   { "data": 0,
+		              	 "render": function(data, row, meta){
+								return '<a href="order/edit?orderCd=' + data + '">' + data + '</a>';	
+			              	   }
+	              	   },
+		              	   
+	               	   { "data": 1 },
+	               	   { "data": 2 },
+	               	   { "data": 3 },
+	               	   { "data": 4 }
+	               
+	                   ],
+	           });
+	   	} else {
+	           resultTable.fnDraw();
+	    }
+//         function getCustomerData(handleData) {
+// 	        $.ajax({
+// 	            url : _ctx + "customer/load-customer",
+// 	            type : "GET",
+// 	            contentType: "application/json",
+// 	            dataType: 'json',
 
-                          table.row.add(['<a href="order/edit?orderCd='+order.name + '">' +order.name +'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
-                     }
-                  }
-              }); 
-        } else {
-                resultTable.fnDraw();
-        }
-     });     
+// 	            success : function(result) {
+// 	            	handleData(result);
+// 	            },
+// 	            error : function() {
+// 	                console.log("Error!");
+// 	            }
+// 	        });
+//         }
+
+//     	if (resultTable == null) {
+//     		getCustomerData(function(output){
+//     			   var table = $("#resultTable").DataTable();
+//                    for(var i = 0; i < output.length; i++){
+//                    var customer = output[i];
+//                    for(var j = 0; j < customer.orderMasterList.length; j++){
+//                 	      var order = customer.orderMasterList[j];
+
+//                           table.row.add(['<a href="order/edit?orderCd='+order.name + '">' +order.name +'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
+//                      }
+//                   }
+//               }); 
+//         } else {
+//                 resultTable.fnDraw();
+//         }
+//      });     
     		
 // 	            $("#resultTable").DataTable({
 // 	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},

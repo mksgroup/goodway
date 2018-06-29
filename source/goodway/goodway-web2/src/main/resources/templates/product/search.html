@@ -14,7 +14,16 @@
   <th:block th:include="fragments/product/search"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
-  <script type="text/javascript" src="/js/searchDatatable.js"></script>
+  <script>
+	$(document).ready(function(){
+		$('input[type=search]').on('keyup'), function(){
+			var value = $(this).val().toLowerCase();
+			$('#resultTable tbody tr').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		};
+	});
+	</script>
 	
 <script>
     // Lưu đối tượng table kết quả search
@@ -34,7 +43,13 @@
                 	   { "data": "width" },
                 	   { "data": "length" },
                 	   { "data": "weight" }              	   
-                       ]
+                       ],
+                	   "initComplete": function(settings, json){ 
+                		    var rows = 0;
+                           var info = this.api().page.info();
+                        	rows = info.recordsTotal;
+                           total.innerHTML = rows;
+                       }
             });
     	} else {
             resultTable.fnDraw();

@@ -18,17 +18,28 @@
 	<th:block th:include="fragments/address/search"></th:block>
 
 	<th:block th:include="fragments/footer"></th:block>
-	<script type="text/javascript" src="/js/searchDatatable.js"></script>
+	<script >
+	$(document).ready(function(){
+		$('input[type=search]').on('keyup'), function(){
+			var value = $(this).val().toLowerCase();
+			$('#resultTable tbody tr').filter(function() {
+				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+			});
+		};
+	});
+	</script>
 	
 	<script>
         // Lưu đối tượng table kết quả search
         var resultTable = null;
+        var tb;
         var addressData;
+        var total = document.getElementById('total');
         
         $(document).ready(function() {
             // Khởi tạo Table kết quả
         	if (resultTable == null) {
-                $("#resultTable").DataTable({
+        		tb = $("#resultTable").DataTable({
                     ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
                     "columns": [
                     	   { "data": "id" },
@@ -36,13 +47,18 @@
                     	   { "data": "displayAddress" },
                     	   { "data": "street" },
                     	   { "data": "ward" }
-                    	   ]
+                    	   ],
+                    	   "initComplete": function(settings, json){ 
+                               var info = this.api().page.info();
+                               total.innerHTML = info.recordsTotal;
+                           }
                 });
         	} else {
                 resultTable.fnDraw();
             }
+            
         });
     </script>
-
+	
 </body>
 </html>
