@@ -27,6 +27,12 @@
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
     
+    <style type="text/css">
+        .disableButton{
+            background-color: black;
+        }
+    </style>
+    
     <script>
 	$(document).ready(function(){
 		$('input[type=search]').on('keyup'), function(){
@@ -65,6 +71,16 @@
          	    manualColumnResize: true,
                 manualRowResize: true,
                 contextMenu: true,
+                afterValidate: function (isValid, value, row, prop, source) {
+                    if (!isValid) {
+                    	$("button[type=submit]").prop('disabled', true);
+                    	$("button[type=submit]").addClass("disableButton");
+                        
+                    } else {
+                    	$("button[type=submit]").prop('disabled', false);
+                    	$("button[type=submit]").removeClass("disableButton");
+                    }
+                },                
                 columns: [
                      { "data": "id", readOnly: true },
                      { "data": "name", readOnly: true },
@@ -72,7 +88,7 @@
                      { "data": "width", readOnly: true },
                      { "data": "length", readOnly: true },
                      { "data": "weight", readOnly: true },     
-                     { "data": "quantity" }
+                     { "data": "quantity", type: 'numeric' }
                ],
                 hiddenColumns: {
                      columns: 7,
