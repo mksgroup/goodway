@@ -61,9 +61,9 @@
 													role="alert" style="display: none">
 													<strong th:text="#{save.ok}">Save OK</strong>
 												</div>
-												<button class="btn btn-info">
-													<i class="ft-save"></i>&nbsp;<span th:text="#{export}">Export</span>
-												</button>
+												 <a class="btn btn-info" th:href="@{/question/download}" target="_blank">
+                                            <i class="fa fa-download"></i>&nbsp;<span th:text="#{export}">Export</span>
+                                        </a>   
 											</div>
 										</div>
 									</form>
