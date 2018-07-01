@@ -177,7 +177,7 @@
 
             var ok = false;
             
-            if(customer_name == "" || customer_id == ""){
+            if(customer_name == "" || customer_id == "" || orderCd != ""){
             	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
 //                 $('#errorEmpty').alert();   
                 ok = false;
