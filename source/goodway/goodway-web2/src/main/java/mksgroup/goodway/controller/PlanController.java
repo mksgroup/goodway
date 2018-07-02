@@ -49,12 +49,12 @@ public class PlanController {
      */
     @PostMapping(value = {"/plan/makePlan"})
     @ResponseBody
-    public String  getListPlan(@Valid @RequestBody MakePlanModel data, HttpServletRequest req, Errors errors, HttpServletResponse res) {
+    public String  getListPlan(@Valid @RequestBody MakePlanModel data) {
     	List orderIds = data.getOrderIds();
     	List vehicleIds = data.getVehicleIds();
     	
-    	LOG.info("orderIds" + orderIds.toString());
-    	LOG.info("vehicleIds" + vehicleIds.toString());
+    	LOG.info("orderIds=" + orderIds.toString());
+    	LOG.info("vehicleIds=" + vehicleIds.toString());
     	
     	return "success";
     }
