@@ -1,9 +1,6 @@
 package mksgroup.goodway.controller;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.QuestionBiz;
 import mksgroup.goodway.entity.Question;
 import mksgroup.goodway.model.QuestionModel;
-import mksgroup.goodway.repository.QuestionRepository;
-import mksgroup.goodway.util.AppUtil;
+import mksgroup.goodway.util.AppUtil;	
 
 @Controller
 public class QuestionController extends BaseController {
@@ -33,7 +30,7 @@ public class QuestionController extends BaseController {
     private final static Logger LOG = LoggerFactory.getLogger(QuestionController.class);
     
     @Autowired
-    private QuestionRepository questionRepository;
+    private QuestionBiz questionBiz;
     
     @RequestMapping("/question/new")
     public String questionNew() {
@@ -47,7 +44,7 @@ public class QuestionController extends BaseController {
     @GetMapping("/question/load-question")
     @ResponseBody
     public Iterable<Question> loadQuestion(){
-    	Iterable<Question> question = questionRepository.findAll();
+    	Iterable<Question> question = questionBiz.getRepo().findAll();
     	
     	return question;
     }
@@ -66,27 +63,15 @@ public class QuestionController extends BaseController {
         LOG.info("step1");
             return null;
         } else {
-        	LOG.info("step2");
+        
             Iterable<Question> entities = AppUtil.parseQuestion(data);
-            List<Question> entityList = new ArrayList<Question>();
+            questionBiz.updateQuestions(entities, data.getDeletedIds());
 
-            entities.forEach(e-> entityList.add(e));
-            List<Question> question = (List<Question>) questionRepository.findAll();
-            for(Question q : question) {
-            	if(!entityList.contains(q)) {
-            		questionRepository.delete(q);
-            	} else {
-            		LOG.info("step3");
-            		q.setCreated(new Date());
-            	}
-            }
-            
-            questionRepository.saveAll(entities);
-            LOG.info("questionModel=" + data + ";request=" + request);
+          
         }
         
         // Reload data from db
-        Iterable<Question> questions = questionRepository.findAll();
+        Iterable<Question> questions = questionBiz.getRepo().findAll();
         
         return questions;
     }
@@ -134,7 +119,7 @@ public class QuestionController extends BaseController {
      */
     @Override
     Iterable<?> getDownloadData() {
-        return questionRepository.findAll();
+        return questionBiz.getRepo().findAll();
     }
 
     /**
