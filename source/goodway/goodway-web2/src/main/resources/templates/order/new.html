@@ -24,23 +24,10 @@
     <!-- Google Map Modal -->
     <th:block th:include="fragments/order/map"></th:block>
 
+
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
-    
-    <style type="text/css">
-        .disableButton{
-            background-color: black;
-        }
-    </style>
-    
     <script>
-	$(document).ready(function(){
-		$('input[type=search]').on('keyup'), function(){
-			var value = $(this).val().toLowerCase();
-			$('#selectCustomerTable tbody tr').filter(function() {
-				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			});
-		};
 
 		$('input[type=search]').on('keyup'), function(){
 			var value = $(this).val().toLowerCase();
@@ -48,12 +35,12 @@
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		};
-	});
 	</script>
 	
     <script>
         var dataProducts = [];
         var hotProduct = null;
+        var deletedIds = [];
         var invalidFeilds = new Set();
         
         $(function() {
@@ -65,27 +52,12 @@
                 colHeaders: ["ID", "Tên mặt hàng", "Dài(m)", "Rộng(m)", "Cao(m)", "Trọng lượng (kg)", "Số lượng"],
                 colWidths: [50, 300, 100, 100, 100, 120, 100],
                 rowHeaders: true,
-//              minCols : 6,
                 minRows: 12,
-             // currentRowClassName: 'currentRow',
-             // currentColClassName: 'currentCol',
+                currentRowClassName: 'currentRow',
+                currentColClassName: 'currentCol',
          	    manualColumnResize: true,
                 manualRowResize: true,
                 contextMenu: true,
-                afterValidate: function (isValid, value, row, prop, source) {
-                    if (!isValid) {
-                            var cell = {"row": row, "col": prop};
-                            invalidFeilds.add(cell);
-                            console.log("cell: " + JSON.stringify(cell));
-                    } else {
-                    	invalidFeilds.forEach(function(value) {
-                    		  if(value.row == row && value.col == prop){
-                    			  invalidFeilds.delete(value);
-                    		  }
-                    		});
-                        console.log(invalidFeilds);
-                    }
-                },                
                 columns: [
                      { "data": "id", readOnly: true },
                      { "data": "name", readOnly: true },
@@ -103,9 +75,38 @@
                     if(c==1){
                         displayDlgSelectProduct();
                     }
+                },
+                beforeRemoveRow: function (index, amount) {
+              	  var lastIndex = index + amount;
+                    var i;
+                    for (i = index; i < lastIndex; i++) {
+                        console.log("dataProducts=" + JSON.stringify(dataProducts));
+                        var deletedProducts = dataProducts[i];
+                        var deletedId = deletedProducts.id;
+
+                        console.log("Row = " + i + ";deletedId = " + deletedId);
+                        if (deletedId) {
+                      	  deletedIds.push(deletedId);
+                        }
+                    }
+
+                    console.log("list deletedIds=" + deletedIds);
+                },
+                afterValidate: function (isValid, value, row, prop, source) {
+                    if (!isValid) {
+                            var cell = {"row": row, "col": prop};
+                            invalidFeilds.add(cell);
+                            console.log("cell: " + JSON.stringify(cell));
+                    } else {
+                    	invalidFeilds.forEach(function(value) {
+                    		  if(value.row == row && value.col == prop){
+                    			  invalidFeilds.delete(value);
+                    		  }
+                    		});
+                        console.log(invalidFeilds);
+                    }
                 }
            });
-            
             if(orderCode != ""){   
                 loadOrderProduct(orderCode);
                 
@@ -135,7 +136,6 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
-                    
                     // Update data into the handsontable
                     dataProduct = res;
                     console.log(JSON.stringify(res));
@@ -174,25 +174,39 @@
             frmData["latitude"] = latitude;
             frmData["longitude"] = longitude;
             frmData["customer_id"] = customer_id;
+            frmData["deletedIds"] = deletedIds;
 
             var ok = true;
-            
-            if(customer_name == "" || customer_id == "" || orderCd != ""){
-            	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
-//                 $('#errorEmpty').alert();   
-                ok = false;
-            }
-            
-            if(invalidFeilds.size > 0) {
-                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
-//                 $('#errorHandsontable').alert();                    
-                ok = false;
+
+            // Check if have product but didn't enter quantity.
+            for(var k = 0; k < hotProduct.countRows(); k ++){
+                if(!hotProduct.isEmptyRow(k)){
+                    if(hotProduct.getDataAtCell(k,6) == null){
+                    	hotProduct.getCellMeta(k,6).valid = false;
+                        var cell = {"row": k, "col": hotProduct.colToProp(6)};
+                        invalidFeilds.add(cell);
+                        hotProduct.render();
+                    }
+                }
             }
 
-            if(hotProduct.getDataAtCell(0,0) == null) { 
+            // Check if user didn't choose customer.
+            if(customer_name == "" || customer_id == "" || orderCd == ""){
+            	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
+                ok = false;
+            } 
+
+            // Check if handsontable have any invalid.
+            if(invalidFeilds.size > 0) {
                 $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
                 ok = false;
-            }
+            } 
+
+            // Check if handsontable have any data.
+            if(hotProduct.getDataAtCell(0,0) == null) { 
+                $("#errorHandsontableEmpty").fadeToggle('slow'); $('#errorHandsontableEmpty').fadeOut(10000);
+                ok = false;
+            } 
             
             console.log(ok);
             if(ok){
@@ -205,9 +219,7 @@
     
                     success : function(result) {
                     	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
-                         
-                        // reload data
-                        alert("success");
+                        
                     },
                     error : function() {
                         console.log("Error!");
@@ -310,8 +322,7 @@
                                map: map,
                                position: results[0].geometry.location
                          });
-//                      $('#latitude').val(results[0].geometry.location.lat);
-//                      $('#longitude').val(results[0].geometry.location.lng);
+
                      $("#googleMapModal").modal('show');
                   } else {
                       alert('Geocode was not successful for the following reason: ' + status);

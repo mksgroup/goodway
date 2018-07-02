@@ -23,5 +23,7 @@ public interface AddressBiz {
      */
     boolean updateAddresses(Iterable<Address> vehicles, List<Integer> tobeDeletedIds);
     
+    Address findByDisplayAddress(String displayAddress);
+    
     CrudRepository<Address, Integer> getRepo();
 }

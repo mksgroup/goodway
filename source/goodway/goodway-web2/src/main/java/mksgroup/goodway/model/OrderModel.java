@@ -14,6 +14,8 @@ public class OrderModel {
 
     /** Lưới 2 chiều của danh sách sản phẩm . */
     private List productData;
+    
+    private List<Integer> deletedIds;
 
     /** Mã đơn hàng . */
     private String orderCd;
@@ -144,5 +146,13 @@ public class OrderModel {
 
     public void setCustomer_id(Integer customer_id) {
         this.customer_id = customer_id;
+    }
+
+    public List<Integer> getDeletedIds() {
+        return deletedIds;
+    }
+
+    public void setDeletedIds(List<Integer> deletedIds) {
+        this.deletedIds = deletedIds;
     }
 }

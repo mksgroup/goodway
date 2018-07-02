@@ -27,6 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import mksgroup.goodway.biz.AddressBiz;
+import mksgroup.goodway.biz.CustomerBiz;
+import mksgroup.goodway.biz.OrderBiz;
+import mksgroup.goodway.biz.ProductBiz;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
 import mksgroup.goodway.entity.OrderDetailProduct;
@@ -34,11 +38,8 @@ import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
-import mksgroup.goodway.repository.AddressRepository;
-import mksgroup.goodway.repository.CustomerRepository;
 import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.repository.OrderRepository;
-import mksgroup.goodway.repository.ProductRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -54,19 +55,19 @@ public class OrderController {
     String mapKey;
 
     @Autowired
-    private OrderRepository orderRepository;
+    private OrderBiz orderBiz;
     
     @Autowired
-    private ProductRepository productRepository;
+    private ProductBiz productBiz;
     
     @Autowired
     private OrderProductRepository orderProductRepository;
     
     @Autowired 
-    private CustomerRepository customerRepository;
+    private CustomerBiz customerBiz;
     
     @Autowired
-    private AddressRepository addressRepository;
+    private AddressBiz addressBiz;
     
     /**
      * Goto the index page.
@@ -107,7 +108,7 @@ public class OrderController {
     @GetMapping("/order/load-orderProduct")
     @ResponseBody
     public List<OrderDetailProductModel> getOrderProduct(@RequestParam("orderCd") String orderCd){
-        OrderMaster orderMaster = orderRepository.findByName(orderCd);
+        OrderMaster orderMaster = orderBiz.findByName(orderCd);
         LOG.info(orderMaster.toString());
         
         List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) orderProductRepository.findAllByOrderId(orderMaster);
@@ -141,7 +142,7 @@ public class OrderController {
     @ResponseBody
     public Iterable<OrderMaster> loadOrder() {
 
-        Iterable<OrderMaster> orders = orderRepository.findAll();
+        Iterable<OrderMaster> orders = orderBiz.getRepo().findAll();
         
         return orders;
     }
@@ -155,7 +156,7 @@ public class OrderController {
     @ResponseBody
     public List<Product> loadOrderDetails(@RequestParam("orderCd") String orderCd) {
 
-        Iterable<OrderMaster> orders = orderRepository.findAll();
+        Iterable<OrderMaster> orders = orderBiz.getRepo().findAll();
         OrderMaster order = new OrderMaster();
         for(OrderMaster o : orders) {
             if(o.getName().equalsIgnoreCase(orderCd)) {
@@ -165,7 +166,7 @@ public class OrderController {
         List<OrderDetailProduct> orderProducts = order.getOrderDetailProductList();
         List<Product> productList = new ArrayList<Product>();
 
-        orderProducts.forEach(p -> productList.add(productRepository.findById(p.getProductId().getId()).get()));
+        orderProducts.forEach(p -> productList.add(productBiz.getRepo().findById(p.getProductId().getId()).get()));
         
         return productList;
     }
@@ -190,36 +191,31 @@ public class OrderController {
             LOG.info("getting order's data");
             orderMaster = AppUtil.parseOrder(data);
             
-            Customer customer = customerRepository.findById(orderMaster.getCustomerId().getId()).get();
-          
+            Customer customer = customerBiz.getRepo().findById(orderMaster.getCustomerId().getId()).get();
             LOG.info(customer.toString());
+            
             orderMaster.setCustomerId(customer);
             
-            Address addr = new Address();
-            List<Address> addressList = (List<Address>) addressRepository.findAll();
-            for(Address a : addressList) {
-                if(a.getDisplayAddress().equalsIgnoreCase(orderMaster.getAddressId().getDisplayAddress())) {
-                    addr = a;
-                }
-            }
+            Address addr = addressBiz.findByDisplayAddress(orderMaster.getAddressId().getDisplayAddress());
             LOG.info(addr.toString());
+            
             orderMaster.setAddressId(addr);
                        
             Product product = new Product();            
             LOG.info("getting orderProduct's data");
-            List<OrderDetailProduct> orderDetailProductList = orderMaster.getOrderDetailProductList();
-            for(OrderDetailProduct o : orderDetailProductList) {
-                product = productRepository.findById(o.getProductId().getId()).get();
+
+            for(OrderDetailProduct o : orderMaster.getOrderDetailProductList()) {
+                product = productBiz.getRepo().findById(o.getProductId().getId()).get();
                 o.setProductId(product);
                 o.setProductName(product.getName());
                 o.setOrderId(orderMaster);
             }
-            LOG.info(orderDetailProductList.toString());
+            LOG.info(orderMaster.getOrderDetailProductList().toString());
             
             orderMaster.setCreatedbyUsername("Nam Tang");
             orderMaster.setDeliveryDate(new Date());
             
-            orderRepository.save(orderMaster);
+            orderBiz.updateOrder(orderMaster, data.getDeletedIds());
             LOG.info("Saved order with ID = " + orderMaster.getId());
         }
       

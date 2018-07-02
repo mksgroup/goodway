@@ -12,4 +12,7 @@ import mksgroup.goodway.entity.OrderMaster;
 public interface OrderProductRepository extends CrudRepository<OrderDetailProduct, Integer> {
     @Query("SELECT o FROM OrderDetailProduct o WHERE o.orderId = :orderId")
     Iterable<OrderDetailProduct> findAllByOrderId(@Param("orderId") OrderMaster orderId);
+    
+    @Query("SELECT o FROM OrderDetailProduct o WHERE o.orderId = :orderId and productId = :productId")
+    OrderDetailProduct findByOrderIdAndProductId(@Param("orderId") OrderMaster orderId, @Param("productId") Integer productId);
 }
