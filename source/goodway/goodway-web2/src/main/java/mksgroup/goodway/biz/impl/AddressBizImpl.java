@@ -42,4 +42,10 @@ public class AddressBizImpl implements AddressBiz {
         return addressRepository;
     }
 
+    @Override
+    public Address findByDisplayAddress(String displayAddress) {
+        
+        return addressRepository.findByDisplayAddress(displayAddress);
+    }
+
 }
