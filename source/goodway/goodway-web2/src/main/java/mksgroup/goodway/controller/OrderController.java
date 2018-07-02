@@ -20,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -91,8 +92,8 @@ public class OrderController {
      * @param model
      * @return
      */
-    @GetMapping("order/edit")
-    public String goOrderEdit(@RequestParam("orderCd") String orderCd, Model model) {
+    @GetMapping("order/edit/{orderCd}")
+    public String goOrderEdit(@PathVariable("orderCd") String orderCd, Model model) {
         model.addAttribute("orderCode", orderCd);
         model.addAttribute("map_key", mapKey);
         
