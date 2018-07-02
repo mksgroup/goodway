@@ -50,21 +50,23 @@
 										<div id="tableQuestion"
 											class="hot handsontable htRowHeaders htColumnHeaders"></div>
 										<div class="col-12">
-											<div class ="row">
-												<div class = "col-1">
-												<button class="btn btn-info">
-													<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
-												</button>
+											<div class="row">
+												<div class="col-1">
+													<button class="btn btn-info">
+														<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+													</button>
 												</div>
 												<p id="resultSubmit"></p>
-												<div id="result" class="alert alert-success mb-2 hidden-xs"
-													role="alert" style="display: none">
-													<strong th:text="#{save.ok}">Save OK</strong>
-												</div>
-												 <a class="btn btn-info" th:href="@{/question/download}" target="_blank">
-                                            <i class="fa fa-download"></i>&nbsp;<span th:text="#{export}">Export</span>
-                                        </a>   
+
+												<a class="btn btn-info" th:href="@{/question/download}"
+													target="_blank"> <i class="fa fa-download"></i>&nbsp;<span
+													th:text="#{export}">Export</span>
+												</a>
 											</div>
+										</div>
+										<div id="result" class="alert alert-success mb-2 hidden-xs"
+											role="alert" style="display: none">
+											<strong th:text="#{save.ok}">Save OK</strong>
 										</div>
 									</form>
 								</div>

@@ -146,6 +146,8 @@
                 dataType: 'json',
 
                 success : function(result) {
+                	 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+                     
                     // reload data
                 	loadVehicle();
                 },
