@@ -52,9 +52,10 @@
 	</script>
 	
     <script>
-        var dataProducts = ["", "" , "", "", "", "", ""];
+        var dataProducts = [];
         var hotProduct = null;
-
+        var invalidFeilds = new Set();
+        
         $(function() {
         	var containerProduct = document.getElementById('tableProduct');
             var orderCode = $('#orderCd').val();         
@@ -73,12 +74,16 @@
                 contextMenu: true,
                 afterValidate: function (isValid, value, row, prop, source) {
                     if (!isValid) {
-                    	$("button[type=submit]").prop('disabled', true);
-                    	$("button[type=submit]").addClass("disableButton");
-                        
+                            var cell = {"row": row, "col": prop};
+                            invalidFeilds.add(cell);
+                            console.log("cell: " + JSON.stringify(cell));
                     } else {
-                    	$("button[type=submit]").prop('disabled', false);
-                    	$("button[type=submit]").removeClass("disableButton");
+                    	invalidFeilds.forEach(function(value) {
+                    		  if(value.row == row && value.col == prop){
+                    			  invalidFeilds.delete(value);
+                    		  }
+                    		});
+                        console.log(invalidFeilds);
                     }
                 },                
                 columns: [
@@ -88,7 +93,7 @@
                      { "data": "width", readOnly: true },
                      { "data": "length", readOnly: true },
                      { "data": "weight", readOnly: true },     
-                     { "data": "quantity", type: 'numeric' }
+                     { "data": "quantity", type: 'numeric', allowEmpty: false}
                ],
                 hiddenColumns: {
                      columns: 7,
@@ -110,7 +115,7 @@
                     success : function(result) {
                         console.log("Load customer result =" + JSON.stringify(result));
                         
-                        // fresh address
+                        // fresh customer
                         refreshCustomer(result);
                     },
                     error : function() {
@@ -130,6 +135,7 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
+                    
                     // Update data into the handsontable
                     dataProduct = res;
                     console.log(JSON.stringify(res));
@@ -153,7 +159,7 @@
             var latitude = $('#latitude').val();
             var longitude = $('#longitude').val();
             var customer_id = $('#customer_id').val();
-    
+            var customer_name = $('#customer_name').val();
             // Get header name
             var colHeaderData =  hotProduct.getColHeader();
             
@@ -168,25 +174,43 @@
             frmData["latitude"] = latitude;
             frmData["longitude"] = longitude;
             frmData["customer_id"] = customer_id;
-            console.log(frmData);
 
-            $.ajax({
-                url : _ctx + "/order/save",
-                type : "POST",
-                contentType: "application/json",
-                data: JSON.stringify(frmData),
-                dataType: 'json',
+            var ok = false;
+            
+            if(customer_name == "" || customer_id == "" || orderCd != ""){
+            	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
+//                 $('#errorEmpty').alert();   
+                ok = false;
+            } else { ok = true; }
+            
+            if(invalidFeilds.size > 0) {
+                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
+//                 $('#errorHandsontable').alert();                    
+                ok = false;
+            } else { ok = true; }
 
-                success : function(result) {
-                	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
-                     
-                    // reload data
-                    alert("success");
-                },
-                error : function() {
-                    console.log("Error!");
-                }
-            });
+            if(hotProduct.getDataAtCell(0,0) == null) { ok = false;}
+            
+            console.log(ok);
+            if(ok){
+                $.ajax({
+                    url : _ctx + "/order/save",
+                    type : "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(frmData),
+                    dataType: 'json',
+    
+                    success : function(result) {
+                    	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
+                         
+                        // reload data
+                        alert("success");
+                    },
+                    error : function() {
+                        console.log("Error!");
+                    }
+                });
+            }
         });
     </script>
     <!--  Scripts for select customer -->

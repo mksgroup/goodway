@@ -7,12 +7,15 @@
                     <h4 class="card-title" id="horz-layout-basic" th:text="#{order.new.tip}">Nhập thông tin đơn hàng</h4>
                 </div>
                 <div class="card-content collpase show">
-                    <div class="card-body">
+                    <div class="card-body">                
                         <form id="frmOrder" class="form form-horizontal" action="#" method="post">
                             <div class="form-body">
                                 <h4 class="form-section" th:text="#{order.new.receiver}">
                                     <i class="ft-user" ></i> Thông tin người nhận
                                 </h4>
+                                <div id="errorEmpty" class="alert alert-danger mb-2 hidden-xs" role="alert" style="display: none">
+                                <strong th:text="#{error.empty}">Chưa nhập dữ liệu</strong>
+                                </div>                                   
                                 <div class="form-group row">
                                     <label class="col-md-3 label-control" for="projectinput1" th:text="#{order.search.orderId}">Mã đơn hàng</label>
                                     <div class="col-md-3">
@@ -51,6 +54,10 @@
                             <!-- Mobiles and tablets for products -->
                             <section id="mobiles-tablets">
                                 <div class="row">
+                                    <div id="errorHandsontable" class="alert alert-danger mb-2 hidden-xs" role="alert"
+                                        style="display: none">
+                                        <strong th:text="#{error.handsontable.orderProduct}">Dữ liệu bạn nhập không đúng.</strong>
+                                    </div>
                                     <div class="col-12">
                                         <div class="card">
                                             <div class="card-header">
