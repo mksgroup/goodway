@@ -115,7 +115,7 @@
                     success : function(result) {
                         console.log("Load customer result =" + JSON.stringify(result));
                         
-                        // fresh customer
+                        // refresh customer
                         refreshCustomer(result);
                     },
                     error : function() {
@@ -175,21 +175,24 @@
             frmData["longitude"] = longitude;
             frmData["customer_id"] = customer_id;
 
-            var ok = false;
+            var ok = true;
             
             if(customer_name == "" || customer_id == "" || orderCd != ""){
             	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
 //                 $('#errorEmpty').alert();   
                 ok = false;
-            } else { ok = true; }
+            }
             
             if(invalidFeilds.size > 0) {
                 $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
 //                 $('#errorHandsontable').alert();                    
                 ok = false;
-            } else { ok = true; }
+            }
 
-            if(hotProduct.getDataAtCell(0,0) == null) { ok = false;}
+            if(hotProduct.getDataAtCell(0,0) == null) { 
+                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
+                ok = false;
+            }
             
             console.log(ok);
             if(ok){
@@ -307,8 +310,8 @@
                                map: map,
                                position: results[0].geometry.location
                          });
-                     $('#latitude').val(results[0].geometry.location.lat);
-                     $('#longitude').val(results[0].geometry.location.lng);
+//                      $('#latitude').val(results[0].geometry.location.lat);
+//                      $('#longitude').val(results[0].geometry.location.lng);
                      $("#googleMapModal").modal('show');
                   } else {
                       alert('Geocode was not successful for the following reason: ' + status);
