@@ -99,12 +99,13 @@ public class OrderController {
         return "order/new";
     }
 
-    @GetMapping("order/load-deletedProduct")
+    @GetMapping("order/delete")
     @ResponseBody
-    public OrderDetailProduct get(@RequestParam("orderCd") String orderCd,
-            @RequestParam("productId") Integer productId) {
-
-        return orderProductBiz.findByOrderIdAndProductId(orderBiz.findByName(orderCd), productBiz.getRepo().findById(productId).get());
+    public List<Object[]> deleteOrder(@RequestParam("orderId") Integer orderId) {
+        OrderMaster order = orderBiz.getRepo().findById(orderId).get();
+        orderBiz.getRepo().delete(order);
+                
+        return orderBiz.findOrderCustomer();
     }
 
     /**

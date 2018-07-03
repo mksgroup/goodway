@@ -31,4 +31,10 @@ public class OrderBizImpl implements OrderBiz{
         return orderRepository;
     }
 
+    @Override
+    public List<Object[]> findOrderCustomer() {
+        
+        return orderRepository.findOrderCustomer();
+    }
+
 }

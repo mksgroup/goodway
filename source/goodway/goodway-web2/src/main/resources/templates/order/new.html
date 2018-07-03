@@ -227,7 +227,7 @@
             for(var row = 0; row < hotProduct.countRows(); row++){
                 if(!hotProduct.isEmptyRow(row)){
                     for(var col = 0; col < hotProduct.countCols(); col++){
-                        if(hotProduct.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
+                        if(hotProduct.getDataAtCell(row, col) == null || hotProduct.getDataAtCell(row, col) == ""){
                         	hotProduct.getCellMeta(row, col).valid = false;
                             var cell = {"row": row, "col": hotProduct.colToProp(col)};
                             invalidFeilds.add(cell);

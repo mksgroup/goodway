@@ -10,6 +10,8 @@ public interface OrderBiz {
         
     OrderMaster findByName(String name);
     
+    List<Object[]> findOrderCustomer();
+    
     CrudRepository<OrderMaster, Integer> getRepo();
 
 }
