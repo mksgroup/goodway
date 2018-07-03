@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
+import mksgroup.goodway.entity.Product;
 
 @Repository
 public interface OrderProductRepository extends CrudRepository<OrderDetailProduct, Integer> {
@@ -14,5 +15,5 @@ public interface OrderProductRepository extends CrudRepository<OrderDetailProduc
     Iterable<OrderDetailProduct> findAllByOrderId(@Param("orderId") OrderMaster orderId);
     
     @Query("SELECT o FROM OrderDetailProduct o WHERE o.orderId = :orderId and productId = :productId")
-    OrderDetailProduct findByOrderIdAndProductId(@Param("orderId") OrderMaster orderId, @Param("productId") Integer productId);
+    OrderDetailProduct findByOrderIdAndProductId(@Param("orderId") OrderMaster orderId, @Param("productId") Product productId);
 }

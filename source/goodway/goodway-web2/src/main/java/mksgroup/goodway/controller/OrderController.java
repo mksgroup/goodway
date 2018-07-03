@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -17,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import mksgroup.goodway.biz.AddressBiz;
 import mksgroup.goodway.biz.CustomerBiz;
 import mksgroup.goodway.biz.OrderBiz;
+import mksgroup.goodway.biz.OrderProductBiz;
 import mksgroup.goodway.biz.ProductBiz;
 import mksgroup.goodway.entity.Address;
 import mksgroup.goodway.entity.Customer;
@@ -39,7 +40,6 @@ import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.repository.OrderProductRepository;
-import mksgroup.goodway.repository.OrderRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -50,25 +50,25 @@ import mksgroup.goodway.util.AppUtil;
 public class OrderController {
     /** For logging. */
     private final static Logger LOG = LoggerFactory.getLogger(OrderController.class);
-    
+
     @Value("${map.key}")
     String mapKey;
 
     @Autowired
     private OrderBiz orderBiz;
-    
+
     @Autowired
     private ProductBiz productBiz;
-    
+
     @Autowired
-    private OrderProductRepository orderProductRepository;
-    
-    @Autowired 
+    private OrderProductBiz orderProductBiz;
+
+    @Autowired
     private CustomerBiz customerBiz;
-    
+
     @Autowired
     private AddressBiz addressBiz;
-    
+
     /**
      * Goto the index page.
      * @return
@@ -77,15 +77,14 @@ public class OrderController {
     public String goOrderSearch() {
         return "order/search";
     }
-    
-    
+
     @GetMapping("/order/new")
     public String goOrderDetails(Model model) {
         model.addAttribute("map_key", mapKey);
 
         return "order/new";
     }
-    
+
     /**
      * Go to order edit page.
      * @param orderCd
@@ -96,10 +95,18 @@ public class OrderController {
     public String goOrderEdit(@PathVariable("orderCd") String orderCd, Model model) {
         model.addAttribute("orderCode", orderCd);
         model.addAttribute("map_key", mapKey);
-        
+
         return "order/new";
     }
-    
+
+    @GetMapping("order/load-deletedProduct")
+    @ResponseBody
+    public OrderDetailProduct get(@RequestParam("orderCd") String orderCd,
+            @RequestParam("productId") Integer productId) {
+
+        return orderProductBiz.findByOrderIdAndProductId(orderBiz.findByName(orderCd), productBiz.getRepo().findById(productId).get());
+    }
+
     /**
      * Load order's product list.
      * @param orderCd
@@ -107,32 +114,32 @@ public class OrderController {
      */
     @GetMapping("/order/load-orderProduct")
     @ResponseBody
-    public List<OrderDetailProductModel> getOrderProduct(@RequestParam("orderCd") String orderCd){
+    public List<OrderDetailProductModel> getOrderProduct(@RequestParam("orderCd") String orderCd) {
         OrderMaster orderMaster = orderBiz.findByName(orderCd);
         LOG.info(orderMaster.toString());
-        
-        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) orderProductRepository.findAllByOrderId(orderMaster);
+
+        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) ((OrderProductRepository) orderProductBiz.getRepo()).findAllByOrderId(orderMaster);
         LOG.info(orderProductList.toString());
-        
+
         List<OrderDetailProductModel> products = new ArrayList<>();
         OrderDetailProductModel model = new OrderDetailProductModel();
-        
-        for(OrderDetailProduct o : orderProductList) {
-                model.setId(o.getProductId().getId());
-                model.setDescription(o.getProductId().getDescription());
-                model.setName(o.getProductId().getName());
-                model.setHeight(o.getProductId().getHeight());
-                model.setWidth(o.getProductId().getWidth());
-                model.setLength(o.getProductId().getLength());
-                model.setWeight(o.getProductId().getWeight());
-                model.setQuantity(o.getQuantity());
-                
-                products.add(model);     
+
+        for (OrderDetailProduct o : orderProductList) {
+            model.setId(o.getProductId().getId());
+            model.setDescription(o.getProductId().getDescription());
+            model.setName(o.getProductId().getName());
+            model.setHeight(o.getProductId().getHeight());
+            model.setWidth(o.getProductId().getWidth());
+            model.setLength(o.getProductId().getLength());
+            model.setWeight(o.getProductId().getWeight());
+            model.setQuantity(o.getQuantity());
+
+            products.add(model);
         }
-        
+
         return products;
     }
-    
+
     /**
      * Load danh sách các đơn hàng.
      * @param packageId
@@ -143,10 +150,10 @@ public class OrderController {
     public Iterable<OrderMaster> loadOrder() {
 
         Iterable<OrderMaster> orders = orderBiz.getRepo().findAll();
-        
+
         return orders;
     }
-    
+
     /**
      * Load orderMaster's products.
      * @param orderId
@@ -158,8 +165,8 @@ public class OrderController {
 
         Iterable<OrderMaster> orders = orderBiz.getRepo().findAll();
         OrderMaster order = new OrderMaster();
-        for(OrderMaster o : orders) {
-            if(o.getName().equalsIgnoreCase(orderCd)) {
+        for (OrderMaster o : orders) {
+            if (o.getName().equalsIgnoreCase(orderCd)) {
                 order = o;
             }
         }
@@ -167,58 +174,70 @@ public class OrderController {
         List<Product> productList = new ArrayList<Product>();
 
         orderProducts.forEach(p -> productList.add(productBiz.getRepo().findById(p.getProductId().getId()).get()));
-        
+
         return productList;
     }
-    
+
     @PostMapping("/order/save")
     @ResponseBody
     @Transactional
     public OrderMaster saveOrder(@Valid @RequestBody OrderModel data, Errors errors, HttpServletRequest request) {
         OrderMaster orderMaster = null;
         LOG.info("saveOrder....");
-        
+
         // If error, just return a 400 bad request, along with the error message
         if (errors.hasErrors()) {
 
-            LOG.error(errors.getAllErrors()
-                        .stream().map(x -> x.getDefaultMessage())
-                        .collect(Collectors.joining(",")));
+            LOG.error(errors.getAllErrors().stream().map(x -> x.getDefaultMessage()).collect(Collectors.joining(",")));
 
             return null;
         } else {
-            
+
             LOG.info("getting order's data");
             orderMaster = AppUtil.parseOrder(data);
-            
+
             Customer customer = customerBiz.getRepo().findById(orderMaster.getCustomerId().getId()).get();
             LOG.info(customer.toString());
-            
+
             orderMaster.setCustomerId(customer);
-            
+
             Address addr = addressBiz.findByDisplayAddress(orderMaster.getAddressId().getDisplayAddress());
             LOG.info(addr.toString());
-            
-            orderMaster.setAddressId(addr);
-                       
-            Product product = new Product();            
-            LOG.info("getting orderProduct's data");
 
-            for(OrderDetailProduct o : orderMaster.getOrderDetailProductList()) {
-                product = productBiz.getRepo().findById(o.getProductId().getId()).get();
-                o.setProductId(product);
-                o.setProductName(product.getName());
-                o.setOrderId(orderMaster);
+            orderMaster.setAddressId(addr);
+
+            // If order existed set orderMaster's id = existed oder's id
+            OrderMaster existsOrder = orderBiz.findByName(data.getOrderCd());
+            if (!data.getOrderCd().isEmpty() && existsOrder != null) {
+                orderMaster.setId(existsOrder.getId());
             }
-            LOG.info(orderMaster.getOrderDetailProductList().toString());
             
+            LOG.info("Setting orderProduct's data");
+            orderMaster.setOrderDetailProductList(orderProductBiz.updateOrderProducts(orderMaster, data.getDeletedIds()));
+//            List<OrderDetailProduct> orderDetails = orderMaster.getOrderDetailProductList();
+//            for(OrderDetailProduct o : orderDetails) {
+//                product = productBiz.getRepo().findById(o.getProductId().getId()).get();
+//                OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(orderMaster, product);
+// 
+//                if(orderProduct.getId() != null) {
+//                    Integer quantity = o.getQuantity();
+//
+//                    o = orderProduct;
+//                    LOG.info("o ne " + o.toString() + "order: " + o.getOrderId().toString());
+//                    o.setQuantity(quantity);
+//                } 
+//            }
+//            orderMaster.setOrderDetailProductList(orderDetails);
+
+            LOG.info(orderMaster.getOrderDetailProductList().toString());
+
             orderMaster.setCreatedbyUsername("Nam Tang");
             orderMaster.setDeliveryDate(new Date());
-            
-            orderBiz.updateOrder(orderMaster, data.getDeletedIds());
+
+            orderBiz.getRepo().save(orderMaster);
             LOG.info("Saved order with ID = " + orderMaster.getId());
         }
-      
+
         return orderMaster;
     }
 }
