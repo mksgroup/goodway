@@ -219,18 +219,31 @@
 
             var ok = true;
 
-            // Check if have product but didn't enter quantity.
-            for(var k = 0; k < hotProduct.countRows(); k ++){
-                if(!hotProduct.isEmptyRow(k)){
-                    if(hotProduct.getDataAtCell(k,6) == null){
-                    	hotProduct.getCellMeta(k,6).valid = false;
-                        var cell = {"row": k, "col": hotProduct.colToProp(6)};
-                        invalidFeilds.add(cell);
-                        hotProduct.render();
+            // Check if handsontable row have data but invalid cell.
+            for(var row = 0; row < hotProduct.countRows(); row++){
+                if(!hotProduct.isEmptyRow(row)){
+                    for(var col = 0; col < hotProduct.countCols(); col++){
+                        if(hotProduct.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
+                        	hotProduct.getCellMeta(row, col).valid = false;
+                            var cell = {"row": row, "col": hotProduct.colToProp(col)};
+                            invalidFeilds.add(cell);
+                  
+                        } else {
+                            invalidFeilds.forEach(function(value) {
+                                var prop = hotProduct.colToProp(col);
+                                if(value.row == row && value.col == prop){
+                                    console.log(hotProduct.colToProp(col));
+                                    invalidFeilds.delete(value);
+                                }
+                              });
+                        	hotProduct.getCellMeta(row, col).valid = true;
+                        }
                     }
                 }
             }
-
+            
+            hotProduct.render();
+            
             // Check if user didn't choose customer.
             if(customer_name == "" || customer_id == "" || orderCd == ""){
             	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
@@ -384,19 +397,40 @@
             $("input:checkbox[name=productRow]:checked").each(function(){
                 selectedProducts.push($(this).val());
             });
-            console.log(selectedProducts);
+
+            var unSelectedProducts = [];
+            $("input:checkbox[name=productRow]:not(:checked)").each(function(){
+            	unSelectedProducts.push($(this).val());
+            });
 
             // get product's id already exists in handsontable then remove it from selectedProducts.
             for(var row = 0; row < dataProducts.length; row++){
                 if(!hotProduct.isEmptyRow(row)){
-                    console.log(dataProducts[row].id);
-                	var index = selectedProducts.indexOf(dataProducts[row].id.toString());
-                    console.log("index:"+index);
+                    var data = dataProducts[row];
+                    console.log(data.id);
+//                 	var index = selectedProducts.indexOf(data.id);
+                    
+                    for(var index = 0; index < selectedProducts.length; index++){
+                        console.log("index:"+index);
+                        if(selectedProducts[index] == data.id){
+                            console.log(selectedProducts[index]);
+                            selectedProducts.splice(index, 1);
+                        }
+                    }
 
-                    selectedProducts.splice(index, 1);
+                    // remove from handsontable if uncheck from selectProductTable
+                    for(var index2 = 0; index2 < unSelectedProducts.length; index2++){
+                        if(unSelectedProducts[index2] == data.id){
+                            console.log(unSelectedProducts[index2] + "-" + row);
+                        	dataProducts.splice(row, 1);
+                        }
+                    }      
                 }
             } 
-
+            
+            console.log(selectedProducts);
+            console.log(unSelectedProducts);
+            
             // get product in database
             $.ajax({
                 url : _ctx + "product/load-product",
@@ -410,20 +444,21 @@
                         var res = result[i];
                         for(var j = 0; j < selectedProducts.length; j++){
                             var checkedId = selectedProducts[j];
-                                if(res.id == checkedId){
-                                    for(var k = 0; k < dataProducts.length; k++){
+                            
+                            if(res.id == checkedId){
+                                for(var row = 0; row < dataProducts.length; row++){
 //                                         dataProducts.push(res);
-
-                                        // add product to handsontable where row's data = null
-                                        if(hotProduct.isEmptyRow(k)){
-                                        	dataProducts.splice(k, 0, res);
-                                            break;
-                                        }
-                                    }
+    
+                                 // add product to handsontable where row's data = null
+                                     if(hotProduct.isEmptyRow(row)){
+                                        dataProducts.splice(row, 0, res);
+                                        break;
+                                     }
                                  }
+                            }
                         }
                     }
-                   
+                    
                     hotProduct.loadData(dataProducts);
                 },
                 error : function() {
