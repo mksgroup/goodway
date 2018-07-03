@@ -22,6 +22,8 @@
         var dataCustomers = [];
         var hotCustomer = null;
         var deletedIds = [];
+        var invalidFeilds = new Set();
+			
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
         	
@@ -38,11 +40,11 @@
                 contextMenu: true,
                 columns: [
                 	{ data: "id", readOnly: true },
-                    { data: "name" },
-                    { data: "cd" },
-                    { data: "shortName" },
-             	    { data: "phone" },
-             	    { data: "addr", readOnly: true }
+                    { data: "name", type : 'text'},
+                    { data: "cd", type : 'text' },
+                    { data: "shortName", type : 'text' },
+             	    { data: "phone", type : 'text' },
+             	    { data: "addr", readOnly: true  }
                   ],
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
 
@@ -126,7 +128,42 @@
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
             
-            $.ajax({
+            var ok = true;
+
+            //
+           
+            for(var k = 0; k < hotCustomer.countRows(); k ++){
+                if(!hotCustomer.isEmptyRow(k)){
+                    for(var j = 0; j < hotCustomer.countCols(); j++){
+                        if(j!=0){
+                        	
+    	                    if(hotCustomer.getDataAtCell(k,j) == null || hotCustomer.getDataAtCell(k, j) == "") {
+    	                    	var cell = {"row": k, "col": hotCustomer.colToProp(j)};
+    	                    	hotCustomer.getCellMeta(k,j).valid = false;
+    	                        invalidFeilds.add(cell);
+    	                    } else{
+    		                    invalidFeilds.forEach(function(value) {
+    		                    	var prop = hotCustomer.colToProp(j);
+    	                    		  if(value.row == k && value.col == prop ){
+    	                    			  invalidFeilds.delete(value);
+    	                    		  }
+    	                    		});	
+    		                    hotCustomer.getCellMeta(k,j).valid = true;
+    	                    }
+                            }
+                    }
+                }
+            }
+
+            hotCustomer.render();
+            if(invalidFeilds.size > 0) {
+                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(1000);
+                ok = false;
+            }
+           
+             
+            if(ok){
+                $.ajax({
                 url : _ctx + "customer/save",
                 type : "POST",
                 contentType: "application/json",
@@ -144,6 +181,7 @@
                     console.log("Error!");
                 }
             });
+          }
         });
     </script>
     <!--  Scripts for select address -->
