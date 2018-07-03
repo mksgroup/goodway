@@ -15,11 +15,25 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
-        var dataProducts = [];
+        var dataProducts = [],numValidate;
         var deletedIds = [];
         var hotProduct = null;
+		var valid1 = true;
 
+		numValidate = function(value, callback){
+			setTimeout(function(){
+				if(/[0-9]+/.test(value) || value == ''){
+					callback(true);
+// 					$("#save").show();
+				} else {
+					callback(false);
+// 					$("#save").hide();
+				}
+			});
+		};
+		
         $(function() {
+		
         	var containerProduct = document.getElementById('tableProduct');
 
         	hotProduct = new Handsontable(containerProduct, {
@@ -37,11 +51,27 @@
                 	{data: 'id', readOnly: true},
                     {data: 'name'},
                     {data: 'description'},
-                    {data: 'height'},
-                    {data: 'width'},
-                    {data: 'length'},
-                    {data: 'weight'}
+                    {data: 'height',
+                     type: 'numeric',
+             		 validator: numValidate,
+             		 allowInvalid: false},
+                    {data: 'width',
+                     type: 'numeric',
+             		 validator: numValidate,
+                	 allowInvalid: false
+                    },
+                    {data: 'length',
+                     type: 'numeric',
+                	 validator: numValidate,
+                	 allowInvalid: false},
+                    {data: 'weight',
+                	 type: 'numeric',
+                 	 validator: numValidate,
+                 	 allowInvalid: false
+					}
                   ],
+                  
+                  
                   beforeRemoveRow: function (index, amount) {
                 	  var lastIndex = index + amount;
                       var i;
