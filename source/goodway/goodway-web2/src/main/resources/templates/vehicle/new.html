@@ -171,14 +171,14 @@
                                         invalidFeilds.delete(value);
                                     }
                                 });
-                            	hotVehicle.getCellMeta(row, col).valid = true;
-                  
                                 
+                            	hotVehicle.getCellMeta(row, col).valid = true;                           
                             }
                         }
                     }
                 }
             }
+            
             hotVehicle.render();
 
             // Check if handsontable have any invalid.
@@ -189,7 +189,7 @@
             } 
 
             // Check if handsontable have any data.
-            if(hotVehicle.getDataAtCell(0,0) == null) { 
+            if(hotVehicle.countEmptyRows() == hotVehicle.countRows()) { 
 //                 $("#errorHandsontableEmpty").fadeToggle('slow'); $('#errorHandsontableEmpty').fadeOut(10000);
                 $('#errorEmpty').show();
                 ok = false;
