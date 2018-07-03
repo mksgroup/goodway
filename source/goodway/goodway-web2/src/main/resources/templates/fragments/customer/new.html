@@ -38,7 +38,12 @@
                         </div>
                     </div>
                     <div class="card-content">
-                    
+                    <div id="errorHandsontable" class="alert alert-danger mb-2 hidden-xs" role="alert" style="display: none">
+                                                <strong th:text="#{error.handsontable.orderProduct}">Dữ liệu bạn nhập không đúng.</strong>
+                                                </div>    
+                                                <div id="errorHandsontableEmpty" class="alert alert-danger mb-2 hidden-xs" role="alert" style="display: none">
+                                                <strong th:text="#{error.empty}">Dữ liệu bạn nhập không đúng.</strong>
+                                                </div> 
                         <div class="card-body pb-0">
                         <form id="frmHot" th:action="@{/customer/save}" method="POST" enctype="multipart/form-data">
                             <div class="table-responsive scroll-container">

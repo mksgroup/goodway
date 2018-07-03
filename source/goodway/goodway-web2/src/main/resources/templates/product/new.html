@@ -33,7 +33,7 @@
 		};
 		
         $(function() {
-		
+        	
         	var containerProduct = document.getElementById('tableProduct');
 
         	hotProduct = new Handsontable(containerProduct, {
@@ -70,6 +70,17 @@
 					}
                   ],
                   
+				  afterChange: function(changes, source){
+					console.log("changes : "+changes);
+					console.log("source : "+source);
+
+					console.log('step');
+					
+					if(changes != null){
+						document.getElementById('save').disabled = false;
+						console.log('step');
+					}
+				  },
                   
                   beforeRemoveRow: function (index, amount) {
                 	  var lastIndex = index + amount;
@@ -96,6 +107,7 @@
          * @param vehicleId: -1 means loading all
          */
         function loadProducts(productId) {
+        	 document.getElementById('save').disabled = true;
             var url;
             var total = document.getElementById('total');
             
@@ -129,6 +141,7 @@
         $('#frmHot').submit(function(e,callback) {
         	$('#errorName').hide();
         	$('#errorDes').hide();
+        	$('#errorNull').hide();
             e.preventDefault();
     
             var frm = $('#frmHot');
@@ -148,8 +161,9 @@
             frmData["deletedIds"] = deletedIds;
 
             var a = hotProduct.getDataAtCell(1,2);
-//             hotProduct.getDataAtCell(i,1) == null || hotProduct.getDataAtCell(i,1) == ""
+
 			
+            
 	        for(var i = 0 ; i < dataProducts.length ; i++ ){
 	        	console.log(i);
 	        	if(!hotProduct.isEmptyRow(i)){
@@ -164,16 +178,21 @@
 	        			hotProduct.getCellMeta(i,2).valid = false;
 	        			 $('#errorDes').show(); 
 	        			
-	        		} else {
+	        		}
+					else {
 	        	    	hotProduct.getDataAtCell(i,1);
 	        			hotProduct.getDataAtCell(i,2);
 					console.log(hotProduct.getDataAtCell(i,1));
 					console.log(hotProduct.getDataAtCell(i,2));
 					errorSbm = false;
 	        		}
-	        	}
+	        	} 
 					
 	        }
+
+	        
+
+			
 
 	        hotProduct.render();
 			console.log(errorSbm);
