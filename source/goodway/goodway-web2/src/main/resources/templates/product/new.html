@@ -126,7 +126,8 @@
     </script>
     
     <script>
-        $('#frmHot').submit(function(e) {
+    var error = false;
+        $('#frmHot').submit(function(e,callback) {
             e.preventDefault();
     
             var frm = $('#frmHot');
@@ -139,27 +140,55 @@
             // Get data from Handsontable
             var tableData = hotProduct.getData();
 
+            
             var frmData = {};
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
-            $.ajax({
-                url : _ctx + "product/save",
-                type : "POST",
-                contentType: "application/json",
-                data: JSON.stringify(frmData),
-                dataType: 'json',
 
-                success : function(result) {
-                	 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
-                	 
-                    // reload data
-                	loadProducts();
-                },
-                error : function() {
-                    console.log("Error!");
-                }
-            });
+            var a = hotProduct.getDataAtCell(1,2);
+
+			
+	        for(var i = 0 ; i < dataProducts.length ; i++ ){
+	        	console.log(i);
+	        	if(!hotProduct.isEmptyRow(i)){
+	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,2) == null || hotProduct.getDataAtCell(i,1) == null){
+		        		error = true;
+	        			break;
+	        		} else {
+	        	    	hotProduct.getDataAtCell(i,1);
+	        			hotProduct.getDataAtCell(i,2);
+					console.log(hotProduct.getDataAtCell(i,1));
+					console.log(hotProduct.getDataAtCell(i,2));
+					error = false;
+	        		}
+	        	}
+					
+	        }
+			console.log(error);
+			if(error == false){
+	            $.ajax({
+	                url : _ctx + "product/save",
+	                type : "POST",
+	                contentType: "application/json",
+	                data: JSON.stringify(frmData),
+	                dataType: 'json',
+	
+	                success : function(result) {
+	                	 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+	                	 
+	                    // reload data
+	                	loadProducts();
+	                },
+	                error : function() {
+	                    console.log("Error!");
+	                }
+	            });
+			} else {
+				 $('#error').fadeToggle('slow'); $('#error').fadeOut(5000); 
+            	 return false;
+			}
+			
         });
     </script>
 </body>
