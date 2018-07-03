@@ -126,7 +126,7 @@
     </script>
     
     <script>
-    var error = false;
+    var errorSbm = false;
         $('#frmHot').submit(function(e,callback) {
             e.preventDefault();
     
@@ -153,20 +153,20 @@
 	        	console.log(i);
 	        	if(!hotProduct.isEmptyRow(i)){
 	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,2) == null || hotProduct.getDataAtCell(i,1) == null){
-		        		error = true;
+	        			errorSbm = true;
 	        			break;
 	        		} else {
 	        	    	hotProduct.getDataAtCell(i,1);
 	        			hotProduct.getDataAtCell(i,2);
 					console.log(hotProduct.getDataAtCell(i,1));
 					console.log(hotProduct.getDataAtCell(i,2));
-					error = false;
+					errorSbm = false;
 	        		}
 	        	}
 					
 	        }
-			console.log(error);
-			if(error == false){
+			console.log(errorSbm);
+			if(errorSbm == false){
 	            $.ajax({
 	                url : _ctx + "product/save",
 	                type : "POST",
@@ -186,7 +186,7 @@
 	            });
 			} else {
 				 $('#error').fadeToggle('slow'); $('#error').fadeOut(5000); 
-            	break;
+            	 
 			}
 			
         });
