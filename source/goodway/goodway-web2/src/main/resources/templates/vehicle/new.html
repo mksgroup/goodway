@@ -163,6 +163,14 @@
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 invalidFeilds.add(cell);
                                 hotVehicle.render();
+                            } else {
+                                invalidFeilds.forEach(function(value) {
+                                    var prop = hotVehicle.colToProp(col);
+                                    if(value.row == row && value.col == prop){
+                                        console.log(hotVehicle.colToProp(col));
+                                        invalidFeilds.delete(value);
+                                    }
+                                  });
                             }
                         }
                     }
