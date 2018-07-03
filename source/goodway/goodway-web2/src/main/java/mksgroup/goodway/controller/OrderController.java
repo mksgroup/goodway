@@ -118,15 +118,14 @@ public class OrderController {
         OrderMaster orderMaster = orderBiz.findByName(orderCd);
         LOG.info(orderMaster.toString());
 
-        List<OrderDetailProduct> orderProductList = (List<OrderDetailProduct>) ((OrderProductRepository) orderProductBiz.getRepo()).findAllByOrderId(orderMaster);
-        LOG.info(orderProductList.toString());
+        List<OrderDetailProduct> orderProductList = orderMaster.getOrderDetailProductList();
 
         List<OrderDetailProductModel> products = new ArrayList<>();
-        OrderDetailProductModel model = new OrderDetailProductModel();
 
         for (OrderDetailProduct o : orderProductList) {
+            OrderDetailProductModel model = new OrderDetailProductModel();
+
             model.setId(o.getProductId().getId());
-            model.setDescription(o.getProductId().getDescription());
             model.setName(o.getProductId().getName());
             model.setHeight(o.getProductId().getHeight());
             model.setWidth(o.getProductId().getWidth());
