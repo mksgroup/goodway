@@ -223,11 +223,11 @@
             for(var row = 0; row < hotProduct.countRows(); row++){
                 if(!hotProduct.isEmptyRow(row)){
                     for(var col = 0; col < hotProduct.countCols(); col++){
-                        if(hotProduct.getDataAtCell(row, col) == null){
+                        if(hotProduct.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
                         	hotProduct.getCellMeta(row, col).valid = false;
                             var cell = {"row": row, "col": hotProduct.colToProp(col)};
                             invalidFeilds.add(cell);
-                            hotProduct.render();
+                  
                         } else {
                             invalidFeilds.forEach(function(value) {
                                 var prop = hotProduct.colToProp(col);
@@ -236,11 +236,14 @@
                                     invalidFeilds.delete(value);
                                 }
                               });
+                        	hotProduct.getCellMeta(row, col).valid = true;
                         }
                     }
                 }
             }
-
+            
+            hotProduct.render();
+            
             // Check if user didn't choose customer.
             if(customer_name == "" || customer_id == "" || orderCd == ""){
             	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);

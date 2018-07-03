@@ -158,11 +158,11 @@
                 if(!hotVehicle.isEmptyRow(row)){
                     for(var col = 0; col < hotVehicle.countCols(); col++){
                         if(col != 0){
-                            if(hotVehicle.getDataAtCell(row, col) == null){
+                            if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
                             	hotVehicle.getCellMeta(row, col).valid = false;
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 invalidFeilds.add(cell);
-                                hotVehicle.render();
+    
                             } else {
                                 invalidFeilds.forEach(function(value) {
                                     var prop = hotVehicle.colToProp(col);
@@ -171,11 +171,15 @@
                                         invalidFeilds.delete(value);
                                     }
                                 });
+                            	hotVehicle.getCellMeta(row, col).valid = true;
+                  
+                                
                             }
                         }
                     }
                 }
             }
+            hotVehicle.render();
 
             // Check if handsontable have any invalid.
             if(invalidFeilds.size > 0) {
