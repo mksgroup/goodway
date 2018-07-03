@@ -193,6 +193,10 @@
     <script>
         $('#frmOrder').submit(function(e) {
             e.preventDefault();
+            
+        	$('#errorEmpty').hide();
+        	$('#errorHandsontable').hide();
+        	$('#errorHandsontableEmpty').hide();
     
             var frm = $('#frmOrder');
             var orderCd = $('#orderCd').val();
@@ -246,19 +250,19 @@
             
             // Check if user didn't choose customer.
             if(customer_name == "" || customer_id == "" || orderCd == ""){
-            	$('#errorEmpty').fadeToggle('slow'); $('#errorEmpty').fadeOut(10000);
+            	$('#errorEmpty').show();
                 ok = false;
             } 
 
             // Check if handsontable have any invalid.
             if(invalidFeilds.size > 0) {
-                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
+                $("#errorHandsontable").show();
                 ok = false;
             } 
 
             // Check if handsontable have any data.
             if(hotProduct.countEmptyRows() == hotProduct.countRows()) { 
-                $("#errorHandsontableEmpty").fadeToggle('slow'); $('#errorHandsontableEmpty').fadeOut(10000);
+                $("#errorHandsontableEmpty").show();
                 ok = false;
             } 
             
@@ -272,6 +276,9 @@
                     dataType: 'json',
     
                     success : function(result) {
+                    	$('#errorEmpty').hide();
+                    	$('#errorHandsontable').hide();
+                    	$('#errorHandsontableEmpty').hide();
                     	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000);
                         
                     },

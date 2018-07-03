@@ -140,7 +140,10 @@
     <script>
         $('#btnSave').click(function(e) {
             e.preventDefault();
-    
+            
+        	$('#errorHandsontable').hide();
+        	$('#errorEmpty').hide();
+            
             // Get header name
             var colHeaderData =  hotVehicle.getColHeader();
             
