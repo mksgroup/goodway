@@ -73,6 +73,7 @@
         var hotProduct = null;
         var deletedIds = [];
         var invalidFeilds = new Set();
+        var existsCustomerId = null;
         
         $(function() {
         	var containerProduct = document.getElementById('tableProduct');
@@ -138,16 +139,20 @@
                     }
                 }
            });
+
+            // If editing
             if(orderCode != ""){   
                 loadOrderProduct(orderCode);
-                
+
+                // Load Customer and check Customer's radio button.
                 $.ajax({
                     url : _ctx + "customer/load-customerBy?orderCd=" + orderCode,
 
                     success : function(result) {
                         
-                        // refresh customer
+                        // Refresh customer
                         refreshCustomer(result);
+                        existsCustomerId = result.id;
                     },
                     error : function() {
                         console.log("Error!");
@@ -248,7 +253,7 @@
             
             hotProduct.render();
             
-            // Check if user didn't choose customer.
+            // Check if user didn't choose Customer or enter OrderMaster Code.
             if(customer_name == "" || customer_id == "" || orderCd == ""){
             	$('#errorEmpty').show();
                 ok = false;
@@ -303,13 +308,22 @@
                            {"render": function ( data, type, full, meta ) {
                                 // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
                                // Assign address id and displayAddress
-                        	   return '<input type="radio" name="addressRow" value="' + full.id + '">';
+                               var data;
+                               
+                               if(full.id == existsCustomerId){
+                            	   data ='<input type="radio" name="addressRow" checked value="' + full.id + '">';
+                               } else {
+                            	   data ='<input type="radio" name="addressRow" value="' + full.id + '">';
+                               }
+                              
+                        	   return data;
                            }},  // here's a radio button, modify to use data to populate it
                     	   { "data": "id" },
                     	   { "data": "name" },
                     	   { "data": "addr" }
                     ]
                 });
+                
         	} else {
         		// selectAddressTable.fnDraw();
             }

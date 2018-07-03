@@ -23,52 +23,44 @@ public class OrderProductBizImpl implements OrderProductBiz {
     @Autowired
     private ProductRepository productRepository;
 
+    /**
+     * Find OrderDetailProduct by OrderMaster and Product then delete it if exists.
+     * Check if OrderMaster's OrderDetailProduct exists, if it's exists update it's quantity then add to List<OrderDetailProduct> result.
+     * If it's not exists add OrderDetailProduct's orderId to do the mapping foreign key when spring boot (hibernate) execute function save(). 
+     * 
+     * @param order
+     * @param tobeDeletedIds
+     * @return
+     * @see mksgroup.goodway.biz.OrderProductBiz#updateOrderProducts(mksgroup.goodway.entity.OrderMaster,
+     *      java.util.List)
+     */
     @Override
     public List<OrderDetailProduct> updateOrderProducts(OrderMaster order, List<Integer> tobeDeletedIds) {
 
         if (tobeDeletedIds != null) {
             tobeDeletedIds.forEach(t -> {
                 Product product = productRepository.findById(t).get();
-                orderProductRepository.delete(orderProductRepository.findByOrderIdAndProductId(order, product));
+                OrderDetailProduct existedOrderProduct = orderProductRepository.findByOrderIdAndProductId(order, product);
+                if (existedOrderProduct != null) {
+                    orderProductRepository.delete(existedOrderProduct);
+                }
             });
         }
 
         List<OrderDetailProduct> result = new ArrayList<OrderDetailProduct>();
-        OrderDetailProduct nullOrderProduct = null;
 
         for (OrderDetailProduct o : order.getOrderDetailProductList()) {
-            // if (o != null) {
-            // Product product = productRepository.findById(o.getProductId().getId()).get();
-            // OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(order, product);
-            // if (!orderProduct.equals(nullOrderProduct)) {
-            // orderProduct.setQuantity(o.getQuantity());
-            //
-            // result.add(orderProductRepository.save(orderProduct));
-            // } else {
-            // o.setOrderId(order);
-            // o.setProductName(product.getName());
-            // o.setProductId(product);
-            //
-            // result.add(orderProductRepository.save(o));
-            // }
-            // }
             if (o != null) {
-                Product product = productRepository.findById(o.getProductId().getId()).get();
-
                 if (order.getId() != null) {
-                    OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(order, product);
+                    OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(order, o.getProductId());
 
                     if (orderProduct != null) {
                         orderProduct.setQuantity(o.getQuantity());
 
                         result.add(orderProduct);
                     }
-                    
                 } else {
-
                     o.setOrderId(order);
-                    o.setProductName(product.getName());
-                    o.setProductId(product);
 
                     result.add(o);
                 }
@@ -78,12 +70,26 @@ public class OrderProductBizImpl implements OrderProductBiz {
         return result;
     }
 
+    /**
+     * Find OrderDetailProduct by OrderMaster and Product.
+     * 
+     * @param orderId
+     * @param productId
+     * @return
+     * @see mksgroup.goodway.biz.OrderProductBiz#findByOrderIdAndProductId(mksgroup.goodway.entity.OrderMaster, mksgroup.goodway.entity.Product)
+     */
     @Override
     public OrderDetailProduct findByOrderIdAndProductId(OrderMaster orderId, Product productId) {
 
         return orderProductRepository.findByOrderIdAndProductId(orderId, productId);
     }
-
+    
+    /**
+     * return OrderDetailProduct repository
+     * 
+     * @return OrderProductRepository
+     * @see mksgroup.goodway.biz.OrderProductBiz#getRepo()
+     */
     @Override
     public CrudRepository<OrderDetailProduct, Integer> getRepo() {
 

@@ -39,7 +39,6 @@ import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
-import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.util.AppUtil;
 
 /**
@@ -70,14 +69,20 @@ public class OrderController {
     private AddressBiz addressBiz;
 
     /**
-     * Goto the index page.
+     * Goto the OrderMaster index page.
      * @return
      */
     @RequestMapping({"/order", "/order/search"})
     public String goOrderSearch() {
         return "order/search";
     }
-
+    
+    /**
+     * 
+     * Goto add new OrderMaster page.
+     * @param model
+     * @return
+     */
     @GetMapping("/order/new")
     public String goOrderDetails(Model model) {
         model.addAttribute("map_key", mapKey);
@@ -86,7 +91,7 @@ public class OrderController {
     }
 
     /**
-     * Go to order edit page.
+     * Go to edit OrderMaster page.
      * @param orderCd
      * @param model
      * @return
@@ -98,7 +103,13 @@ public class OrderController {
 
         return "order/new";
     }
-
+    
+    /**
+     * 
+     * Delete OrderMaster and its OrderDetailProduct by orderId.
+     * @param orderId
+     * @return
+     */
     @GetMapping("order/delete")
     @ResponseBody
     public List<Object[]> deleteOrder(@RequestParam("orderId") Integer orderId) {
@@ -109,7 +120,7 @@ public class OrderController {
     }
 
     /**
-     * Load order's product list.
+     * Load OrderMaster's List<OrderDetailProduct>.
      * @param orderCd
      * @return
      */
@@ -141,7 +152,7 @@ public class OrderController {
     }
 
     /**
-     * Load danh sách các đơn hàng.
+     * Load List<OrderMaster>.
      * @param packageId
      * @return
      */
@@ -153,31 +164,15 @@ public class OrderController {
 
         return orders;
     }
-
+    
     /**
-     * Load orderMaster's products.
-     * @param orderId
+     * 
+     * Save OrderMaster.
+     * @param data
+     * @param errors
+     * @param request
      * @return
      */
-    @GetMapping("/order/load-product")
-    @ResponseBody
-    public List<Product> loadOrderDetails(@RequestParam("orderCd") String orderCd) {
-
-        Iterable<OrderMaster> orders = orderBiz.getRepo().findAll();
-        OrderMaster order = new OrderMaster();
-        for (OrderMaster o : orders) {
-            if (o.getName().equalsIgnoreCase(orderCd)) {
-                order = o;
-            }
-        }
-        List<OrderDetailProduct> orderProducts = order.getOrderDetailProductList();
-        List<Product> productList = new ArrayList<Product>();
-
-        orderProducts.forEach(p -> productList.add(productBiz.getRepo().findById(p.getProductId().getId()).get()));
-
-        return productList;
-    }
-
     @PostMapping("/order/save")
     @ResponseBody
     @Transactional
@@ -196,10 +191,10 @@ public class OrderController {
             LOG.info("getting order's data");
             orderMaster = AppUtil.parseOrder(data);
 
-            Customer customer = customerBiz.getRepo().findById(orderMaster.getCustomerId().getId()).get();
-            LOG.info(customer.toString());
+//            Customer customer = customerBiz.getRepo().findById(orderMaster.getCustomerId().getId()).get();
+//            LOG.info(customer.toString());
 
-            orderMaster.setCustomerId(customer);
+//            orderMaster.setCustomerId(customer);
 
             Address addr = addressBiz.findByDisplayAddress(orderMaster.getAddressId().getDisplayAddress());
             LOG.info(addr.toString());
@@ -208,29 +203,12 @@ public class OrderController {
 
             // If order existed set orderMaster's id = existed oder's id
             OrderMaster existsOrder = orderBiz.findByName(data.getOrderCd());
-            if (!data.getOrderCd().isEmpty() && existsOrder != null) {
+            if (existsOrder != null) {
                 orderMaster.setId(existsOrder.getId());
             }
             
             LOG.info("Setting orderProduct's data");
             orderMaster.setOrderDetailProductList(orderProductBiz.updateOrderProducts(orderMaster, data.getDeletedIds()));
-//            List<OrderDetailProduct> orderDetails = orderMaster.getOrderDetailProductList();
-//            for(OrderDetailProduct o : orderDetails) {
-//                product = productBiz.getRepo().findById(o.getProductId().getId()).get();
-//                OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(orderMaster, product);
-// 
-//                if(orderProduct.getId() != null) {
-//                    Integer quantity = o.getQuantity();
-//
-//                    o = orderProduct;
-//                    LOG.info("o ne " + o.toString() + "order: " + o.getOrderId().toString());
-//                    o.setQuantity(quantity);
-//                } 
-//            }
-//            orderMaster.setOrderDetailProductList(orderDetails);
-
-            LOG.info(orderMaster.getOrderDetailProductList().toString());
-
             orderMaster.setCreatedbyUsername("Nam Tang");
             orderMaster.setDeliveryDate(new Date());
 

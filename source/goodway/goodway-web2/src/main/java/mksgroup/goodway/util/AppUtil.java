@@ -174,6 +174,7 @@ public class AppUtil {
             
             // Set OrderDetailProduct's Data
             orderDetailProduct.setProductId(product);
+            orderDetailProduct.setProductName(detailProduct.getName());
             orderDetailProduct.setQuantity(detailProduct.getQuantity());
             orderDetailProduct.setCreated(new Date());
             orderDetailProduct.setCreatedbyUsername("Nam Tang");
