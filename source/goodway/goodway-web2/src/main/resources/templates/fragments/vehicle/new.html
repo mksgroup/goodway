@@ -40,10 +40,21 @@
                     <div class="card-content">
                     
                         <div class="card-body pb-0">
+                            <div class="alert alert-danger alert-dismissible" id="errorEmpty" style="display: none;">
+                                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong th:text="#{error.empty}">Chưa có dữ liệu</strong>
+                            </div> 
+                            <div class="alert alert-danger alert-dismissible" id="errorHandsontable" style="display: none;">
+                                <a class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong th:text="#{error.handsontable.vehicle}">Dữ liệu bạn nhập không đúng.</strong>
+                            </div>                        
                             <div class="table-responsive scroll-container">
                                     <div id="tableVehicle" class="hot handsontable htRowHeaders htColumnHeaders"></div>
                                     <div class="col-12">
-                                        
+                                        <div id="result" class="alert alert-success mb-2 hidden-xs" role="alert"
+                                            style="display: none">
+                                            <strong th:text="#{save.ok}">Save OK</strong>
+                                        </div>                                        
                                         <button class="btn btn-info" id="btnSave">
                                             <i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
                                         </button>
