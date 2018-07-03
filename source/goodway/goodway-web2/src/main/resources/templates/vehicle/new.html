@@ -153,7 +153,7 @@
             frmData["deletedIds"] = deletedIds;
             var ok = true;
 
-            // Check if have product but didn't enter quantity.
+            // Check if have vehicle but didn't enter quantity.
             for(var row = 0; row < hotVehicle.countRows(); row++){
                 if(!hotVehicle.isEmptyRow(row)){
                     for(var col = 0; col < hotVehicle.countCols(); col++){
@@ -170,7 +170,7 @@
                                         console.log(hotVehicle.colToProp(col));
                                         invalidFeilds.delete(value);
                                     }
-                                  });
+                                });
                             }
                         }
                     }
