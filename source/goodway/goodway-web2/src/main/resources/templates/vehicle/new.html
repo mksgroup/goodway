@@ -20,7 +20,7 @@
     	
     	var deletedIds = [];
         var dataVehicles = [];
-        
+        var invalidFeilds = new Set();
         var hotVehicle = null;
 
         $(function() {
@@ -38,12 +38,12 @@
                 manualRowResize: true,
                 contextMenu: ['remove_row'],
                 columns: [
-                	{data: 'id', readOnly: true},
+                	{data: 'id', readOnly: true },
                     {data: 'name'},
-                    {data: 'length'},
-                    {data: 'width'},
-                    {data: 'height'},
-                    {data: 'capacity'}
+                    {data: 'length', type: 'numeric' },
+                    {data: 'width', type: 'numeric' },
+                    {data: 'height', type: 'numeric' },
+                    {data: 'capacity', type: 'numeric' }
                   ],
 
                // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
@@ -68,6 +68,20 @@
 
                       console.log("list deletedIds=" + deletedIds);
                   },
+                  afterValidate: function (isValid, value, row, prop, source) {
+                      if (!isValid) {
+                              var cell = {"row": row, "col": prop};
+                              invalidFeilds.add(cell);
+                              console.log("cell: " + JSON.stringify(cell));
+                      } else {
+                        invalidFeilds.forEach(function(value) {
+                              if(value.row == row && value.col == prop){
+                                  invalidFeilds.delete(value);
+                              }
+                            });
+                          console.log(invalidFeilds);
+                      }
+                  }
               });
 
         	loadVehicle();
@@ -137,24 +151,67 @@
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
-            
-            $.ajax({
-                url : _ctx + "/vehicle/save",
-                type : "POST",
-                contentType: "application/json",
-                data: JSON.stringify(frmData),
-                dataType: 'json',
+            var ok = true;
 
-                success : function(result) {
-                	 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
-                     
-                    // reload data
-                	loadVehicle();
-                },
-                error : function() {
-                    console.log("Error!");
+            // Check if have product but didn't enter quantity.
+            for(var row = 0; row < hotVehicle.countRows(); row++){
+                if(!hotVehicle.isEmptyRow(row)){
+                    for(var col = 0; col < hotVehicle.countCols(); col++){
+                        if(col != 0){
+                            if(hotVehicle.getDataAtCell(row, col) == null){
+                            	hotVehicle.getCellMeta(row, col).valid = false;
+                                var cell = {"row": row, "col": hotVehicle.colToProp(col)};
+                                invalidFeilds.add(cell);
+                                hotVehicle.render();
+                            } else {
+                                invalidFeilds.forEach(function(value) {
+                                    var prop = hotVehicle.colToProp(col);
+                                    if(value.row == row && value.col == prop){
+                                        console.log(hotVehicle.colToProp(col));
+                                        invalidFeilds.delete(value);
+                                    }
+                                  });
+                            }
+                        }
+                    }
                 }
-            });
+            }
+
+            // Check if handsontable have any invalid.
+            if(invalidFeilds.size > 0) {
+//                 $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
+                $('#errorHandsontable').show();
+                ok = false;
+            } 
+
+            // Check if handsontable have any data.
+            if(hotVehicle.getDataAtCell(0,0) == null) { 
+//                 $("#errorHandsontableEmpty").fadeToggle('slow'); $('#errorHandsontableEmpty').fadeOut(10000);
+                $('#errorEmpty').show();
+                ok = false;
+            } 
+            console.log(ok);
+            if(ok){
+                $.ajax({
+                    url : _ctx + "/vehicle/save",
+                    type : "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(frmData),
+                    dataType: 'json',
+    
+                    success : function(result) {
+                    	$('#errorHandsontable').hide();
+                    	$('#errorEmpty').hide();
+                    	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+                         
+                        // reload data
+                    	loadVehicle();
+                    },
+                    error : function() {
+                        console.log("Error!");
+                    }
+                });
+            }
         });
     </script>
 </body>
