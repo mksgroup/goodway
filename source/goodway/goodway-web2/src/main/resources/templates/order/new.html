@@ -17,7 +17,7 @@
 
     <!-- Dialog to select Customer -->
     <th:block th:include="fragments/customer/select"></th:block>
-    
+
     <!-- Dialog to select Product -->
     <th:block th:include="fragments/product/select"></th:block>
 
@@ -27,6 +27,37 @@
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
+
+    <script>
+        // Dispay dialog of addresses
+        var selectProductTable = null;
+    
+        $(document).ready(function() {
+            // Load dữ liệu khách hàng
+            if (selectProductTable == null) {
+                selectProductTable = $("#selectProductTable").DataTable({
+                    ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
+                    "columns": [
+                           {"render": function ( data, type, full, meta ) {
+
+                               return '<input type="checkbox" name="productRow" value="' + full.id + '">';
+                           }},  // here's a radio button, modify to use data to populate it
+                           { "data": "id" },
+                           { "data": "name" },
+                           { "data": "description" },
+                           { "data": "height" },
+                           { "data": "width" },
+                           { "data": "length" },
+                           { "data": "weight" }     
+                    ]
+                });
+            } else {
+                // selectAddressTable.fnDraw();
+            }
+
+        });
+    </script>
+    
     <script>
 
 		$('input[type=search]').on('keyup'), function(){
@@ -36,7 +67,7 @@
 			});
 		};
 	</script>
-	
+
     <script>
         var dataProducts = [];
         var hotProduct = null;
@@ -65,7 +96,7 @@
                      { "data": "width", readOnly: true },
                      { "data": "length", readOnly: true },
                      { "data": "weight", readOnly: true },     
-                     { "data": "quantity", type: 'numeric', allowEmpty: false}
+                     { "data": "quantity", type: 'numeric'}
                ],
                 hiddenColumns: {
                      columns: 7,
@@ -114,7 +145,6 @@
                     url : _ctx + "customer/load-customerBy?orderCd=" + orderCode,
 
                     success : function(result) {
-                        console.log("Load customer result =" + JSON.stringify(result));
                         
                         // refresh customer
                         refreshCustomer(result);
@@ -136,10 +166,21 @@
                 dataType : 'json',
                 contentType : 'application/json',
                 success : function(res) {
+                    
                     // Update data into the handsontable
-                    dataProduct = res;
-                    console.log(JSON.stringify(res));
-                    hotProduct.loadData(dataProduct);
+                    dataProducts = res;
+                    hotProduct.loadData(dataProducts);
+                    
+                    //Update checked products                                       
+                    for(var i = 0; i < res.length; i++){
+                        if(res[i].id != null){
+                            $("input:checkbox[name=productRow]").each(function(){  
+                                if($(this).val() == res[i].id){     
+                                    this.checked = true;
+                                }
+                            }); 
+                        }
+                    }
                 },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -330,50 +371,33 @@
  	        });
         }
   </script>
-  
-  <script>
+
+    <script>
         function displayDlgSelectProduct() {
             $("#dlgSearchProduct").modal('show');
-        }    
-  </script>
-  
-  <script>
-        // Dispay dialog of addresses
-        var selectProductTable = null;
-    
-        $(document).ready(function() {
-            // Load dữ liệu khách hàng
-            if (selectProductTable == null) {
-                selectProductTable = $("#selectProductTable").DataTable({
-                    ajax: {'url': _ctx + 'product/load-product', 'dataSrc': ''},
-                    "columns": [
-                           {"render": function ( data, type, full, meta ) {
-
-                               return '<input type="checkbox" name="productRow" value="' + full.id + '">';
-                           }},  // here's a radio button, modify to use data to populate it
-                    	   { "data": "id" },
-                    	   { "data": "name" },
-                    	   { "data": "description" },
-                    	   { "data": "height" },
-                    	   { "data": "width" },
-                    	   { "data": "length" },
-                    	   { "data": "weight" }     
-                    ]
-                });
-            } else {
-                // selectAddressTable.fnDraw();
-            }
-
-        });
+        }
 
         $('#btnSelectedProduct').click(function(e) {
-        
+            
+            // get selected product's id
             var selectedProducts = [];
             $("input:checkbox[name=productRow]:checked").each(function(){
-            	selectedProducts.push($(this).val());
+                selectedProducts.push($(this).val());
             });
+            console.log(selectedProducts);
 
-            // Get Fulll addres from Id
+            // get product's id already exists in handsontable then remove it from selectedProducts.
+            for(var row = 0; row < dataProducts.length; row++){
+                if(!hotProduct.isEmptyRow(row)){
+                    console.log(dataProducts[row].id);
+                	var index = selectedProducts.indexOf(dataProducts[row].id.toString());
+                    console.log("index:"+index);
+
+                    selectedProducts.splice(index, 1);
+                }
+            } 
+
+            // get product in database
             $.ajax({
                 url : _ctx + "product/load-product",
                 type : "GET",
@@ -381,25 +405,42 @@
                 dataType: 'json',
                 
                 success : function(result) {
-                    dataProducts = [];
+                  
                     for (var i = 0; i < result.length; i++) {
                         var res = result[i];
-
-                        for(var j = 0; j < selectedProducts.length; j++){   
+                        for(var j = 0; j < selectedProducts.length; j++){
                             var checkedId = selectedProducts[j];
-                            
-                            if(res.id == checkedId){
-                            	dataProducts.push(res);
-                            }
+                                if(res.id == checkedId){
+                                    for(var k = 0; k < dataProducts.length; k++){
+//                                         dataProducts.push(res);
+
+                                        // add product to handsontable where row's data = null
+                                        if(hotProduct.isEmptyRow(k)){
+                                        	dataProducts.splice(k, 0, res);
+                                            break;
+                                        }
+                                    }
+                                 }
                         }
                     }
+                   
                     hotProduct.loadData(dataProducts);
                 },
                 error : function() {
                     console.log("Error!");
                 }
             });
-        });
-    </script>
+        });    
+//         var product = {"id": res.id,
+//                 "name": res.name,
+//                 "height": res.height,
+//                 "width": res.width,
+//                 "length": res.length,
+//                 "weight": res.weight,
+//                 "quantity": ""
+//                };
+//  dataProduct.push(product);
+  </script>
+
 </body>
 </html>
