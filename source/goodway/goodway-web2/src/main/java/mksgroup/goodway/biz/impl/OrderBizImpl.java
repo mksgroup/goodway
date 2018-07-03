@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 
 import mksgroup.goodway.biz.OrderBiz;
 import mksgroup.goodway.entity.OrderMaster;
+import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.repository.OrderProductRepository;
 import mksgroup.goodway.repository.OrderRepository;
+import mksgroup.goodway.repository.ProductRepository;
 
 @Service
 public class OrderBizImpl implements OrderBiz{
@@ -17,22 +19,6 @@ public class OrderBizImpl implements OrderBiz{
     @Autowired
     private OrderRepository orderRepository;
     
-    @Autowired
-    private OrderProductRepository orderProductRepository;
-
-    @Override
-    public boolean updateOrder(OrderMaster order, List<Integer> tobeDeletedIds) {
-        if(tobeDeletedIds != null) {
-            tobeDeletedIds.forEach(t -> {
-                orderProductRepository.delete(orderProductRepository.findByOrderIdAndProductId(order, t));
-            });
-        }
-        
-        orderRepository.save(order);
-        
-        return true;
-    }
-
     @Override
     public OrderMaster findByName(String name) {
         
