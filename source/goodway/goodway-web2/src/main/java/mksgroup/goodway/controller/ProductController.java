@@ -75,7 +75,10 @@ public class ProductController {
 
             return null;
         } else {
+        	LOG.info(data.toString());
+        
             Iterable<Product> entities = AppUtil.parseProduct(data);
+            LOG.info("Step complete");
             productBiz.updateProducts(entities, data.getDeletedIds());
         }
         

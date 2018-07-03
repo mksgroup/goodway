@@ -128,6 +128,8 @@
     <script>
     var errorSbm = false;
         $('#frmHot').submit(function(e,callback) {
+        	$('#errorName').hide();
+        	$('#errorDes').hide();
             e.preventDefault();
     
             var frm = $('#frmHot');
@@ -147,14 +149,22 @@
             frmData["deletedIds"] = deletedIds;
 
             var a = hotProduct.getDataAtCell(1,2);
-
+//             hotProduct.getDataAtCell(i,1) == null || hotProduct.getDataAtCell(i,1) == ""
 			
 	        for(var i = 0 ; i < dataProducts.length ; i++ ){
 	        	console.log(i);
 	        	if(!hotProduct.isEmptyRow(i)){
-	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,2) == null || hotProduct.getDataAtCell(i,1) == null){
+	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null   ){
 	        			errorSbm = true;
-	        			break;
+	        			hotProduct.getCellMeta(i,1).valid = false;
+	        			 $('#errorName').show(); 
+	        			
+	        		}
+	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null   ){
+	        			errorSbm = true;
+	        			hotProduct.getCellMeta(i,2).valid = false;
+	        			 $('#errorDes').show(); 
+	        			
 	        		} else {
 	        	    	hotProduct.getDataAtCell(i,1);
 	        			hotProduct.getDataAtCell(i,2);
@@ -165,6 +175,8 @@
 	        	}
 					
 	        }
+
+	        hotProduct.render();
 			console.log(errorSbm);
 			if(errorSbm == false){
 	            $.ajax({
@@ -184,9 +196,6 @@
 	                    console.log("Error!");
 	                }
 	            });
-			} else {
-				 $('#error').fadeToggle('slow'); $('#error').fadeOut(5000); 
-            	 
 			}
 			
         });

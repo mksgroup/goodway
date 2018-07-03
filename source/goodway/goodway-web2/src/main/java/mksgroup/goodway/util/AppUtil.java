@@ -4,6 +4,7 @@
 package mksgroup.goodway.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +56,7 @@ public class AppUtil {
         
         return listCustomer;
     }
-  
+      
     
     public static Iterable<Address> parseAddress(AddressModel data) {
         final String[] HEADERS = {"id", "label", "displayAddress", "latitude", "longitude"};
@@ -190,17 +191,37 @@ public class AppUtil {
     public static Iterable<Product> parseProduct(ProductModel data) {
         final String[] HEADERS = {"id", "name", "description", "height", "width", "length", "weight"};
 
+         
+         List list = new ArrayList(Arrays.asList(null,null,null,null,null,null,null)) ;	
+         List list1 = new ArrayList(Arrays.asList(null,"","",null,null,null,null)) ;	
+         List list2 = new ArrayList(Arrays.asList(null,"",null,null,null,null,null)) ;	
+         List list3 = new ArrayList(Arrays.asList(null,null,"",null,null,null,null)) ;	
+        LOG.info(list.toString());
         LOG.info("Product data=" + data.getData());
+        
+        for (int i = 0 ; i < data.getData().size() ; i++) {
+			LOG.info( "data " + i +":" +data.getData().get(i) );
+			LOG.info("data " + i +":" + data.getData().get(i).equals(list));
+			if(data.getData().get(i).equals(list) || data.getData().get(i).equals(list1) || data.getData().get(i).equals(list2) || data.getData().get(i).equals(list3) ) {
+				data.getData().remove(data.getData().get(i));
+			}
+		}
+       
+        
+        
+        
         List<Product> listProduct = (List<Product>) BeanUtil.getDataList(data.getData(), HEADERS, Product.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
         
         return listProduct;
     }
     
     public static Iterable<Question> parseQuestion(QuestionModel data){
-        final String[] HEADERS = {"id", "category", "question", "ask_person", "ask_date", "answer", "answer_person", "answer_date", "status"};
+        final String[] HEADERS = {"id", "category", "question", "askPerson", "askDate", "answer", "answerPerson", "answerDate", "status"};
         
+ 
         LOG.info("Question data=" + data.getData());
         List<Question> questionList = (List<Question>) BeanUtil.getDataList(data.getData(), HEADERS, Question.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
+        
         
         return questionList;
     }
