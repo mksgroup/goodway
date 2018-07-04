@@ -23,7 +23,7 @@
 
 		numValidate = function(value, callback){
 			setTimeout(function(){
-				if(/^[\d]{0,10}$/.test(value) || value == ''){
+				if(/^[\d\.]{0,10}$/.test(value) || value == ''){
 					callback(true);
 // 					$("#save").show();
 				} else {
