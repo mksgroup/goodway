@@ -15,6 +15,7 @@
   
   <th:block th:include="fragments/footer"></th:block>
    <script>
+   var errorSbm = false;
         var dataProducts = [],numValidate;
         var deletedIds = [];
         var hotProduct = null;
@@ -22,16 +23,46 @@
 
 		numValidate = function(value, callback){
 			setTimeout(function(){
-				if(/[0-9]+/.test(value) || value == ''){
+				if(/^[0-9]{0,10}$/.test(value) || value == ''){
 					callback(true);
-// 					$("#save").show();
+					$("#save").show();
 				} else {
+					alert('Độ dài vượt quá giới hạn !!!');
 					callback(false);
-// 					$("#save").hide();
+					$("#save").hide();
 				}
 			});
 		};
 
+		lengthDes = function(value, callback){
+			setTimeout(function(){
+				if(/^[a-zA-Z0-9]{0,1024}$/.test(value) || value == ''){
+					callback(true);
+			
+					$("#save").show();
+				} else {
+					alert('Độ dài vượt quá giới hạn !!!');
+					
+					callback(false);
+					$("#save").hide();
+				}
+			});
+		}
+
+		lengthName = function(value, callback){
+			setTimeout(function(){
+				if(/^[a-zA-Z0-9]{0,128}$/.test(value) || value == ''){
+					callback(true);
+					
+					$("#save").show();
+				} else {
+					alert('Độ dài vượt quá giới hạn !!!');
+					
+					callback(false);
+					$("#save").hide();
+				}
+			});
+		}
 		
 		
         $(function() {
@@ -51,8 +82,10 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true},
-                    {data: 'name'},
-                    {data: 'description'},
+                    {data: 'name',
+                        validator: lengthName},
+                    {data: 'description',
+                        validator: lengthDes},
                     {data: 'height',
              		 validator: numValidate,
              		 allowInvalid: false},
