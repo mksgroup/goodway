@@ -25,11 +25,11 @@
 			setTimeout(function(){
 				if(/^[\d]{0,10}$/.test(value) || value == ''){
 					callback(true);
-					$("#save").show();
+// 					$("#save").show();
 				} else {
 					
 					callback(false);
-					$("#save").hide();
+// 					$("#save").hide();
 				}
 			});
 		};
@@ -39,12 +39,12 @@
 				if(/^[a-zA-Z0-9\s]{0,1024}$/.test(value) || value == ''){
 					callback(true);
 			
-					$("#save").show();
+// 					$("#save").show();
 				} else {
 					
 					
 					callback(false);
-					$("#save").hide();
+// 					$("#save").hide();
 				}
 			});
 		}
@@ -54,11 +54,11 @@
 				if(/^[a-zA-Z0-9\s]{0,128}$/.test(value) || value == ''){
 					callback(true);
 					
-					$("#save").show();
+// 					$("#save").show();
 				} else {
 					
 					callback(false);
-					$("#save").hide();
+// 					$("#save").hide();
 				}
 			});
 		}
@@ -118,6 +118,7 @@
 					if(changes != null){
 						document.getElementById('save').disabled = false;
 						console.log('step');
+						
 					} 
 
 // 					console.log("Changes : " + changes[0][3]);
