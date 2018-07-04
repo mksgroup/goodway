@@ -14,7 +14,33 @@
   <th:block th:include="fragments/vehicle/new"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+  
+    <script>
+        numberValidator = function (value, callback) {
+          setTimeout(function(){
+                if (/[1-9]+/.test(value) && (value > 0 && value < 1000)) {
+                  callback(true);
+                }
+                else {
+                  callback(false);
+                }
+                
+          }, 0);
+        };
 
+        textValidator = function (value, callback) {
+            setTimeout(function(){
+                  if (value.length > 0 && value.length < 500) {
+                    callback(true);
+                  }
+                  else {
+                    callback(false);
+                  }
+                  
+            }, 0);
+          };
+    </script>
+    
     <script>
 
     	
@@ -39,14 +65,14 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true },
-                    {data: 'name'},
-                    {data: 'length', type: 'numeric' },
-                    {data: 'width', type: 'numeric' },
-                    {data: 'height', type: 'numeric' },
-                    {data: 'capacity', type: 'numeric' }
+                    {data: 'name' },
+                    {data: 'length', validator: numberValidator },
+                    {data: 'width', validator: numberValidator },
+                    {data: 'height', validator: numberValidator },
+                    {data: 'capacity', validator: numberValidator }
                   ],
 
-               // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
+                  // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
                   beforeRemoveRow: function (index, amount) {
                       console.log("Removed row index =" + index + ";amount=" + amount);
 
@@ -63,6 +89,18 @@
                           console.log("Row = " + i + ";deletedId = " + deletedId);
                           if (deletedId) {
                         	  deletedIds.push(deletedId);
+                          }
+                          
+                          // Remove invalid cell of deleting row if exists in invalidFeilds.
+                          for(var col = 0; col < this.countCols(); col++){
+                              if(this.getCellMeta(i, col).valid == false){
+                                  invalidFeilds.forEach(function(value) {
+                                        var prop = hotProduct.colToProp(col);
+                                        if(value.row == i && value.col == prop){
+                                            invalidFeilds.delete(value);
+                                        }
+                                  });                              
+                              }
                           }
                       }
 
@@ -161,21 +199,23 @@
                 if(!hotVehicle.isEmptyRow(row)){
                     for(var col = 0; col < hotVehicle.countCols(); col++){
                         if(col != 0){
-                            if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
+                            if((hotVehicle.getDataAtCell(row, col).length < 1 && hotVehicle.getDataAtCell(row, col).length > 500) || hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
                             	hotVehicle.getCellMeta(row, col).valid = false;
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 invalidFeilds.add(cell);
     
                             } else {
-                                invalidFeilds.forEach(function(value) {
-                                    var prop = hotVehicle.colToProp(col);
-                                    if(value.row == row && value.col == prop){
-                                        console.log(hotVehicle.colToProp(col));
-                                        invalidFeilds.delete(value);
-                                    }
-                                });
-                                
-                            	hotVehicle.getCellMeta(row, col).valid = true;                           
+                                if(col == 1 && hotVehicle.getDataAtCell(row, col).length < 500){
+                                    invalidFeilds.forEach(function(value) {
+                                        var prop = hotVehicle.colToProp(col);
+                                        if(value.row == row && value.col == prop){
+                                            console.log(hotVehicle.colToProp(col));
+                                            invalidFeilds.delete(value);
+                                        }
+                                    });
+                                    
+                                	hotVehicle.getCellMeta(row, col).valid = true;                           
+                                }
                             }
                         }
                     }
