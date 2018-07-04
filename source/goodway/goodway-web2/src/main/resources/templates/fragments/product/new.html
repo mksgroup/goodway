@@ -65,10 +65,18 @@
 												role="alert" style="display: none">
 												<strong th:text="#{save.ok}">Save OK</strong>
 											</div>
-											<div id="error" class="alert alert-danger mb-2 hidden-xs"
+											<div id="errorName" class="alert alert-danger mb-2 hidden-xs"
 												role="alert" style="display: none">
-												<strong th:text="#{save.product.error}">Cột tên sản phẩm và
-													mô tả phải điền đầy đủ</strong>
+												<strong th:text="#{save.product.errorName}">Cột tên sản phẩm phải điền đầy đủ</strong>
+											</div>
+											<div id="errorDes" class="alert alert-danger mb-2 hidden-xs"
+												role="alert" style="display: none">
+												<strong th:text="#{save.product.errorDes}">Cột 	mô tả phải điền đầy đủ</strong>
+											</div>
+											
+											<div id="errorNull" class="alert alert-danger mb-2 hidden-xs"
+												role="alert" style="display: none">
+												<strong th:text="#{save.product.errorNull}">Chưa nhập dữ liệu</strong>
 											</div>
 										</div>
 									</form>
