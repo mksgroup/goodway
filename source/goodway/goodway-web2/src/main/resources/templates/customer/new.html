@@ -24,6 +24,15 @@
         var deletedIds = [];
         var invalidFeilds = new Set();
 
+        numValidate = function(value, callback){
+			if(/^[\d]{10,11}$/.test(value) || value == ''){
+				callback(true);
+			} else {
+				errorSbm = true;
+				callback(false);
+			}
+		
+	};
        
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
@@ -44,7 +53,7 @@
                     { data: "name"},
                     { data: "cd"},
                     { data: "shortName" },
-             	    { data: "phone", type: 'numeric', allowInvalid : false },
+             	    { data: "phone", validator : numValidate, allowInvalid : false },
              	    { data: "addr", readOnly: true  }
                   ],
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
@@ -151,8 +160,29 @@
                 if(!hotCustomer.isEmptyRow(k)){
                     for(var j = 0; j < hotCustomer.countCols(); j++){
                         if(j!=0){
-                        	
-    	                    if(hotCustomer.getDataAtCell(k,j) == null || hotCustomer.getDataAtCell(k, j) == "") {
+                        	var cell_value = hotCustomer.getDataAtCell(k, j);
+                        	if(j == 1){
+								for(var n=0 ; n < cell_value.length ; n++){
+									var value_num = cell_value.charAt(n) - '0';
+									console.log(value_num);
+									console.log(/[0-9]/.test(value_num));
+										if(/[0-9]/.test(value_num) || cell_value.length > 50){
+											var cell = {"row": k, "col": hotCustomer.colToProp(1)};
+			    	                    	hotCustomer.getCellMeta(k, j).valid = false;
+			    	                        invalidFeilds.add(cell);
+			    	                        ok = false;
+										}else{
+											invalidFeilds.forEach(function(value) {
+			    		                    	var prop = hotCustomer.colToProp(j);
+			    	                    		  if(value.row == k && value.col == prop ){
+			    	                    			  invalidFeilds.delete(value);
+			    	                    		  }
+			    	                    		});	
+			    		                    hotCustomer.getCellMeta(k,j).valid = true;
+											}
+									}
+                            	}   	
+                        	else if(cell_value == null || cell_value == "") {
     	                    	var cell = {"row": k, "col": hotCustomer.colToProp(j)};
     	                    	hotCustomer.getCellMeta(k,j).valid = false;
     	                        invalidFeilds.add(cell);
