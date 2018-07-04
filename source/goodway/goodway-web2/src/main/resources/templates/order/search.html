@@ -13,6 +13,8 @@
 
   <th:block th:include="fragments/order/search"></th:block>
   
+  <th:block th:include="fragments/order/delete"></th:block>
+  
   <th:block th:include="fragments/footer"></th:block>
   <script>
 	$(document).ready(function(){
@@ -52,9 +54,9 @@
                                return null;
                          }
                        },
-                       { "data": 0,
+                       { "data": 1,
                          "render" : function(data, row, meta){
-                               data = '<i class="fa fa-minus-circle" onclick="deleteOrder('+ data + ')"></i>';
+                               data = '<i class="fa fa-minus-circle" onClick="deleteOrder(\'' + data + '\')" />';
                                                     
                                return data;
                          }
@@ -71,26 +73,37 @@
         }
     });
     
-    function deleteOrder(orderId){
-        if(orderId != null || orderId != ""){
+    function deleteOrder(orderCd){
+        
+        $('#comfirmDelete').attr('value', orderCd);
+        $('#deleteOrderCd').append(' <strong>' + orderCd + ' ?</strong>');
+        
+        $('#comfirmDeleteModal').modal('show');
+    }
+
+    $('#comfirmDelete').click(function(e) {
+        var deleteOrderCd = $(this).val();
+        console.log(deleteOrderCd);
+        
+        if(deleteOrderCd != null || deleteOrderCd != ""){
             $.ajax({
-                url : _ctx + "order/delete?orderId="+ orderId,
+                url : _ctx + "order/delete?orderCd="+ deleteOrderCd,
                 type : "GET",
                 contentType: "application/json",
                 dataType: 'json',
                 success : function(result) {
-                	$('#deleteResult').fadeToggle('slow'); $('#deleteResult').fadeOut(5000); 
+                    $('#deleteResult').fadeToggle('slow'); $('#deleteResult').fadeOut(5000); 
                     
-//                 	loadDataToOrderTable(result);
-                	resultTable.ajax.reload();
+//                  loadDataToOrderTable(result);
+                    resultTable.ajax.reload();
+                    $('#comfirmDeleteModal').modal('hide');
                 },
                 error : function() {
                     console.log("Error!");
                 }
             });
-        }
-        
-    }
+        }   
+    });
 </script>
 </body>
 </html>
