@@ -40,7 +40,8 @@ public class OrderProductBizImpl implements OrderProductBiz {
         if (tobeDeletedIds != null) {
             tobeDeletedIds.forEach(t -> {
                 Product product = productRepository.findById(t).get();
-                OrderDetailProduct existedOrderProduct = orderProductRepository.findByOrderIdAndProductId(order, product);
+                OrderDetailProduct existedOrderProduct = orderProductRepository.findByOrderIdAndProductId(order,
+                        product);
                 if (existedOrderProduct != null) {
                     orderProductRepository.delete(existedOrderProduct);
                 }
@@ -51,28 +52,32 @@ public class OrderProductBizImpl implements OrderProductBiz {
 
         for (OrderDetailProduct o : order.getOrderDetailProductList()) {
             if (o != null) {
+                Product product = productRepository.findById(o.getProductId().getId()).get();
+                o.setOrderId(order);
+
                 if (order.getId() != null) {
-                    OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(order, o.getProductId());
+                    OrderDetailProduct orderProduct = orderProductRepository.findByOrderIdAndProductId(order, product);
 
                     if (orderProduct != null) {
                         orderProduct.setQuantity(o.getQuantity());
 
                         result.add(orderProduct);
+                    } else {
+                        
+                        result.add(o);
                     }
+                    
                 } else {
-                    o.setOrderId(order);
 
                     result.add(o);
                 }
             }
         }
-
         return result;
     }
 
     /**
      * Find OrderDetailProduct by OrderMaster and Product.
-     * 
      * @param orderId
      * @param productId
      * @return
@@ -83,10 +88,9 @@ public class OrderProductBizImpl implements OrderProductBiz {
 
         return orderProductRepository.findByOrderIdAndProductId(orderId, productId);
     }
-    
+
     /**
      * return OrderDetailProduct repository
-     * 
      * @return OrderProductRepository
      * @see mksgroup.goodway.biz.OrderProductBiz#getRepo()
      */

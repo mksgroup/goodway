@@ -115,8 +115,9 @@ public class OrderController {
     public List<Object[]> deleteOrder(@RequestParam("orderId") Integer orderId) {
         OrderMaster order = orderBiz.getRepo().findById(orderId).get();
         orderBiz.getRepo().delete(order);
-                
-        return orderBiz.findOrderCustomer();
+        List<Object[]> orders = orderBiz.findOrderCustomer();
+        
+        return orders;
     }
 
     /**
