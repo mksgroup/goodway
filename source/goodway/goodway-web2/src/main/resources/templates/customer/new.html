@@ -23,7 +23,8 @@
         var hotCustomer = null;
         var deletedIds = [];
         var invalidFeilds = new Set();
-			
+
+       
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
         	
@@ -40,10 +41,10 @@
                 contextMenu: true,
                 columns: [
                 	{ data: "id", readOnly: true },
-                    { data: "name", type : 'text'},
-                    { data: "cd", type : 'text' },
-                    { data: "shortName", type : 'text' },
-             	    { data: "phone", type : 'text' },
+                    { data: "name"},
+                    { data: "cd"},
+                    { data: "shortName" },
+             	    { data: "phone", type: 'numeric', allowInvalid : false },
              	    { data: "addr", readOnly: true  }
                   ],
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
@@ -73,6 +74,20 @@
                       }
 
                       console.log("list deletedIds=" + deletedIds);
+                  },
+                  afterValidate: function (isValid, value, row, prop, source) {
+                      if (!isValid) {
+                              var cell = {"row": row, "col": prop};
+                              invalidFeilds.add(cell);
+                              console.log("cell: " + JSON.stringify(cell));
+                      } else {
+                      	invalidFeilds.forEach(function(value) {
+                      		  if(value.row == row && value.col == prop ){
+                      			  invalidFeilds.delete(value);
+                      		  }
+                      		});
+                          console.log(invalidFeilds);
+                      }
                   }
               });
             loadCustomers();
@@ -141,6 +156,7 @@
     	                    	var cell = {"row": k, "col": hotCustomer.colToProp(j)};
     	                    	hotCustomer.getCellMeta(k,j).valid = false;
     	                        invalidFeilds.add(cell);
+    	                        ok = false;
     	                    } else{
     		                    invalidFeilds.forEach(function(value) {
     		                    	var prop = hotCustomer.colToProp(j);
@@ -155,13 +171,7 @@
                 }
             }
 
-            hotCustomer.render();
-            if(invalidFeilds.size > 0) {
-                $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(1000);
-                ok = false;
-            }
-           
-             
+            hotCustomer.render();  
             if(ok){
                 $.ajax({
                 url : _ctx + "customer/save",
@@ -260,7 +270,7 @@
 
                 console.log("dataCustomers=" + dataCustomers);
             	hotCustomer.loadData(dataCustomers);
-            	hotCustomer.render();
+            	//hotCustomer.render();
 
             	
             } else {
