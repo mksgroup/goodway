@@ -95,7 +95,7 @@
                           for(var col = 0; col < this.countCols(); col++){
                               if(this.getCellMeta(i, col).valid == false){
                                   invalidFeilds.forEach(function(value) {
-                                        var prop = hotProduct.colToProp(col);
+                                        var prop = hotVehicle.colToProp(col);
                                         if(value.row == i && value.col == prop){
                                             invalidFeilds.delete(value);
                                         }
@@ -200,20 +200,11 @@
                     for(var col = 0; col < hotVehicle.countCols(); col++){
                         if(col != 0){
                             if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
-                            	hotVehicle.getCellMeta(row, col).valid = false;
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
+                                
                                 invalidFeilds.add(cell);
-    
-                            } else {
-
-                                    invalidFeilds.forEach(function(value) {
-                                        var prop = hotVehicle.colToProp(col);
-                                        if(value.row == row && value.col == prop){
-                                            console.log(hotVehicle.colToProp(col));
-                                            invalidFeilds.delete(value);
-                                        }
-                                    });                       
-    
+                                
+                                hotVehicle.getCellMeta(row, col).valid = false;
                             }
                         }
                     }
