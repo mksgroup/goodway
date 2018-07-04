@@ -28,73 +28,49 @@
   <script>
     // Lưu đối tượng table kết quả search
     var resultTable = null;
-    var vehicleData;
     
     $(document).ready(function(){
-        $.ajax({
-            url : _ctx + "plan/load-orderCustomer",
-            type : "GET",
-            contentType: "application/json",
-            dataType: 'json',
-
-            success : function(result) {
-
-            	loadDataToOrderTable(result);
-            },
-            error : function() {
-                console.log("Error!");
-            }
-        });
-    });
-    
-    function loadDataToOrderTable(orderData){
+        
         if (resultTable == null) {
         	resultTable = $("#resultTable").DataTable({
-                "data": orderData,
+                ajax: {'url': _ctx + 'plan/load-orderCustomer', 'dataSrc': ''},
                 "columns": [
                     
-                  	   { "data": 1,
-    	              	 "render" : function(data, row, meta){
-    						   data = '<a href="' + _ctx + 'order/edit/'+ data + '">' + data +'</a>';
+                       { "data": 1,
+                         "render" : function(data, row, meta){
+                               data = '<a href="' + _ctx + 'order/edit/'+ data + '">' + data +'</a>';
                                
-    		              	   return data;
-    			         }
-                  	    },
-                   	   { "data": 2 },
-                   	   { "data": 3 },
-                   	   { "data": 4 },
-                   	   { "data": 5 },
+                               return data;
+                         }
+                        },
+                       { "data": 2 },
+                       { "data": 3 },
+                       { "data": 4 },
+                       { "data": 5 },
                        { "data": null,
-      	              	 "render" : function(data, row, meta){                         
-    		              	   return null;
-    			         }
+                         "render" : function(data, row, meta){                         
+                               return null;
+                         }
                        },
-                   	   { "data": 0,
-      	              	 "render" : function(data, row, meta){
-      	              	       data = '<i class="fa fa-minus-circle" onclick="deleteOrder('+ data + ')"></i>';
+                       { "data": 0,
+                         "render" : function(data, row, meta){
+                               data = '<i class="fa fa-minus-circle" onclick="deleteOrder('+ data + ')"></i>';
                                                     
-    		              	   return data;
-    			         }
+                               return data;
+                         }
                        }
                    
                        ],
-    //                    "columnDefs":[
-    // 						{
-    // 							"targets": [0],
-    // 							"visible": false,
-    // 							"searchable": false
-    // 							}
-    //                         ],
                         "initComplete": function(settings, json){ 
                                 var info = this.api().page.info();
                                 total.innerHTML = info.recordsTotal;
                             }
                });
-       	} else {
-       		resultTable.fnDraw();
+        } else {
+            resultTable.fnDraw();
         }
-    }
-
+    });
+    
     function deleteOrder(orderId){
         if(orderId != null || orderId != ""){
             $.ajax({
@@ -104,10 +80,9 @@
                 dataType: 'json',
                 success : function(result) {
                 	$('#deleteResult').fadeToggle('slow'); $('#deleteResult').fadeOut(5000); 
-
-                    resultTable.destroy();
-                    resultTalbe = null;
-                	loadDataToOrderTable(result);
+                    
+//                 	loadDataToOrderTable(result);
+                	resultTable.ajax.reload();
                 },
                 error : function() {
                     console.log("Error!");
@@ -116,98 +91,6 @@
         }
         
     }
-//         function getCustomerData(handleData) {
-// 	        $.ajax({
-// 	            url : _ctx + "customer/load-customer",
-// 	            type : "GET",
-// 	            contentType: "application/json",
-// 	            dataType: 'json',
-
-// 	            success : function(result) {
-// 	            	handleData(result);
-// 	            },
-// 	            error : function() {
-// 	                console.log("Error!");
-// 	            }
-// 	        });
-//         }
-
-//     	if (resultTable == null) {
-//     		getCustomerData(function(output){
-//     			   var table = $("#resultTable").DataTable();
-//                    for(var i = 0; i < output.length; i++){
-//                    var customer = output[i];
-//                    for(var j = 0; j < customer.orderMasterList.length; j++){
-//                 	      var order = customer.orderMasterList[j];
-
-//                           table.row.add(['<a href="order/edit?orderCd='+order.name + '">' +order.name +'</a>', customer.name, customer.phone, customer.addr, order.deliveryDate, null, null]).draw();
-//                      }
-//                   }
-//               }); 
-//         } else {
-//                 resultTable.fnDraw();
-//         }
-//      });     
-    		
-// 	            $("#resultTable").DataTable({
-// 	                ajax: {'url': _ctx + 'order/load-order', 'dataSrc': ''},
-// 	                "columns": [
-// 	                	{"render": function ( data, type, full, meta ) {
-//                             // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
-//                            // Assign address id and displayAddress
-//                     	   return '<a href="order/new">'+full.id+'</a>';
-//                        }}, 
-// 	                       { 
-// 	                           "data": null, 
-// 	                           render: function ( data, type, full, meta ) {
-// 	                                       var name;
-//                                            for(var i = 0; i < output.length; i++){
-//                                                var op = output[i];
-//                                                for(var j = 0; j < op.orderMasterList.length; j++){
-//                                                         var order = op.orderMasterList[j];
-
-//                                                         if(order.id == full.id){ name = op.name; }
-//                                                }
-//                                            }
-// 	                                       return name;
-// 	                                   }
-// 	                       },
-// 	                       { 
-// 	                           "data": null, 
-// 	                           render: function ( data, type, full, meta ) {
-// 	                                       var phone;
-//                                            for(var i = 0; i < output.length; i++){
-//                                                var op = output[i];
-//                                                for(var j = 0; j < op.orderMasterList.length; j++){
-//                                                         var order = op.orderMasterList[j];
-
-//                                                         if(order.id == full.id){ phone = op.phone; }
-//                                                }
-//                                            }
-// 	                                       return phone;
-// 	                                   }
-// 	                       },
-// 	                       { 
-// 	                           "data": null, 
-// 	                           render: function ( data, type, full, meta ) {
-// 	                                       var address;
-//                                            for(var i = 0; i < output.length; i++){
-//                                                var op = output[i];
-//                                                for(var j = 0; j < op.orderMasterList.length; j++){
-//                                                         var order = op.orderMasterList[j];
-
-//                                                         if(order.id == full.id){ address = op.addr; }
-//                                                }
-//                                            }
-// 	                                       return address;
-// 	                                   }
-// 	                       },
-// 	                	   { "data": "deliveryDate" }
-// 	                       ]
-// 	            });
-  
-    	 
-
 </script>
 </body>
 </html>
