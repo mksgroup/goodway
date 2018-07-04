@@ -27,7 +27,7 @@
 					callback(true);
 					$("#save").show();
 				} else {
-					alert('Độ dài vượt quá giới hạn 10 ký tự!!!');
+					
 					callback(false);
 					$("#save").hide();
 				}
@@ -36,12 +36,12 @@
 
 		lengthDes = function(value, callback){
 			setTimeout(function(){
-				if(/^[a-zA-Z0-9]{0,1024}$/.test(value) || value == ''){
+				if(/^[a-zA-Z0-9\s]{0,1024}$/.test(value) || value == ''){
 					callback(true);
 			
 					$("#save").show();
 				} else {
-					alert('Độ dài vượt quá giới hạn 1024 ký tự !!!');
+					
 					
 					callback(false);
 					$("#save").hide();
@@ -51,12 +51,11 @@
 
 		lengthName = function(value, callback){
 			setTimeout(function(){
-				if(/^[a-zA-Z0-9]{0,128}$/.test(value) || value == ''){
+				if(/^[a-zA-Z0-9\s]{0,128}$/.test(value) || value == ''){
 					callback(true);
 					
 					$("#save").show();
 				} else {
-					alert('Độ dài vượt quá giới hạn 128 ký tự!!!');
 					
 					callback(false);
 					$("#save").hide();
