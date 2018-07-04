@@ -65,7 +65,7 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true },
-                    {data: 'name' },
+                    {data: 'name', validator: textValidator },
                     {data: 'length', validator: numberValidator },
                     {data: 'width', validator: numberValidator },
                     {data: 'height', validator: numberValidator },
@@ -199,7 +199,7 @@
                 if(!hotVehicle.isEmptyRow(row)){
                     for(var col = 0; col < hotVehicle.countCols(); col++){
                         if(col != 0){
-                            if((hotVehicle.getDataAtCell(row, col).length < 1 && hotVehicle.getDataAtCell(row, col).length > 500) || hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
+                            if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
                             	hotVehicle.getCellMeta(row, col).valid = false;
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 invalidFeilds.add(cell);
@@ -212,11 +212,23 @@
                                             console.log(hotVehicle.colToProp(col));
                                             invalidFeilds.delete(value);
                                         }
-                                    });
-                                    
-                                	hotVehicle.getCellMeta(row, col).valid = true;                           
+                                    });                       
                                 }
                             }
+                        }
+                    }
+                } else {
+                    for(var col2 = 0; col2 < hotProduct.countCols(); col2++){
+                        if(hotProduct.getCellMeta(row, col2).valid == false){
+                            invalidFeilds.forEach(function(value) {
+                                var prop = hotProduct.colToProp(col2);
+                                
+                                if(value.row == row && value.col == prop){
+                                    invalidFeilds.delete(value);
+                                }
+                            });
+                                                            
+                            hotProduct.getCellMeta(row, col2).valid = true;                     
                         }
                     }
                 }
