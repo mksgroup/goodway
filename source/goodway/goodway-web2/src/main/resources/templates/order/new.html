@@ -33,6 +33,7 @@
         var selectProductTable = null;
     
         $(document).ready(function() {
+            
             // Load dữ liệu khách hàng
             if (selectProductTable == null) {
                 selectProductTable = $("#selectProductTable").DataTable({
@@ -42,7 +43,6 @@
 
                                return '<input type="checkbox" name="productRow" value="' + full.id + '">';
                            }},  // here's a radio button, modify to use data to populate it
-                           { "data": "id" },
                            { "data": "name" },
                            { "data": "description" },
                            { "data": "height" },
