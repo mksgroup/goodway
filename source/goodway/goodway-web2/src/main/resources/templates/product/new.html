@@ -33,34 +33,34 @@
 			
 		};
 
-		lengthDes = function(value, callback){
+// 		lengthDes = function(value, callback){
 			
-				if(/^[a-zA-Z0-9\s]{0,1024}$/.test(value) || value == ''){
-					callback(true);
+// 				if(/^{0,1024}$/.test(value) || value == ''){
+// 					callback(true);
 			
-// 					$("#save").show();
-				} else {
+// // 					$("#save").show();
+// 				} else {
 					
-					errorSbm = true;
-					callback(false);
-// 					$("#save").hide();
-				}
+// 					errorSbm = true;
+// 					callback(false);
+// // 					$("#save").hide();
+// 				}
 			
-		}
+// 		}
 
-		lengthName = function(value, callback){
+// 		lengthName = function(value, callback){
 			
-				if(/^[a-zA-Z0-9\s]{0,128}$/.test(value) || value == ''){
-					callback(true);
+// 				if(/^{0,128}$/.test(value) || value == ''){
+// 					callback(true);
 					
-// 					$("#save").show();
-				} else {
-					errorSbm = true;
-					callback(false);
-// 					$("#save").hide();
-				}
+// // 					$("#save").show();
+// 				} else {
+// 					errorSbm = true;
+// 					callback(false);
+// // 					$("#save").hide();
+// 				}
 			
-		}
+// 		}
 		
 		
         $(function() {
@@ -80,10 +80,8 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true},
-                    {data: 'name',
-                        validator: lengthName},
-                    {data: 'description',
-                        validator: lengthDes},
+                    {data: 'name'},
+                    {data: 'description'},
                     {data: 'height',
              		 validator: numValidate,
              		 allowInvalid: false},
@@ -111,11 +109,11 @@
 					console.log('step');
 					
 					
-					if(changes != null){
-						document.getElementById('save').disabled = false;
-						console.log('step');
-						
-					} 
+						if(changes != null){
+							document.getElementById('save').disabled = false;
+							console.log('step');
+							
+						} 
 
 // 					console.log("Changes : " + changes[0][3]);
 // 					if(changes[0][0] == 1 || changes[0][0] == 2){
@@ -212,14 +210,14 @@
 	        for(var i = 0 ; i < dataProducts.length ; i++ ){
 	        	console.log(i);
 	        	if(!hotProduct.isEmptyRow(i)){
-	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length >128  ){
+	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length > 128  ){
 	        			errorSbm = true;
 	        			$('#errorName').show(); 
 	        			hotProduct.getCellMeta(i,1).valid = false;
 	        		} else {
 	        			hotProduct.getCellMeta(i,1).valid = true;
 		        	}
-	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length >1024 ){
+	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length > 1024 ){
 	        			errorSbm = true;
 	        			$('#errorDes').show(); 
 	        			hotProduct.getCellMeta(i,2).valid = false;
