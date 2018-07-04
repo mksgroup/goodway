@@ -14,19 +14,11 @@
   <th:block th:include="fragments/vehicle/new"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+
+  <script th:src="@{/js/handsontable-validate.js}"></script>
   
     <script>
-        numberValidator = function (value, callback) {
-          setTimeout(function(){
-                if (/[1-9]+/.test(value) && (value > 0 && value < 1000)) {
-                  callback(true);
-                }
-                else {
-                  callback(false);
-                }
-                
-          }, 0);
-        };
+
 
         textValidator = function (value, callback) {
             setTimeout(function(){
@@ -65,11 +57,11 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true },
-                    {data: 'name', validator: textValidator },
-                    {data: 'length', validator: numberValidator },
-                    {data: 'width', validator: numberValidator },
-                    {data: 'height', validator: numberValidator },
-                    {data: 'capacity', validator: numberValidator }
+                    {data: 'name', validator: floatValidator },
+                    {data: 'length', validator: floatValidator4 },
+                    {data: 'width', validator: floatValidator4 },
+                    {data: 'height', validator: floatValidator4 },
+                    {data: 'capacity', validator: floatValidator4 }
                   ],
 
                   // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
@@ -198,7 +190,7 @@
             for(var row = 0; row < hotVehicle.countRows(); row++){
                 if(!hotVehicle.isEmptyRow(row)){
                     for(var col = 0; col < hotVehicle.countCols(); col++){
-                        if(col != 0){
+                        if (col == 1) {
                             if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 

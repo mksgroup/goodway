@@ -14,24 +14,15 @@
   <th:block th:include="fragments/product/new"></th:block>
   
   <th:block th:include="fragments/footer"></th:block>
+  
+  <script th:src="@{/js/handsontable-validate.js}"></script>
+
    <script>
    var errorSbm = false;
         var dataProducts = [],numValidate;
         var deletedIds = [];
         var hotProduct = null;
 		var valid1 = true;
-
-		numValidate = function(value, callback){
-				if(/^[\d\.]{0,10}$/.test(value) || value == ''){
-					callback(true);
-
-				} else {
-					errorSbm = true;
-					callback(false);
-
-				}
-			
-		};
 	
         $(function() {
         	
@@ -52,23 +43,10 @@
                 	{data: 'id', readOnly: true},
                     {data: 'name'},
                     {data: 'description'},
-                    {data: 'height',
-             		 validator: numValidate,
-             		 allowInvalid: false},
-                    {data: 'width',
-                     
-             		 validator: numValidate,
-                	 allowInvalid: false
-                    },
-                    {data: 'length',
-                    
-                	 validator: numValidate,
-                	 allowInvalid: false},
-                    {data: 'weight',
-                	 
-                 	 validator: numValidate,
-                 	 allowInvalid: false
-					}
+                    {data: 'height', validator: floatValidator, allowInvalid: false},
+                    {data: 'width', validator: floatValidator, allowInvalid: false},
+                    {data: 'length', validator: floatValidator, allowInvalid: false},
+                    {data: 'weight', validator: floatValidator, allowInvalid: false}
                   ],
                   
 				  afterChange: function(changes, source){
