@@ -27,7 +27,7 @@
 					callback(true);
 // 					$("#save").show();
 				} else {
-					
+					errorSbm = true;
 					callback(false);
 // 					$("#save").hide();
 				}
@@ -42,7 +42,7 @@
 // 					$("#save").show();
 				} else {
 					
-					
+					errorSbm = true;
 					callback(false);
 // 					$("#save").hide();
 				}
@@ -56,7 +56,7 @@
 					
 // 					$("#save").show();
 				} else {
-					
+					errorSbm = true;
 					callback(false);
 // 					$("#save").hide();
 				}
@@ -216,7 +216,7 @@
 	        for(var i = 0 ; i < dataProducts.length ; i++ ){
 	        	console.log(i);
 	        	if(!hotProduct.isEmptyRow(i)){
-	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null   ){
+	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length >128  ){
 	        			errorSbm = true;
 	        			hotProduct.getCellMeta(i,1).valid = false;
 	        			 $('#errorName').show(); 
@@ -225,7 +225,7 @@
 	        			hotProduct.getCellMeta(i,1).valid = true;
 		        	}
 		        	
-	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null   ){
+	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length >128 ){
 	        			errorSbm = true;
 	        			hotProduct.getCellMeta(i,2).valid = false;
 	        			 $('#errorDes').show(); 
