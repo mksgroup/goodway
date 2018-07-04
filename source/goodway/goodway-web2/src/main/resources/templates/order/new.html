@@ -67,6 +67,20 @@
 			});
 		};
 	</script>
+    
+    <script>
+        quantityValidator = function (value, callback) {
+          setTimeout(function(){
+                if (/[1-9]+/.test(value) && (value > 0 && value < 1000000)) {
+                  callback(true);
+                }
+                else {
+                  callback(false);
+                }
+                
+          }, 0);
+        };
+    </script>
 
     <script>
         var dataProducts = [];
@@ -97,7 +111,7 @@
                      { "data": "width", readOnly: true },
                      { "data": "length", readOnly: true },
                      { "data": "weight", readOnly: true },     
-                     { "data": "quantity", type: 'numeric'}
+                     { "data": "quantity", validator: quantityValidator }
                ],
                 hiddenColumns: {
                      columns: 7,
@@ -111,8 +125,8 @@
                 beforeRemoveRow: function (index, amount) {
               	  var lastIndex = index + amount;
                     var i;
+                    
                     for (i = index; i < lastIndex; i++) {
-                        console.log("dataProducts=" + JSON.stringify(dataProducts));
                         var deletedProducts = dataProducts[i];
                         var deletedId = deletedProducts.id;
 
@@ -120,11 +134,30 @@
                         if (deletedId) {
                       	  deletedIds.push(deletedId);
                         }
-                    }
+                        
+                        // Remove invalid cell of deleting row if exists in invalidFeilds.
+                        for(var col = 0; col < this.countCols(); col++){
+                            if(this.getCellMeta(i, col).valid == false){
+                                invalidFeilds.forEach(function(value) {
+                                      var prop = hotProduct.colToProp(col);
+                                      if(value.row == i && value.col == prop){
+                                          invalidFeilds.delete(value);
+                                      }
+                                });                              
+                            }
+                        }
 
-                    console.log("list deletedIds=" + deletedIds);
+                        // Uncheck selected products.
+                        $("input:checkbox[name=productRow]:checked").each(function(){
+                            if($(this).val() == deletedId){
+                                this.checked = false;
+                            }
+                        });     
+                           
+                    }
                 },
                 afterValidate: function (isValid, value, row, prop, source) {
+                    console.log(value>0 + ',' + value < 1000000);
                     if (!isValid) {
                             var cell = {"row": row, "col": prop};
                             invalidFeilds.add(cell);
@@ -235,17 +268,34 @@
                         if(hotProduct.getDataAtCell(row, col) == null || hotProduct.getDataAtCell(row, col) == ""){
                         	hotProduct.getCellMeta(row, col).valid = false;
                             var cell = {"row": row, "col": hotProduct.colToProp(col)};
-                            invalidFeilds.add(cell);
-                  
+                            
+                            invalidFeilds.add(cell);                 
                         } else {
+                            if(col != 6){
+                                invalidFeilds.forEach(function(value) {
+                                    var prop = hotProduct.colToProp(col);
+                                    
+                                    if(value.row == row && value.col == prop){
+                                        invalidFeilds.delete(value);
+                                    }
+                                });
+                                                                
+                                hotProduct.getCellMeta(row, col).valid = true;
+                            }
+                        }
+                    }
+                } else {
+                    for(var col2 = 0; col2 < hotProduct.countCols(); col2++){
+                        if(hotProduct.getCellMeta(row, col2).valid == false){
                             invalidFeilds.forEach(function(value) {
-                                var prop = hotProduct.colToProp(col);
+                                var prop = hotProduct.colToProp(col2);
+                                
                                 if(value.row == row && value.col == prop){
-                                    console.log(hotProduct.colToProp(col));
                                     invalidFeilds.delete(value);
                                 }
-                              });
-                        	hotProduct.getCellMeta(row, col).valid = true;
+                            });
+                                                            
+                            hotProduct.getCellMeta(row, col2).valid = true;                     
                         }
                     }
                 }
