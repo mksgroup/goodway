@@ -271,7 +271,7 @@
                             
                             invalidFeilds.add(cell);                 
                         } else {
-                            if(col != 6){
+
                                 invalidFeilds.forEach(function(value) {
                                     var prop = hotProduct.colToProp(col);
                                     
@@ -279,9 +279,7 @@
                                         invalidFeilds.delete(value);
                                     }
                                 });
-                                                                
-                                hotProduct.getCellMeta(row, col).valid = true;
-                            }
+
                         }
                     }
                 } else {

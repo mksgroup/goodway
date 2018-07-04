@@ -205,7 +205,7 @@
                                 invalidFeilds.add(cell);
     
                             } else {
-                                if(col == 1 && hotVehicle.getDataAtCell(row, col).length < 500){
+
                                     invalidFeilds.forEach(function(value) {
                                         var prop = hotVehicle.colToProp(col);
                                         if(value.row == row && value.col == prop){
@@ -213,22 +213,22 @@
                                             invalidFeilds.delete(value);
                                         }
                                     });                       
-                                }
+    
                             }
                         }
                     }
                 } else {
-                    for(var col2 = 0; col2 < hotProduct.countCols(); col2++){
-                        if(hotProduct.getCellMeta(row, col2).valid == false){
+                    for(var col2 = 0; col2 < hotVehicle.countCols(); col2++){
+                        if(hotVehicle.getCellMeta(row, col2).valid == false){
                             invalidFeilds.forEach(function(value) {
-                                var prop = hotProduct.colToProp(col2);
+                                var prop = hotVehicle.colToProp(col2);
                                 
                                 if(value.row == row && value.col == prop){
                                     invalidFeilds.delete(value);
                                 }
                             });
                                                             
-                            hotProduct.getCellMeta(row, col2).valid = true;                     
+                            hotVehicle.getCellMeta(row, col2).valid = true;                     
                         }
                     }
                 }
