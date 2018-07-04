@@ -22,7 +22,6 @@
 		var valid1 = true;
 
 		numValidate = function(value, callback){
-			setTimeout(function(){
 				if(/^[\d\.]{0,10}$/.test(value) || value == ''){
 					callback(true);
 // 					$("#save").show();
@@ -31,11 +30,11 @@
 					callback(false);
 // 					$("#save").hide();
 				}
-			});
+			
 		};
 
 		lengthDes = function(value, callback){
-			setTimeout(function(){
+			
 				if(/^[a-zA-Z0-9\s]{0,1024}$/.test(value) || value == ''){
 					callback(true);
 			
@@ -46,11 +45,11 @@
 					callback(false);
 // 					$("#save").hide();
 				}
-			});
+			
 		}
 
 		lengthName = function(value, callback){
-			setTimeout(function(){
+			
 				if(/^[a-zA-Z0-9\s]{0,128}$/.test(value) || value == ''){
 					callback(true);
 					
@@ -60,7 +59,7 @@
 					callback(false);
 // 					$("#save").hide();
 				}
-			});
+			
 		}
 		
 		
@@ -105,9 +104,6 @@
                   ],
                   
 				  afterChange: function(changes, source){
-					if(source === "loadData"){
-						return;
-					}
 					  
 					console.log("changes : "+changes);
 					console.log("source : "+source);
@@ -209,7 +205,7 @@
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
 
-            var a = hotProduct.getDataAtCell(1,2);
+           
 
 			
            
@@ -218,21 +214,18 @@
 	        	if(!hotProduct.isEmptyRow(i)){
 	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length >128  ){
 	        			errorSbm = true;
+	        			$('#errorName').show(); 
 	        			hotProduct.getCellMeta(i,1).valid = false;
-	        			 $('#errorName').show(); 
-	        			
 	        		} else {
 	        			hotProduct.getCellMeta(i,1).valid = true;
 		        	}
-		        	
-	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length >128 ){
+	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length >1024 ){
 	        			errorSbm = true;
+	        			$('#errorDes').show(); 
 	        			hotProduct.getCellMeta(i,2).valid = false;
-	        			 $('#errorDes').show(); 
-	        			
 	        		} else {
-						hotProduct.getCellMeta(i,2).valid = true;
-	        		}
+	        			hotProduct.getCellMeta(i,2).valid = true;
+		        	}
 	        	} 
 					
 	        }
@@ -241,7 +234,7 @@
 
 			
 
-	        hotProduct.render();
+	     
 			console.log(errorSbm);
 			if(errorSbm == false){
 	            $.ajax({
