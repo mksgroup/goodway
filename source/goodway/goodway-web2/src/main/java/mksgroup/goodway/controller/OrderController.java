@@ -112,8 +112,8 @@ public class OrderController {
      */
     @GetMapping("order/delete")
     @ResponseBody
-    public List<Object[]> deleteOrder(@RequestParam("orderId") Integer orderId) {
-        OrderMaster order = orderBiz.getRepo().findById(orderId).get();
+    public List<Object[]> deleteOrder(@RequestParam("orderCd") String orderCd) {
+        OrderMaster order = orderBiz.findByName(orderCd);
         orderBiz.getRepo().delete(order);
         List<Object[]> orders = orderBiz.findOrderCustomer();
         
