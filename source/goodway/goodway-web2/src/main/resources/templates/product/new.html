@@ -3,7 +3,7 @@
 <head>
     <th:block th:include="fragments/head"></th:block>
 </head>
-<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns" style="">
   <!-- fixed-top-->
     <th:block th:include="fragments/nav"></th:block>
   <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -19,15 +19,16 @@
 
   <script>
 
-  	var lenName = 128;
+  	
   	var lenDes = 1024;
+  	var lenName = 128;
   	
 	var dataProducts = [];
 	var deletedIds = [];
 	var hotProduct = null;
 	
 	$(function() {
-        	
+		var len;
 		var containerProduct = document.getElementById('tableProduct');
 
 		hotProduct = new Handsontable(containerProduct, {
@@ -40,7 +41,7 @@
         	manualColumnResize: true,
             manualRowResize: true,
             rowHeaders: true,
-            contextMenu: ['remove_row'],
+            contextMenu: ['remove_row','row_below'],
             columns: [
             	{data: 'id', readOnly: true},
                 {data: 'name', validator: lengthValidateName},
@@ -57,7 +58,9 @@
 				if(changes != null){
 					document.getElementById('save').disabled = false;
 					console.log('step');
-				} 
+				}
+				
+				
 		  	},
                   
             beforeRemoveRow: function (index, amount) {

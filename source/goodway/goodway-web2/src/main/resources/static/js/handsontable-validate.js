@@ -49,11 +49,11 @@ floatValidator = function (value, callback) {
 
 
 lengthValidateName = function(value, callback) {
-	(value.length <= lenName) ? callback(true) : callback(false);
+	(value.length <= lenName) ? ($('#errorName').hide() , callback(true)) : ($('#errorName').show() , callback(false));
 };
 
 lengthValidateDes = function(value, callback) {
-	(value.length <= lenName) ? callback(true) : callback(false);
+	(value.length <= lenDes) ? ($('#errorDes').hide() , callback(true)) : ($('#errorDes').show() , callback(true));
 };
 
 /**
