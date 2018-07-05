@@ -18,11 +18,14 @@
   <script th:src="@{/js/handsontable-validate.js}"></script>
 
   <script>
-   
+
+  	var lenName = 128;
+  	var lenDes = 1024;
+  	
 	var dataProducts = [];
 	var deletedIds = [];
 	var hotProduct = null;
-			
+	
 	$(function() {
         	
 		var containerProduct = document.getElementById('tableProduct');
@@ -40,8 +43,8 @@
             contextMenu: ['remove_row'],
             columns: [
             	{data: 'id', readOnly: true},
-                {data: 'name'},
-                {data: 'description'},
+                {data: 'name', validator: lengthValidateName},
+                {data: 'description', validator: lengthValidateDes},
                 {data: 'height', validator: floatValidator, allowInvalid: false},
                 {data: 'width', validator: floatValidator, allowInvalid: false},
                 {data: 'length', validator: floatValidator, allowInvalid: false},
@@ -154,7 +157,7 @@
 
       	//nếu khổng phải dòng trống thì kiểm tra .
       	if (!hotProduct.isEmptyRow(i)) {
-
+      		
 	       	/**
 	       	 * kiểm tra cột tên nếu trống hoặc chưa nhập
 	       	 * độ dài bé hơn 128 ký tự
