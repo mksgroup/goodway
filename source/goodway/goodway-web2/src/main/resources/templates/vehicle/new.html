@@ -89,24 +89,10 @@
                             
                             // if column is not name, id 
                             if (col != 0 || col != 1) {
-                               console.log(isInteger(hotVehicle, row, col, newVal, 3));                              
+                               decimalValidator(hotVehicle, row, col, newVal, 3);                              
                             }
                         }               
                   }                 
-//                   afterValidate: function (isValid, value, row, prop, source) {
-//                       if (!isValid) {
-//                               var cell = {"row": row, "col": prop};
-//                               invalidFeilds.add(cell);
-//                               console.log("cell: " + JSON.stringify(cell));
-//                       } else {
-//                         invalidFeilds.forEach(function(value) {
-//                               if(value.row == row && value.col == prop){
-//                                   invalidFeilds.delete(value);
-//                               }
-//                             });
-//                           console.log(invalidFeilds);
-//                       }
-//                   },
                   
               });
 
