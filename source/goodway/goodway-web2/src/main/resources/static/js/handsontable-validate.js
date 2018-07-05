@@ -89,7 +89,7 @@ floatValidator4 = function (value, callback) {
  * @param limit - limit of newVal's length
  * @returns
  */
-function isInteger (handsontable, row, col, newVal, limit) {
+function integerValidator (handsontable, row, col, newVal, limit) {
     var valid; 
 
     if(limit == undefined) {
@@ -102,17 +102,14 @@ function isInteger (handsontable, row, col, newVal, limit) {
     	handsontable.getCellMeta(row, col).valid = true;
         handsontable.render();
         
-        return true;
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
         handsontable.render();
-        
-        return false;
     }
 }
 
 /**
- * Check if value is a positive float number and within limit if there is limit.
+ * Check if value is a positive decimal number and within limit if there is limit.
  * @param handsontable - instance of handsontable
  * @param row - cell's row
  * @param prop - cell's property
@@ -120,14 +117,14 @@ function isInteger (handsontable, row, col, newVal, limit) {
  * @param limit - limit of newVal's length
  * @returns
  */
-function isFloat (handsontable, row, col, newVal, limit) {
+function decimalValidator (handsontable, row, col, newVal, limit) {
     var valid; 
     
 	// trunk the Integer part
 	var dotIdx = newVal.indexOf(".");
 	
 	if (dotIdx > -1) {
-		var leftDot = value.substring(0, dotIdx - 1);
+		var leftDot = newVal.substring(0, dotIdx);
 	} else {
 		leftDot = newVal;
 	}
@@ -135,19 +132,16 @@ function isFloat (handsontable, row, col, newVal, limit) {
     if(limit == undefined) {
         valid = (floatPattern.test(leftDot));
     } else {
-    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+    	valid = (floatPattern.test(newVal) && leftDot.length <= limit);
     }
     
     if (valid) {
     	handsontable.getCellMeta(row, col).valid = true;
         handsontable.render();
         
-        return true;
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
         handsontable.render();
-        
-        return false;
     }
 }
 
@@ -199,4 +193,31 @@ function isEmptyColumn (handsontable, column) {
     }
     
     return inValid;	
+}
+
+/**
+ * Check if handsontable table have any invalid cell.
+ * @param handsontable
+ * @returns
+ */
+function isValidTable (handsontable) {
+	var valid = true;
+	
+	for (var row = 0; row < handsontable.countRows(); row++){
+		if (!handsontable.isEmptyRow(row)) {
+			for (var col = 0; col < handsontable.countCols(); col++){
+				if (handsontable.getCellMeta(row, col).valid == false) {
+					valid = false;
+				}
+			}
+		} else {
+			for (var col2 = 0; col2 < handsontable.countCols(); col2++) {
+				if (handsontable.getCellMeta(row, col2).valid == false) {
+					handsontable.getCellMeta(row, col2).valid = true;
+				}
+			}
+		}
+	}
+	
+	return valid;
 }
