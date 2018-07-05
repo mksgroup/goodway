@@ -223,3 +223,45 @@ function isValidTable (handsontable) {
 	
 	return valid;
 }
+
+/**
+ * Check if text length within litmit (default 500 if undefined) if there is.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param newVal
+ * @param limit
+ * @returns
+ */
+function textValidator (handsontable, row, col, newVal, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (newVal.length <= 500);
+    } else {
+    	valid = (newVal.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+    }
+    
+    handsontable.render();	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
