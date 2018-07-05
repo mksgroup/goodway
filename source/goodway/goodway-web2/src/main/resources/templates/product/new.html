@@ -3,7 +3,7 @@
 <head>
     <th:block th:include="fragments/head"></th:block>
 </head>
-<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns" style="">
   <!-- fixed-top-->
     <th:block th:include="fragments/nav"></th:block>
   <!-- ////////////////////////////////////////////////////////////////////////////-->
@@ -18,13 +18,17 @@
   <script th:src="@{/js/handsontable-validate.js}"></script>
 
   <script>
-   
+
+  	
+  	var lenDes = 1024;
+  	var lenName = 128;
+  	
 	var dataProducts = [];
 	var deletedIds = [];
 	var hotProduct = null;
-			
+	
 	$(function() {
-        	
+		var len;
 		var containerProduct = document.getElementById('tableProduct');
 
 		hotProduct = new Handsontable(containerProduct, {
@@ -37,11 +41,11 @@
         	manualColumnResize: true,
             manualRowResize: true,
             rowHeaders: true,
-            contextMenu: ['remove_row'],
+            contextMenu: ['remove_row','row_below'],
             columns: [
             	{data: 'id', readOnly: true},
-                {data: 'name'},
-                {data: 'description'},
+                {data: 'name', validator: lengthValidateName},
+                {data: 'description', validator: lengthValidateDes},
                 {data: 'height', validator: floatValidator, allowInvalid: false},
                 {data: 'width', validator: floatValidator, allowInvalid: false},
                 {data: 'length', validator: floatValidator, allowInvalid: false},
@@ -54,7 +58,9 @@
 				if(changes != null){
 					document.getElementById('save').disabled = false;
 					console.log('step');
-				} 
+				}
+				
+				
 		  	},
                   
             beforeRemoveRow: function (index, amount) {
@@ -154,7 +160,7 @@
 
       	//nếu khổng phải dòng trống thì kiểm tra .
       	if (!hotProduct.isEmptyRow(i)) {
-
+      		
 	       	/**
 	       	 * kiểm tra cột tên nếu trống hoặc chưa nhập
 	       	 * độ dài bé hơn 128 ký tự

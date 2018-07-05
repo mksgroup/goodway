@@ -46,6 +46,16 @@ floatValidator = function (value, callback) {
 	}
 };
 
+
+
+lengthValidateName = function(value, callback) {
+	(value.length <= lenName) ? ($('#errorName').hide() , callback(true)) : ($('#errorName').show() , callback(false));
+};
+
+lengthValidateDes = function(value, callback) {
+	(value.length <= lenDes) ? ($('#errorDes').hide() , callback(true)) : ($('#errorDes').show() , callback(true));
+};
+
 /**
  * Kiểm tra số thực hợp lệ và phần nguyên có tối đa 4 kí số.
  */
