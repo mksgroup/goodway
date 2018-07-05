@@ -81,27 +81,23 @@
                   beforeChange: function(changes, source) {
                       
                         // changes = [[row, prop, oldVal, newVal], ...]
-                        for (var i = 0; i < changes.length; i++) {
-                            var row = changes[i][0];
-                            var col = hotCustomer.propToCol(changes[i][1]);
-                            var newVal = changes[i][3];
-                            console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
-                            
-                            // if column is not name, id 
-                            if (col == 4) {
-                                if (!isInteger(hotCustomer, row, col, newVal, 11)) {
-                                    var cell = {"row": row, "col": col};
-                                    invalidFeilds.add(cell);                                
-                                } else {
-                                    invalidFeilds.forEach(function (value) {
-                                        if (value.row == row && value.col == col) {
-                                            invalidFeilds.delete(value);
-                                        }
-                                      });
-                                    console.log(invalidFeilds);
-                                }
-                            }
-                        }               
+                	  for (var i = 0; i < changes.length; i++) {
+                          var row = changes[i][0];
+                          var col = hotCustomer.propToCol(changes[i][1]);
+                          var newVal = changes[i][3];
+                          console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+
+                          if (col == 1) {
+                        	  textValidator(hotCustomer, row, col, newVal, 50);
+                              }
+                          if (col == 2 || col == 3) {
+                        	  textValidator(hotCustomer, row, col, newVal, 10);
+                              }
+                          // if column is phone
+                          if (col == 4) {
+                        	  integerValidator(hotCustomer, row, col, newVal, 11);                               
+                          }
+                      }               
                   }
               });
             loadCustomers();
@@ -156,62 +152,23 @@
             frmData["header"] = colHeaderData;
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
-            
-            var ok = true;
 
-            //
-           
-            for(var k = 0; k < hotCustomer.countRows(); k ++){
-                if(!hotCustomer.isEmptyRow(k)){
-                    for(var j = 0; j < hotCustomer.countCols(); j++){
-                        if(j!=0){
-                        	var cell_value = hotCustomer.getDataAtCell(k, j);
-                        	if(j == 1){
-								for(var n=0 ; n < cell_value.length ; n++){
-									var value_num = cell_value.charAt(n) - '0';
-										if(/[0-9]/.test(value_num) || cell_value.length > 50){
-											var cell = {"row": k, "col": hotCustomer.colToProp(1)};
-			    	                    	hotCustomer.getCellMeta(k, j).valid = false;
-			    	                        invalidFeilds.add(cell);
-			    	                        ok = false;
-										}else{
-											invalidFeilds.forEach(function(value) {
-			    		                    	var prop = hotCustomer.colToProp(j);
-			    	                    		  if(value.row == k && value.col == prop ){
-			    	                    			  invalidFeilds.delete(value);
-			    	                    		  }
-			    	                    		});	
-			    		                    hotCustomer.getCellMeta(k,j).valid = true;
-											}
-									}
-                            	}   	
-                        	else if(cell_value == null || cell_value == "") {
-    	                    	var cell = {"row": k, "col": hotCustomer.colToProp(j)};
-    	                    	hotCustomer.getCellMeta(k,j).valid = false;
-    	                        invalidFeilds.add(cell);
-    	                        ok = false;
-    	                    } else{
-    		                    invalidFeilds.forEach(function(value) {
-    		                    	var prop = hotCustomer.colToProp(j);
-    	                    		  if(value.row == k && value.col == prop ){
-    	                    			  invalidFeilds.delete(value);
-    	                    		  }
-    	                    		});	
-    		                    hotCustomer.getCellMeta(k,j).valid = true;
-    	                    }
-                            }
-                    }
-                }
+            var ok = true;
+			
+            if (areEmptyColumns(hotCustomer)) {
+                ok = false;
+                $('#errorHandsontable').show();
             }
-			if(invalidFeilds.size == 0){
-				ok = true;
-				}else{
-					ok = false;
-					hotCustomer.render();  
-					}
-			console.log(invalidFeilds.size);
+
+            // check if handsontable have any invalid cell
+            if (!isValidTable(hotCustomer)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
             
-            if(ok){
+            if(ok) {
+            	$('#errorHandsontable').hide();
+            	$('#errorHandsontable').hide();
                 $.ajax({
                 url : _ctx + "customer/save",
                 type : "POST",
