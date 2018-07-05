@@ -9,18 +9,20 @@
             <span data-i18n="nav.dash.main" th:text="#{homepage}">Dashboard</span>
           </a>
         </li>
-        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/order}" ><i class="icon-note"></i><span data-i18n="nav.templates.main" th:text="#{orders}">Orders</span></a>
-        </li>
-        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/vehicle}"><i class="icon-paper-plane"></i><span data-i18n="nav.category.ui" th:text="#{vehicles}">Vehicles</span></a>
-        </li>
         <li class="dropdown nav-item"><a class="nav-link" th:href="@{/address}" ><i class="icon-drop"></i><span data-i18n="nav.category.forms" th:text="#{locations}">Locations</span></a>
         </li>
-        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/customer}" ><i class="icon-heart"></i><span data-i18n="nav.category.forms" th:text="#{customer}">Customer</span></a>
+        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/customer}" ><i class="icon-user-following"></i><span data-i18n="nav.category.forms" th:text="#{customer}">Customer</span></a>
         </li>
-        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/plan}" ><i class="icon-note"></i><span data-i18n="nav.category.forms" th:text="#{plan}">Plan</span></a>
+        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/vehicle}"><i class="icon-plane"></i><span data-i18n="nav.category.ui" th:text="#{vehicles}">Vehicles</span></a>
         </li>
-        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/product}" ><i class="ft-box"></i><span data-i18n="nav.category.forms" th:text="#{product}">Plan</span></a>
+        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/product}" ><i class="ft-box"></i><span data-i18n="nav.category.forms" th:text="#{product}">Product</span></a>
         </li>
+        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/order}" ><i class="icon-basket-loaded"></i><span data-i18n="nav.templates.main" th:text="#{orders}">Orders</span></a>
+        </li>
+
+        <li class="dropdown nav-item"><a class="nav-link" th:href="@{/plan}" ><i class="icon-calendar"></i><span data-i18n="nav.category.forms" th:text="#{plan}">Plan</span></a>
+        </li>
+
         <li class="dropdown mega-dropdown nav-item" data-menu="megamenu"><a class="dropdown-toggle nav-link" href="#" data-toggle="dropdown"><i class="icon-settings"></i><span data-i18n="nav.category.addons" th:text="#{settings}">Settings</span></a>
           <ul class="mega-dropdown-menu dropdown-menu row">
             <li class="col-md-3" data-mega-col="col-md-3">

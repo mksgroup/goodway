@@ -21,142 +21,161 @@
 					<p th:text="#{app.click}">Bấm chọn mô đun bên dưới</p>
 				</div>
 			</div>
-			<div class="card-body my-gallery" itemscope=""
-				itemtype="http://schema.org/ImageGallery" data-pswp-uid="1">
-				<div class="row">
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/order}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i
-													class="icon-basket-loaded text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.order.title}">Đơn
-													hàng</h3>
-												<span th:text="#{app.order.description}">Quản lý đơn
-													hàng</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/vehicle}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i class="icon-plane text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.vehicle.title}">Đội
-													xe</h3>
-												<span th:text="#{app.vehicle.description}">Quản lý
-													thông tin xe</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/address}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i class="icon-map text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.address.title}">Địa
-													điểm</h3>
-												<span th:text="#{app.address.description}">Quản lý
-													địa điểm giao hàng</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/customer}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i
-													class="icon-user-following text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.customer.title}">Khách
-													hàng</h3>
-												<span th:text="#{app.customer.description}">Quản lý
-													thông tin khách hàng</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/plan}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i class="icon-calendar text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.plan.title}">Kế
-													Hoạch</h3>
-												<span th:text="#{app.plan.description}">Lập kế
-													hoạch giao hàng</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
-					<figure class="col-lg-2 col-md-3 col-4" itemprop="associatedMedia"
-						itemscope="" itemtype="http://schema.org/ImageObject">
-						<a th:href="@{/question/new}">
-							<div class="card bg-info">
-								<div class="card-content">
-									<div class="card-body">
-										<div class="media d-flex">
-											<div class="align-self-center">
-												<i class="icon-question text-white font-large-2 float-left"></i>
-											</div>
-											<div class="media-body text-white text-right">
-												<h3 class="text-white" th:text="#{app.question.title}">Câu hỏi</h3>
-												<span th:text="#{app.question.description}">Câu hỏi</span>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</a>
-					</figure>
+			<div class="card-body my-gallery" data-pswp-uid="1">
+				<div class="row center">
+                    <div class="col-2"></div>
+                    <div class="col-8">
+                        <div class="row">
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/address}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i class="icon-drop text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.address.title}">Địa
+        													điểm</h3>
+        												<span th:text="#{app.address.description}">Quản lý
+        													địa điểm giao hàng</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/customer}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i
+        													class="icon-user-following text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.customer.title}">Khách hàng</h3>
+        												<span th:text="#{app.customer.description}">Quản lý
+        													thông tin khách hàng</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/vehicle}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i class="icon-plane text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.vehicle.title}">Đội
+        													xe</h3>
+        												<span th:text="#{app.vehicle.description}">Quản lý
+        													thông tin xe</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/product}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i class="ft-box text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.product.title}">Product</h3>
+        												<span th:text="#{app.product.description}">Product Management</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/order}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i
+        													class="icon-basket-loaded text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.order.title}">Đơn
+        													hàng</h3>
+        												<span th:text="#{app.order.description}">Quản lý đơn
+        													hàng</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia"
+        						itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/plan}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i class="icon-calendar text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.plan.title}">Kế
+        													Hoạch</h3>
+        												<span th:text="#{app.plan.description}">Lập kế
+        													hoạch giao hàng</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+        					<figure class="col-lg-3 col-md-3 col-4" itemprop="associatedMedia" itemscope="" itemtype="http://schema.org/ImageObject">
+        						<a th:href="@{/question/new}">
+        							<div class="card bg-info">
+        								<div class="card-content">
+        									<div class="card-body">
+        										<div class="media d-flex">
+        											<div class="align-self-center">
+        												<i class="icon-question text-white font-large-2 float-left"></i>
+        											</div>
+        											<div class="media-body text-white text-right">
+        												<h3 class="text-white" th:text="#{app.question.title}">Câu hỏi</h3>
+        												<span th:text="#{app.question.description}">Câu hỏi</span>
+        											</div>
+        										</div>
+        									</div>
+        								</div>
+        							</div>
+        						</a>
+        					</figure>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-4"></div>
 				</div>
+                
 			</div>
 		</div>
 		<!--/ PhotoSwipe -->
