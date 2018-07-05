@@ -142,7 +142,7 @@ function isFloat (handsontable, row, col, newVal, limit) {
 }
 
 /**
- * Check if row have value but columns of the row are empty.
+ * Check if row have at least one column have value but others are empty.
  * @param handsontable - instance of handsontable
  * @returns
  */
