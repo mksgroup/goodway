@@ -21,16 +21,13 @@
 
 
         textValidator = function (value, callback) {
-            setTimeout(function(){
-                  if (value.length > 0 && value.length < 500) {
-                    callback(true);
-                  }
-                  else {
-                    callback(false);
-                  }
-                  
-            }, 0);
-          };
+            if (value.length > 0 && value.length < 500) {
+                callback(true);
+            }
+            else {
+                callback(false);
+            }
+        }; 
     </script>
     
     <script>
@@ -57,24 +54,19 @@
                 contextMenu: ['remove_row'],
                 columns: [
                 	{data: 'id', readOnly: true },
-                    {data: 'name', validator: floatValidator },
-                    {data: 'length', validator: floatValidator4 },
-                    {data: 'width', validator: floatValidator4 },
-                    {data: 'height', validator: floatValidator4 },
-                    {data: 'capacity', validator: floatValidator4 }
+                    {data: 'name' },
+                    {data: 'length' },
+                    {data: 'width' },
+                    {data: 'height' },
+                    {data: 'capacity' }
                   ],
 
                   // Bắt và xử lý thao tác xoá dòng (bấm phải chuột, chọn Remove Row)
                   beforeRemoveRow: function (index, amount) {
-                      console.log("Removed row index =" + index + ";amount=" + amount);
-
-
-                      // Support to submit deleted id into server
-                      console.log("index=" + index);
+                      
                       var lastIndex = index + amount;
                       var i;
                       for (i = index; i < lastIndex; i++) {
-                          console.log("dataVehicles=" + JSON.stringify(dataVehicles));
                           var deletedVehicle = dataVehicles[i];
                           var deletedId = deletedVehicle.id;
 
@@ -84,11 +76,11 @@
                           }
                           
                           // Remove invalid cell of deleting row if exists in invalidFeilds.
-                          for(var col = 0; col < this.countCols(); col++){
-                              if(this.getCellMeta(i, col).valid == false){
-                                  invalidFeilds.forEach(function(value) {
+                          for (var col = 0; col < this.countCols(); col++) {
+                              if (this.getCellMeta(i, col).valid == false) {
+                                  invalidFeilds.forEach(function (value) {
                                         var prop = hotVehicle.colToProp(col);
-                                        if(value.row == i && value.col == prop){
+                                        if (value.row == i && value.col == prop) {
                                             invalidFeilds.delete(value);
                                         }
                                   });                              
@@ -98,20 +90,38 @@
 
                       console.log("list deletedIds=" + deletedIds);
                   },
-                  afterValidate: function (isValid, value, row, prop, source) {
-                      if (!isValid) {
-                              var cell = {"row": row, "col": prop};
-                              invalidFeilds.add(cell);
-                              console.log("cell: " + JSON.stringify(cell));
-                      } else {
-                        invalidFeilds.forEach(function(value) {
-                              if(value.row == row && value.col == prop){
-                                  invalidFeilds.delete(value);
-                              }
-                            });
-                          console.log(invalidFeilds);
-                      }
-                  }
+                  beforeChange: function(changes, source) {
+                      
+                        // changes = [[row, prop, oldVal, newVal], ...]
+                        for (var i = 0; i < changes.length; i++) {
+                            if (!isInteger(hotVehicle, changes[i][0], changes[i][1], changes[i][3], 3)) {
+                                var cell = {"row": changes[i][0], "col": changes[i][1]};
+                                invalidFeilds.add(cell);                                
+                            } else {
+                                invalidFeilds.forEach(function (value) {
+                                    if (value.row == changes[i][0] && value.col == changes[i][1]) {
+                                        invalidFeilds.delete(value);
+                                    }
+                                  });
+                                console.log(invalidFeilds);
+                            }
+                        }               
+                  }                 
+//                   afterValidate: function (isValid, value, row, prop, source) {
+//                       if (!isValid) {
+//                               var cell = {"row": row, "col": prop};
+//                               invalidFeilds.add(cell);
+//                               console.log("cell: " + JSON.stringify(cell));
+//                       } else {
+//                         invalidFeilds.forEach(function(value) {
+//                               if(value.row == row && value.col == prop){
+//                                   invalidFeilds.delete(value);
+//                               }
+//                             });
+//                           console.log(invalidFeilds);
+//                       }
+//                   },
+                  
               });
 
         	loadVehicle();
@@ -160,7 +170,7 @@
                     dataVehicles = res;
                     hotVehicle.loadData(dataVehicles);
                 },
-                error : function (e) {
+                error : function(e) {
                     console.log("Error: " + e);
                 }
             });
@@ -187,11 +197,11 @@
             var ok = true;
 
             // Check if have vehicle but didn't enter quantity.
-            for(var row = 0; row < hotVehicle.countRows(); row++){
-                if(!hotVehicle.isEmptyRow(row)){
-                    for(var col = 0; col < hotVehicle.countCols(); col++){
+            for (var row = 0; row < hotVehicle.countRows(); row++) {
+                if (!hotVehicle.isEmptyRow(row)) {
+                    for (var col = 0; col < hotVehicle.countCols(); col++) {
                         if (col == 1) {
-                            if(hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == ""){
+                            if (hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == "") {
                                 var cell = {"row": row, "col": hotVehicle.colToProp(col)};
                                 
                                 invalidFeilds.add(cell);
@@ -201,12 +211,12 @@
                         }
                     }
                 } else {
-                    for(var col2 = 0; col2 < hotVehicle.countCols(); col2++){
-                        if(hotVehicle.getCellMeta(row, col2).valid == false){
-                            invalidFeilds.forEach(function(value) {
+                    for (var col2 = 0; col2 < hotVehicle.countCols(); col2++) {
+                        if (hotVehicle.getCellMeta(row, col2).valid == false) {
+                            invalidFeilds.forEach(function (value) {
                                 var prop = hotVehicle.colToProp(col2);
                                 
-                                if(value.row == row && value.col == prop){
+                                if (value.row == row && value.col == prop) {
                                     invalidFeilds.delete(value);
                                 }
                             });
@@ -220,20 +230,19 @@
             hotVehicle.render();
 
             // Check if handsontable have any invalid.
-            if(invalidFeilds.size > 0) {
-//                 $("#errorHandsontable").fadeToggle('slow'); $('#errorHandsontable').fadeOut(10000);
+            if (invalidFeilds.size > 0) {
                 $('#errorHandsontable').show();
                 ok = false;
             } 
 
             // Check if handsontable have any data.
-            if(hotVehicle.countEmptyRows() == hotVehicle.countRows()) { 
-//                 $("#errorHandsontableEmpty").fadeToggle('slow'); $('#errorHandsontableEmpty').fadeOut(10000);
+            if (hotVehicle.countEmptyRows() == hotVehicle.countRows()) { 
                 $('#errorEmpty').show();
                 ok = false;
             } 
+            
             console.log(ok);
-            if(ok){
+            if (ok) {
                 $.ajax({
                     url : _ctx + "/vehicle/save",
                     type : "POST",

@@ -69,3 +69,39 @@ floatValidator4 = function (value, callback) {
 	}
 };
 
+// Methods use with handsontable: beforeChange //
+
+/**
+ * Check if value is a positive integer and within limit if there is limit.
+ * @param handsontable - instance of handsontable
+ * @param row - cell's row
+ * @param prop - cell's property
+ * @param newVal - the new value user type in.
+ * @param limit - limit of newVal's length
+ * @returns
+ */
+function isInteger (handsontable, row, prop, newVal, limit) {
+    var pattern = /^[\d]*$/;
+    var col = handsontable.propToCol(prop);
+    var valid; 
+    console.log(row, prop, newVal, limit, newVal.length);
+
+    if(limit == undefined) {
+        valid = (pattern.test(newVal)) ? true : false;
+    } else {
+    	valid = (pattern.test(newVal) && newVal.length <= limit ) ? true : false;
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        handsontable.render();
+        
+        return true;
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+        handsontable.render();
+        
+        return false;
+    }
+}
+
