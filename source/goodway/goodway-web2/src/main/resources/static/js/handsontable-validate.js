@@ -100,12 +100,12 @@ function integerValidator (handsontable, row, col, newVal, limit) {
     
     if (valid) {
     	handsontable.getCellMeta(row, col).valid = true;
-        handsontable.render();
         
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
-        handsontable.render();
     }
+    
+    handsontable.render();
 }
 
 /**
@@ -137,12 +137,12 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
     
     if (valid) {
     	handsontable.getCellMeta(row, col).valid = true;
-        handsontable.render();
         
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
-        handsontable.render();
     }
+    
+    handsontable.render();
 }
 
 /**
@@ -159,12 +159,12 @@ function areEmptyColumns (handsontable) {
                 if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
                 	inValid = true;                    
                     handsontable.getCellMeta(row, col).valid = false;
-                    
-                    handsontable.render();
                 }          
             }
         }
     }
+    
+    handsontable.render();
     
     return inValid;
 }
@@ -184,13 +184,13 @@ function isEmptyColumn (handsontable, column) {
 	                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
 	                	inValid = true;                    
 	                    handsontable.getCellMeta(row, col).valid = false;
-	                    
-	                    handsontable.render();
 	                } 
             	}
             }
         }
     }
+    
+    handsontable.render();
     
     return inValid;	
 }
@@ -219,5 +219,49 @@ function isValidTable (handsontable) {
 		}
 	}
 	
+	handsontable.render();
+	
 	return valid;
 }
+
+/**
+ * Check if text length within litmit (default 500 if undefined) if there is.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param newVal
+ * @param limit
+ * @returns
+ */
+function textValidator (handsontable, row, col, newVal, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (newVal.length <= 500);
+    } else {
+    	valid = (newVal.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+    }
+    
+    handsontable.render();	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
