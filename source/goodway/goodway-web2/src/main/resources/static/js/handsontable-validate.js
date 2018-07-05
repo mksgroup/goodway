@@ -146,6 +146,34 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
 }
 
 /**
+ * Check if text length within litmit (default 500 if undefined) if there is.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param newVal
+ * @param limit
+ * @returns
+ */
+function textValidator (handsontable, row, col, newVal, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (newVal.length <= 500);
+    } else {
+    	valid = (newVal.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+    }
+    
+    handsontable.render();	
+}
+
+/**
  * Check if row have at least one column have value but others are empty.
  * @param handsontable - instance of handsontable
  * @returns
@@ -225,32 +253,15 @@ function isValidTable (handsontable) {
 }
 
 /**
- * Check if text length within litmit (default 500 if undefined) if there is.
+ * Check if handsontable empty or not.
  * @param handsontable
- * @param row
- * @param col
- * @param newVal
- * @param limit
  * @returns
  */
-function textValidator (handsontable, row, col, newVal, limit) {
-    var valid; 
-
-    if(limit == undefined) {
-        valid = (newVal.length <= 500);
-    } else {
-    	valid = (newVal.length <= limit);
-    }
-    
-    if (valid) {
-    	handsontable.getCellMeta(row, col).valid = true;
-        
-    } else {
-    	handsontable.getCellMeta(row, col).valid = false;
-    }
-    
-    handsontable.render();	
+function isEmptyTable (handsontable) {
+	return (handsontable.countEmptyRows() == handsontable.countRows());
 }
+
+
 
 
 
