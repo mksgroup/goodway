@@ -1,7 +1,7 @@
 
 // Mẫu để kiểm tra số thực
 var floatPattern = /^[\d]*[\.]{0,1}[\d]*$/;
-
+var intPattern = /^[\d]*$/;
 /**
  * Check value is a positive integer.
  * 
@@ -72,7 +72,7 @@ floatValidator4 = function (value, callback) {
 // Methods use with handsontable: beforeChange //
 
 /**
- * Check if value is a positive integer and within limit if there is limit.
+ * Check if value is a positive integer number and within limit if there is limit.
  * @param handsontable - instance of handsontable
  * @param row - cell's row
  * @param prop - cell's property
@@ -80,16 +80,13 @@ floatValidator4 = function (value, callback) {
  * @param limit - limit of newVal's length
  * @returns
  */
-function isInteger (handsontable, row, prop, newVal, limit) {
-    var pattern = /^[\d]*$/;
-    var col = handsontable.propToCol(prop);
+function isInteger (handsontable, row, col, newVal, limit) {
     var valid; 
-    console.log(row, prop, newVal, limit, newVal.length);
 
     if(limit == undefined) {
-        valid = (pattern.test(newVal)) ? true : false;
+        valid = (intPattern.test(newVal)) ? true : false;
     } else {
-    	valid = (pattern.test(newVal) && newVal.length <= limit ) ? true : false;
+    	valid = (intPattern.test(newVal) && newVal.length <= limit ) ? true : false;
     }
     
     if (valid) {
@@ -105,3 +102,33 @@ function isInteger (handsontable, row, prop, newVal, limit) {
     }
 }
 
+/**
+ * Check if value is a positive float number and within limit if there is limit.
+ * @param handsontable - instance of handsontable
+ * @param row - cell's row
+ * @param prop - cell's property
+ * @param newVal - the new value user type in.
+ * @param limit - limit of newVal's length
+ * @returns
+ */
+function isFloat (handsontable, row, col, newVal, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (floatPattern.test(newVal)) ? true : false;
+    } else {
+    	valid = (floatPattern.test(newVal) && newVal.length <= limit ) ? true : false;
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        handsontable.render();
+        
+        return true;
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+        handsontable.render();
+        
+        return false;
+    }
+}

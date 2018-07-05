@@ -79,8 +79,7 @@
                           for (var col = 0; col < this.countCols(); col++) {
                               if (this.getCellMeta(i, col).valid == false) {
                                   invalidFeilds.forEach(function (value) {
-                                        var prop = hotVehicle.colToProp(col);
-                                        if (value.row == i && value.col == prop) {
+                                        if (value.row == i && value.col == col) {
                                             invalidFeilds.delete(value);
                                         }
                                   });                              
@@ -94,16 +93,24 @@
                       
                         // changes = [[row, prop, oldVal, newVal], ...]
                         for (var i = 0; i < changes.length; i++) {
-                            if (!isInteger(hotVehicle, changes[i][0], changes[i][1], changes[i][3], 3)) {
-                                var cell = {"row": changes[i][0], "col": changes[i][1]};
-                                invalidFeilds.add(cell);                                
-                            } else {
-                                invalidFeilds.forEach(function (value) {
-                                    if (value.row == changes[i][0] && value.col == changes[i][1]) {
-                                        invalidFeilds.delete(value);
-                                    }
-                                  });
-                                console.log(invalidFeilds);
+                            var row = changes[i][0];
+                            var col = hotVehicle.propToCol(changes[i][1]);
+                            var newVal = changes[i][3];
+                            console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+                            
+                            // if column is not name, id 
+                            if (col != 0 || col != 1) {
+                                if (!isInteger(hotVehicle, row, col, newVal, 3)) {
+                                    var cell = {"row": row, "col": col};
+                                    invalidFeilds.add(cell);                                
+                                } else {
+                                    invalidFeilds.forEach(function (value) {
+                                        if (value.row == row && value.col == col) {
+                                            invalidFeilds.delete(value);
+                                        }
+                                      });
+                                    console.log(invalidFeilds);
+                                }
                             }
                         }               
                   }                 
@@ -196,13 +203,13 @@
             frmData["deletedIds"] = deletedIds;
             var ok = true;
 
-            // Check if have vehicle but didn't enter quantity.
+            // Check if row have value but empty needed column, if row dont have value remove invalid cell if there is invalid cell
             for (var row = 0; row < hotVehicle.countRows(); row++) {
                 if (!hotVehicle.isEmptyRow(row)) {
                     for (var col = 0; col < hotVehicle.countCols(); col++) {
                         if (col == 1) {
                             if (hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == "") {
-                                var cell = {"row": row, "col": hotVehicle.colToProp(col)};
+                                var cell = {"row": row, "col": col};
                                 
                                 invalidFeilds.add(cell);
                                 
@@ -213,10 +220,8 @@
                 } else {
                     for (var col2 = 0; col2 < hotVehicle.countCols(); col2++) {
                         if (hotVehicle.getCellMeta(row, col2).valid == false) {
-                            invalidFeilds.forEach(function (value) {
-                                var prop = hotVehicle.colToProp(col2);
-                                
-                                if (value.row == row && value.col == prop) {
+                            invalidFeilds.forEach(function (value) {                  
+                                if (value.row == row && value.col == col2) {
                                     invalidFeilds.delete(value);
                                 }
                             });
