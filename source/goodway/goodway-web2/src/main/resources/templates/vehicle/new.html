@@ -16,20 +16,7 @@
   <th:block th:include="fragments/footer"></th:block>
 
   <script th:src="@{/js/handsontable-validate.js}"></script>
-  
-    <script>
 
-
-        textValidator = function (value, callback) {
-            if (value.length > 0 && value.length < 500) {
-                callback(true);
-            }
-            else {
-                callback(false);
-            }
-        }; 
-    </script>
-    
     <script>
 
     	
@@ -90,6 +77,10 @@
                             // if column is not name, id 
                             if (col != 0 || col != 1) {
                                decimalValidator(hotVehicle, row, col, newVal, 3);                              
+                            }
+                            
+                            if (col == 1) {
+                               textValidator(hotVehicle, row, col, newVal, 100);
                             }
                         }               
                   }                 
@@ -188,6 +179,10 @@
             
             console.log(ok);
             if (ok) {
+                
+            	$('#errorHandsontable').hide();
+            	$('#errorEmpty').hide();
+                
                 $.ajax({
                     url : _ctx + "/vehicle/save",
                     type : "POST",
@@ -196,8 +191,6 @@
                     dataType: 'json',
     
                     success : function(result) {
-                    	$('#errorHandsontable').hide();
-                    	$('#errorEmpty').hide();
                     	$('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
                          
                         // reload data
