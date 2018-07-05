@@ -69,7 +69,6 @@ floatValidator4 = function (value, callback) {
 	}
 };
 
-// Methods use with handsontable: beforeChange //
 
 /**
  * Check if value is a positive integer number and within limit if there is limit.
@@ -84,9 +83,9 @@ function isInteger (handsontable, row, col, newVal, limit) {
     var valid; 
 
     if(limit == undefined) {
-        valid = (intPattern.test(newVal)) ? true : false;
+        valid = (intPattern.test(newVal));
     } else {
-    	valid = (intPattern.test(newVal) && newVal.length <= limit ) ? true : false;
+    	valid = (intPattern.test(newVal) && newVal.length <= limit);
     }
     
     if (valid) {
@@ -113,11 +112,20 @@ function isInteger (handsontable, row, col, newVal, limit) {
  */
 function isFloat (handsontable, row, col, newVal, limit) {
     var valid; 
+    
+	// trunk the Integer part
+	var dotIdx = newVal.indexOf(".");
+	
+	if (dotIdx > -1) {
+		var leftDot = value.substring(0, dotIdx - 1);
+	} else {
+		leftDot = newVal;
+	}
 
     if(limit == undefined) {
-        valid = (floatPattern.test(newVal)) ? true : false;
+        valid = (floatPattern.test(leftDot));
     } else {
-    	valid = (floatPattern.test(newVal) && newVal.length <= limit ) ? true : false;
+    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
     }
     
     if (valid) {
@@ -131,4 +139,29 @@ function isFloat (handsontable, row, col, newVal, limit) {
         
         return false;
     }
+}
+
+/**
+ * Check if row have value but columns of the row are empty.
+ * @param handsontable - instance of handsontable
+ * @returns
+ */
+function areEmptyColumns (handsontable) {
+	var invalidCells = new Set();
+	
+    for (var row = 0; row < handsontable.countRows(); row++) {
+        if (!handsontable.isEmptyRow(row)) {
+            for (var col = 0; col < handsontable.countCols(); col++) { 
+                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
+                    var cell = {"row": row, "col": col};
+                    
+                    invalidCells.add(cell);
+                    
+                    handsontable.getCellMeta(row, col).valid = false;
+                }          
+            }
+        }
+    }
+    
+    return (invalidCells.size > 0);
 }
