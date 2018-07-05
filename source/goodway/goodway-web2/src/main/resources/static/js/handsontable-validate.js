@@ -100,12 +100,12 @@ function integerValidator (handsontable, row, col, newVal, limit) {
     
     if (valid) {
     	handsontable.getCellMeta(row, col).valid = true;
-        handsontable.render();
         
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
-        handsontable.render();
     }
+    
+    handsontable.render();
 }
 
 /**
@@ -137,12 +137,12 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
     
     if (valid) {
     	handsontable.getCellMeta(row, col).valid = true;
-        handsontable.render();
         
     } else {
     	handsontable.getCellMeta(row, col).valid = false;
-        handsontable.render();
     }
+    
+    handsontable.render();
 }
 
 /**
@@ -159,12 +159,12 @@ function areEmptyColumns (handsontable) {
                 if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
                 	inValid = true;                    
                     handsontable.getCellMeta(row, col).valid = false;
-                    
-                    handsontable.render();
                 }          
             }
         }
     }
+    
+    handsontable.render();
     
     return inValid;
 }
@@ -184,13 +184,13 @@ function isEmptyColumn (handsontable, column) {
 	                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
 	                	inValid = true;                    
 	                    handsontable.getCellMeta(row, col).valid = false;
-	                    
-	                    handsontable.render();
 	                } 
             	}
             }
         }
     }
+    
+    handsontable.render();
     
     return inValid;	
 }
@@ -218,6 +218,8 @@ function isValidTable (handsontable) {
 			}
 		}
 	}
+	
+	handsontable.render();
 	
 	return valid;
 }
