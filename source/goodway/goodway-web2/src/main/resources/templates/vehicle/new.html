@@ -167,8 +167,15 @@
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
             var ok = true;
-            
+
+            // check if row have data but column 'name' doesn't. 
             if (isEmptyColumn(hotVehicle, 1)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+
+            // check if handsontable have any invalid cell
+            if (!isValidTable(hotVehicle)) {
                 ok = false;
                 $('#errorHandsontable').show();
             }

@@ -194,3 +194,30 @@ function isEmptyColumn (handsontable, column) {
     
     return inValid;	
 }
+
+/**
+ * Check if handsontable table have any invalid cell.
+ * @param handsontable
+ * @returns
+ */
+function isValidTable (handsontable) {
+	var valid = true;
+	
+	for (var row = 0; row < handsontable.countRows(); row++){
+		if (!handsontable.isEmptyRow(row)) {
+			for (var col = 0; col < handsontable.countCols(); col++){
+				if (handsontable.getCellMeta(row, col).valid == false) {
+					valid = false;
+				}
+			}
+		} else {
+			for (var col2 = 0; col2 < handsontable.countCols(); col2++) {
+				if (handsontable.getCellMeta(row, col2).valid == false) {
+					handsontable.getCellMeta(row, col2).valid = true;
+				}
+			}
+		}
+	}
+	
+	return valid;
+}
