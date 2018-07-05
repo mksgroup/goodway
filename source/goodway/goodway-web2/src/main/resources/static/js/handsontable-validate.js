@@ -174,7 +174,7 @@ function isEmptyColumn (handsontable, column) {
     for (var row = 0; row < handsontable.countRows(); row++) {
         if (!handsontable.isEmptyRow(row)) {
             for (var col = 0; col < handsontable.countCols(); col++) { 
-            	if (col = column){
+            	if (col == column){
 	                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
 	                	valid = false;                    
 	                    handsontable.getCellMeta(row, col).valid = false;
