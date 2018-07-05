@@ -35,7 +35,6 @@
     	
     	var deletedIds = [];
         var dataVehicles = [];
-        var invalidFeilds = new Set();
         var hotVehicle = null;
 
         $(function() {
@@ -74,17 +73,7 @@
                           if (deletedId) {
                         	  deletedIds.push(deletedId);
                           }
-                          
-                          // Remove invalid cell of deleting row if exists in invalidFeilds.
-                          for (var col = 0; col < this.countCols(); col++) {
-                              if (this.getCellMeta(i, col).valid == false) {
-                                  invalidFeilds.forEach(function (value) {
-                                        if (value.row == i && value.col == col) {
-                                            invalidFeilds.delete(value);
-                                        }
-                                  });                              
-                              }
-                          }
+
                       }
 
                       console.log("list deletedIds=" + deletedIds);
@@ -100,17 +89,7 @@
                             
                             // if column is not name, id 
                             if (col != 0 || col != 1) {
-                                if (!isInteger(hotVehicle, row, col, newVal, 3)) {
-                                    var cell = {"row": row, "col": col};
-                                    invalidFeilds.add(cell);                                
-                                } else {
-                                    invalidFeilds.forEach(function (value) {
-                                        if (value.row == row && value.col == col) {
-                                            invalidFeilds.delete(value);
-                                        }
-                                    });
-                                    console.log(invalidFeilds);
-                                }
+                               console.log(isInteger(hotVehicle, row, col, newVal, 3));                              
                             }
                         }               
                   }                 
@@ -202,31 +181,11 @@
             frmData["data"] = tableData;
             frmData["deletedIds"] = deletedIds;
             var ok = true;
-
-            // Check if row have value but empty needed column, if row dont have value remove invalid cell if there is invalid cell
-            for (var row = 0; row < hotVehicle.countRows(); row++) {
-                if (!hotVehicle.isEmptyRow(row)) {
-                    for (var col = 0; col < hotVehicle.countCols(); col++) {
-                        if (col == 1) {
-                            if (hotVehicle.getDataAtCell(row, col) == null || hotVehicle.getDataAtCell(row, col) == "") {
-                                var cell = {"row": row, "col": col};
-                                
-                                invalidFeilds.add(cell);
-                                
-                                hotVehicle.getCellMeta(row, col).valid = false;
-                            }
-                        }
-                    }
-                }
-            }
             
-            hotVehicle.render();
-
-            // Check if handsontable have any invalid.
-            if (invalidFeilds.size > 0) {
-                $('#errorHandsontable').show();
+            if (isEmptyColumn(hotVehicle, 1)) {
                 ok = false;
-            } 
+                $('#errorHandsontable').show();
+            }
 
             // Check if handsontable have any data.
             if (hotVehicle.countEmptyRows() == hotVehicle.countRows()) { 

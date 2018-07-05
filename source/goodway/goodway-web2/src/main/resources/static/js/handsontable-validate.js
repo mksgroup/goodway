@@ -46,6 +46,16 @@ floatValidator = function (value, callback) {
 	}
 };
 
+
+
+lengthValidateName = function(value, callback) {
+	(value.length <= lenName) ? ($('#errorName').hide() , callback(true)) : ($('#errorName').show() , callback(false));
+};
+
+lengthValidateDes = function(value, callback) {
+	(value.length <= lenDes) ? ($('#errorDes').hide() , callback(true)) : ($('#errorDes').show() , callback(true));
+};
+
 /**
  * Kiểm tra số thực hợp lệ và phần nguyên có tối đa 4 kí số.
  */
@@ -147,20 +157,22 @@ function isFloat (handsontable, row, col, newVal, limit) {
  * @returns
  */
 function areEmptyColumns (handsontable) {
-	var valid = true;
+	var inValid = false;
 	
     for (var row = 0; row < handsontable.countRows(); row++) {
         if (!handsontable.isEmptyRow(row)) {
             for (var col = 0; col < handsontable.countCols(); col++) { 
                 if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
-                	valid = false;                    
+                	inValid = true;                    
                     handsontable.getCellMeta(row, col).valid = false;
+                    
+                    handsontable.render();
                 }          
             }
         }
     }
     
-    return valid;
+    return inValid;
 }
 
 /**
@@ -169,20 +181,22 @@ function areEmptyColumns (handsontable) {
  * @returns
  */
 function isEmptyColumn (handsontable, column) {
-	var valid = true;
+	var inValid = false;
 	
     for (var row = 0; row < handsontable.countRows(); row++) {
         if (!handsontable.isEmptyRow(row)) {
             for (var col = 0; col < handsontable.countCols(); col++) { 
             	if (col == column){
 	                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
-	                	valid = false;                    
+	                	inValid = true;                    
 	                    handsontable.getCellMeta(row, col).valid = false;
+	                    
+	                    handsontable.render();
 	                } 
             	}
             }
         }
     }
     
-    return valid;	
+    return inValid;	
 }

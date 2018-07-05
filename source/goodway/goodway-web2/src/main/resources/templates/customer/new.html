@@ -169,8 +169,6 @@
                         	if(j == 1){
 								for(var n=0 ; n < cell_value.length ; n++){
 									var value_num = cell_value.charAt(n) - '0';
-									console.log(value_num);
-									console.log(/[0-9]/.test(value_num));
 										if(/[0-9]/.test(value_num) || cell_value.length > 50){
 											var cell = {"row": k, "col": hotCustomer.colToProp(1)};
 			    	                    	hotCustomer.getCellMeta(k, j).valid = false;
@@ -205,8 +203,14 @@
                     }
                 }
             }
-
-            hotCustomer.render();  
+			if(invalidFeilds.size == 0){
+				ok = true;
+				}else{
+					ok = false;
+					hotCustomer.render();  
+					}
+			console.log(invalidFeilds.size);
+            
             if(ok){
                 $.ajax({
                 url : _ctx + "customer/save",
