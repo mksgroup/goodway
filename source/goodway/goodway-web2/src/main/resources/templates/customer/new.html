@@ -16,6 +16,8 @@
   <!-- Modal -->
   <th:block th:include="fragments/footer"></th:block>
   <th:block th:include="fragments/address/select"></th:block>
+  
+  <script th:src="@{/js/handsontable-validate.js}"></script>
    <script>
         // Dòng Khách hàng đang chọn địa chỉ
         var selectCustomerRow;
@@ -24,15 +26,6 @@
         var deletedIds = [];
         var invalidFeilds = new Set();
 
-        numValidate = function(value, callback){
-			if(/^[\d]{10,11}$/.test(value) || value == ''){
-				callback(true);
-			} else {
-				errorSbm = true;
-				callback(false);
-			}
-		
-	};
        
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
@@ -53,7 +46,7 @@
                     { data: "name"},
                     { data: "cd"},
                     { data: "shortName" },
-             	    { data: "phone", validator : numValidate, allowInvalid : false },
+             	    { data: "phone"},
              	    { data: "addr", readOnly: true  }
                   ],
                   afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
@@ -84,19 +77,31 @@
 
                       console.log("list deletedIds=" + deletedIds);
                   },
-                  afterValidate: function (isValid, value, row, prop, source) {
-                      if (!isValid) {
-                              var cell = {"row": row, "col": prop};
-                              invalidFeilds.add(cell);
-                              console.log("cell: " + JSON.stringify(cell));
-                      } else {
-                      	invalidFeilds.forEach(function(value) {
-                      		  if(value.row == row && value.col == prop ){
-                      			  invalidFeilds.delete(value);
-                      		  }
-                      		});
-                          console.log(invalidFeilds);
-                      }
+                  
+                  beforeChange: function(changes, source) {
+                      
+                        // changes = [[row, prop, oldVal, newVal], ...]
+                        for (var i = 0; i < changes.length; i++) {
+                            var row = changes[i][0];
+                            var col = hotCustomer.propToCol(changes[i][1]);
+                            var newVal = changes[i][3];
+                            console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+                            
+                            // if column is not name, id 
+                            if (col == 4) {
+                                if (!isInteger(hotCustomer, row, col, newVal, 11)) {
+                                    var cell = {"row": row, "col": col};
+                                    invalidFeilds.add(cell);                                
+                                } else {
+                                    invalidFeilds.forEach(function (value) {
+                                        if (value.row == row && value.col == col) {
+                                            invalidFeilds.delete(value);
+                                        }
+                                      });
+                                    console.log(invalidFeilds);
+                                }
+                            }
+                        }               
                   }
               });
             loadCustomers();
@@ -164,8 +169,6 @@
                         	if(j == 1){
 								for(var n=0 ; n < cell_value.length ; n++){
 									var value_num = cell_value.charAt(n) - '0';
-									console.log(value_num);
-									console.log(/[0-9]/.test(value_num));
 										if(/[0-9]/.test(value_num) || cell_value.length > 50){
 											var cell = {"row": k, "col": hotCustomer.colToProp(1)};
 			    	                    	hotCustomer.getCellMeta(k, j).valid = false;
@@ -200,8 +203,14 @@
                     }
                 }
             }
-
-            hotCustomer.render();  
+			if(invalidFeilds.size == 0){
+				ok = true;
+				}else{
+					ok = false;
+					hotCustomer.render();  
+					}
+			console.log(invalidFeilds.size);
+            
             if(ok){
                 $.ajax({
                 url : _ctx + "customer/save",
