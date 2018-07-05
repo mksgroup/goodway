@@ -17,190 +17,220 @@
   
   <script th:src="@{/js/handsontable-validate.js}"></script>
 
-   <script>
-   var errorSbm = false;
-        var dataProducts = [],numValidate;
-        var deletedIds = [];
-        var hotProduct = null;
-		var valid1 = true;
-	
-        $(function() {
+  <script>
+   
+	var dataProducts = [];
+	var deletedIds = [];
+	var hotProduct = null;
+			
+	$(function() {
         	
-        	var containerProduct = document.getElementById('tableProduct');
+		var containerProduct = document.getElementById('tableProduct');
 
-        	hotProduct = new Handsontable(containerProduct, {
-                data: dataProducts,
-                colHeaders: ["ID", "Tên sản phẩm", "Mô tả", "Cao (m)", "Rộng (m)", "Dài (m)", "Trọng lượng (kg)"],
-                colWidths: [50, 250, 250, 100, 100, 100,120],
-                minRows: 10,
-                currentRowClassName: 'currentRow',
-                currentColClassName: 'currentCol',
-            	manualColumnResize: true,
-                manualRowResize: true,
-                rowHeaders: true,
-                contextMenu: ['remove_row'],
-                columns: [
-                	{data: 'id', readOnly: true},
-                    {data: 'name'},
-                    {data: 'description'},
-                    {data: 'height', validator: floatValidator, allowInvalid: false},
-                    {data: 'width', validator: floatValidator, allowInvalid: false},
-                    {data: 'length', validator: floatValidator, allowInvalid: false},
-                    {data: 'weight', validator: floatValidator, allowInvalid: false}
-                  ],
+		hotProduct = new Handsontable(containerProduct, {
+			data: dataProducts,
+            colHeaders: ["ID", "Tên sản phẩm", "Mô tả", "Cao (m)", "Rộng (m)", "Dài (m)", "Trọng lượng (kg)"],
+            colWidths: [50, 250, 250, 100, 100, 100,120],
+            minRows: 10,
+            currentRowClassName: 'currentRow',
+            currentColClassName: 'currentCol',
+        	manualColumnResize: true,
+            manualRowResize: true,
+            rowHeaders: true,
+            contextMenu: ['remove_row'],
+            columns: [
+            	{data: 'id', readOnly: true},
+                {data: 'name'},
+                {data: 'description'},
+                {data: 'height', validator: floatValidator, allowInvalid: false},
+                {data: 'width', validator: floatValidator, allowInvalid: false},
+                {data: 'length', validator: floatValidator, allowInvalid: false},
+                {data: 'weight', validator: floatValidator, allowInvalid: false}
+           		],
                   
-				  afterChange: function(changes, source){
-					  
-					console.log("changes : "+changes);
-					console.log("source : "+source);
-
+			afterChange: function(changes, source){
+				console.log("changes : " + changes);
+				console.log("source : " + source);
+				if(changes != null){
+					document.getElementById('save').disabled = false;
 					console.log('step');
-					
-					
-						if(changes != null){
-							document.getElementById('save').disabled = false;
-							console.log('step');
-						} 
-
-					
-				  },
+				} 
+		  	},
                   
-                  beforeRemoveRow: function (index, amount) {
-                	  var lastIndex = index + amount;
-                      var i;
-                      
-                      for (i = index; i < lastIndex; i++) {
-                          console.log("dataProducts=" + JSON.stringify(dataProducts));
-                          var deletedProducts = dataProducts[i];
-                          var deletedId = deletedProducts.id;
+            beforeRemoveRow: function (index, amount) {
+          	  var lastIndex = index + amount;
+                var i;
+                
+                for (i = index; i < lastIndex; i++) {
+                    console.log("dataProducts=" + JSON.stringify(dataProducts));
+                    var deletedProducts = dataProducts[i];
+                    var deletedId = deletedProducts.id;
+                    console.log("Row = " + i + ";deletedId = " + deletedId);
+                    if (deletedId) {                 
+                  	  deletedIds.push(deletedId);
+                    }
+                }
+                console.log("list deletedIds=" + deletedIds);
+            },
 
-                          console.log("Row = " + i + ";deletedId = " + deletedId);
-                          if (deletedId) {
-                        	  deletedIds.push(deletedId);
+            afterRemoveRow: function(index, amount) {
+				console.log(index);
+				if (index) {
+				
+					/**
+					  * Nếu có tác động lên handsontable thì cho phép nhấn nút lưu .
+					  * vd : Remove rows
+					  */
+					document.getElementById('save').disabled = false;
+				}
+			}
 
-                        	  
-                          }
-                      }
-
-                      console.log("list deletedIds=" + deletedIds);
-                  },
-
-                  afterRemoveRow: function(index, amount) {
-						console.log(index);
-						if(index){
-							document.getElementById('save').disabled = false;
-							
-						}
-                   }
-                                  
-              });
-        	loadProducts();
-        });
+		});
+            
+		loadProducts();
+	});
 	
 
         /**
-         * @param vehicleId: -1 means loading all
+         * @param productId: -1 means loading all
          */
-        function loadProducts(productId) {
-        	document.getElementById('save').disabled = true;
-            var url;
-            var total = document.getElementById('total');
-            
-            if (productId === undefined) {
-                url = _ctx + 'product/load-product';
-            } else {
-                url = _ctx + 'product/load-product?id=' + productId;
-            }
+	function loadProducts(productId) {
+		document.getElementById('save').disabled = true;
+		   var url;
+		   var total = document.getElementById('total');
+		   
+		   if (productId === undefined) {
+		       url = _ctx + 'product/load-product';
+		   } else {
+		       url = _ctx + 'product/load-product?id=' + productId;
+		   }
 
-            $.ajax({
-                url : url,
-                type : 'GET',
-                dataType : 'json',
-                contentType : 'application/json',
-                success : function(res) {
-                    total.innerHTML = res.length;
-                    
-                    // Update data into the handsontable
-                    dataProducts = res;
-                    hotProduct.loadData(dataProducts);
-                },
-                error : function (e) {
-                    console.log("Error: " + e);
-                }
-            });
-        }
+	    $.ajax ({
+	        url : url,
+	        type : 'GET',
+	        dataType : 'json',
+	        contentType : 'application/json',
+	        success : function(res) {
+	            total.innerHTML = res.length;
+	            
+	            // Update data into the handsontable
+	            dataProducts = res;
+	            hotProduct.loadData(dataProducts);
+	        },
+	        error : function (e) {
+	            console.log("Error: " + e);
+	        }
+	    });
+	}
     </script>
     
     <script>
-        $('#frmHot').submit(function(e,callback) {
-        	 var errorSbm = false;
-        	$('#errorName').hide();
-        	$('#errorDes').hide();
-        	$('#errorNull').hide();
-            e.preventDefault();
-    
-            var frm = $('#frmHot');
-            var selectPoolId = $('#poolId').val();
-            var frmData = new FormData(this);
-    
-            // Get header name
-            var colHeaderData =  hotProduct.getColHeader();
-            
-            // Get data from Handsontable
-            var tableData = hotProduct.getData();
+	$('#frmHot').submit(function (e, callback) {
 
-            var frmData = {};
-            frmData["header"] = colHeaderData;
-            frmData["data"] = tableData;
-            frmData["deletedIds"] = deletedIds;
-  
-	        for(var i = 0 ; i < dataProducts.length ; i++ ){
-	        	console.log(i);
-	        	if(!hotProduct.isEmptyRow(i)){
-	        		if(hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length > 128  ){
-	        			errorSbm = true;
-	        			$('#errorName').show(); 
-	        			hotProduct.getCellMeta(i,1).valid = false;
-	        		} else {
-	        			hotProduct.getCellMeta(i,1).valid = true;
-		        	}
-	        		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length > 1024 ){
-	        			errorSbm = true;
-	        			$('#errorDes').show(); 
-	        			hotProduct.getCellMeta(i,2).valid = false;
-	        		} else {
-	        			hotProduct.getCellMeta(i,2).valid = true;
-		        	}
-	        	} 
-					
-	        }
+         // khi thực hiện bấm submit 
+		var errorSbm = false;
+     	$('#errorName').hide();
+     	$('#errorDes').hide();
+     	$('#errorNull').hide();
+         e.preventDefault();
+ 
+         var frm = $('#frmHot');
+         var selectPoolId = $('#poolId').val();
+         var frmData = new FormData(this);
+ 
+         // Get header name
+         var colHeaderData =  hotProduct.getColHeader();
+         
+         // Get data from Handsontable
+         var tableData = hotProduct.getData();
 
-			
-	        
-			console.log(errorSbm);
-			if(errorSbm == false){
-	            $.ajax({
-	                url : _ctx + "product/save",
-	                type : "POST",
-	                contentType: "application/json",
-	                data: JSON.stringify(frmData),
-	                dataType: 'json',
-	
-	                success : function(result) {
-	                	 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
-	                	 
-	                    // reload data
-	                	loadProducts();
-	                },
-	                error : function() {
-	                    console.log("Error!");
-	                }
-	            });
-			}else{
-				$('#errorNull').fadeToggle('slow'); $('#errorNull').fadeOut(5000); 
-			}
-			
-        });
+         var frmData = {};
+         frmData["header"] = colHeaderData;
+         frmData["data"] = tableData;
+         frmData["deletedIds"] = deletedIds;
+
+      	for (var i = 0 ; i < dataProducts.length ; i++ ) {
+      	console.log(i);
+
+      	//nếu khổng phải dòng trống thì kiểm tra .
+      	if (!hotProduct.isEmptyRow(i)) {
+
+	       	/**
+	       	 * kiểm tra cột tên nếu trống hoặc chưa nhập
+	       	 * độ dài bé hơn 128 ký tự
+	       	 */  
+      		if (hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length > 128) { 
+
+				/**
+			 	  * errorSbm = true thì sẽ không thực hiện việc save form .
+				  */
+      			errorSbm = true;
+      			
+      			// thông báo hiện lỗi.
+      			$('#errorName').show(); 
+      			
+      			// đánh dấu tại nơi bị lỗi 
+      			hotProduct.getCellMeta(i,1).valid = false;
+      		} else {
+       		
+       		// trả về bình thường nếu như ô đó không còn lỗi.
+      			hotProduct.getCellMeta(i,1).valid = true;
+       		}
+
+
+      		/**
+	       	 * kiểm tra cột mô tả nếu trống hoặc chưa nhập
+	       	 * độ dài bé hơn 1024 ký tự
+	       	 */  
+      		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length > 1024 ){
+      			/**
+				  * errorSbm = true thì sẽ không thực hiện việc save form .
+				  */
+      			errorSbm = true;
+
+      			// thông báo lỗi.
+      			$('#errorDes').show(); 
+
+      			// đánh dấu tại nơi bị lỗi 
+      			hotProduct.getCellMeta(i,2).valid = false;
+      		} else {
+
+      			// trả về bình thường nếu như ô đó không còn lỗi.
+      			hotProduct.getCellMeta(i,2).valid = true;
+       		}
+      	} 
+		
+      }
+
+
+     	hotProduct.render();
+		console.log(errorSbm);
+
+		/**
+		  * kiểm tra nếu errorSbm = true thì không save
+		  * nếu errorSbm = false thì thực hiện quá trình save
+		  */ 
+		if (errorSbm == false) {
+			$.ajax ({
+				url : _ctx + "product/save",
+				type : "POST",
+				contentType: "application/json",
+				data: JSON.stringify(frmData),
+				dataType: 'json',
+				
+				success : function(result) {
+					 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+					 
+				    // reload data
+					loadProducts();
+				},
+				error : function() {
+				    console.log("Error!");
+				}
+			});
+		}
+
+	});
     </script>
 </body>
 </html>
