@@ -2,6 +2,7 @@
 // Mẫu để kiểm tra số thực
 var floatPattern = /^[\d]*[\.]{0,1}[\d]*$/;
 var intPattern = /^[\d]*$/;
+var humanNamePattern = /[\d/+\W]/;
 /**
  * Check value is a positive integer.
  * 
@@ -394,7 +395,16 @@ function isIntegerNumber (handsontable, row, col, value, limit) {
     
 }
 
-
+function isValidHumanName (handsontable, row, column, newVal){
+	var cell_value = handsontable.getDataAtCell(row, column);
+	for(var n = 0 ; n < newVal.length ; n++){
+		var value_num = newVal.charAt(n) - '0';
+			if(humanNamePattern.test(value_num)){
+				handsontable.getCellMeta(row, column).valid = false;
+			}
+		}
+	handsontable.render();
+}
 
 
 
