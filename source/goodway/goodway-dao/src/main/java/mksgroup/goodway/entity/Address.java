@@ -93,6 +93,9 @@ public class Address implements Serializable {
     private Date lastmodified;
     @Column(name = "lastmodifiedby_username", length = 50)
     private String lastmodifiedbyUsername;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "address", fetch = FetchType.LAZY)
+    @JsonBackReference
+    private List<Stock> stockList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "addressId", fetch = FetchType.LAZY)
 
     @JsonBackReference
@@ -117,7 +120,6 @@ public class Address implements Serializable {
 
     @JsonBackReference
     private List<OrderMaster> orderMasterList;
-
     public Address() {
     }
 
@@ -249,6 +251,15 @@ public class Address implements Serializable {
 
     public void setLastmodifiedbyUsername(String lastmodifiedbyUsername) {
         this.lastmodifiedbyUsername = lastmodifiedbyUsername;
+    }
+
+    @XmlTransient
+    public List<Stock> getStockList() {
+        return stockList;
+    }
+
+    public void setStockList(List<Stock> stockList) {
+        this.stockList = stockList;
     }
 
     @XmlTransient

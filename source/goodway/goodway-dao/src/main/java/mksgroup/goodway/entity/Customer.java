@@ -90,15 +90,12 @@ public class Customer implements Serializable {
     @Basic(optional = false)
     @Column(name = "name", nullable = false, length = 128)
     private String name;
-    @Basic(optional = false)
     @Column(name = "short_name", length = 30)
     private String shortName;
     @Column(name = "addr", length = 256)
     private String addr;
-    
     @Column(name = "addr_id")
     private Integer addrId;
-    
     @Column(name = "representative", length = 100)
     private String representative;
     @Column(name = "role", length = 100)
@@ -173,7 +170,6 @@ public class Customer implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId", fetch = FetchType.LAZY)
     @JsonManagedReference
     private List<OrderMaster> orderMasterList;
-
     public Customer() {
     }
 
@@ -181,13 +177,12 @@ public class Customer implements Serializable {
         this.id = id;
     }
 
-    public Customer(Integer id, String cd, int seqNo, int version, String name, String shortName, Date created, String createdbyUsername) {
+    public Customer(Integer id, String cd, int seqNo, int version, String name, Date created, String createdbyUsername) {
         this.id = id;
         this.cd = cd;
         this.seqNo = seqNo;
         this.version = version;
         this.name = name;
-        this.shortName = shortName;
         this.created = created;
         this.createdbyUsername = createdbyUsername;
     }
@@ -248,18 +243,10 @@ public class Customer implements Serializable {
         this.addr = addr;
     }
 
-    /**
-    * Get value of addr_id.
-    * @return the addr_id
-    */
     public Integer getAddrId() {
         return addrId;
     }
 
-    /**
-     * Set the value for addr_id.
-     * @param addr_id the addr_id to set
-     */
     public void setAddrId(Integer addrId) {
         this.addrId = addrId;
     }
@@ -488,7 +475,6 @@ public class Customer implements Serializable {
     public void setOrderMasterList(List<OrderMaster> orderMasterList) {
         this.orderMasterList = orderMasterList;
     }
-
     @Override
     public int hashCode() {
         int hash = 0;
