@@ -2,11 +2,13 @@
 drop table if exists goodway_order_detail_product;
 drop table if exists goodway_order_master;
 drop table if exists goodway_customer;
+drop table if exists goodway_stock;
 drop table if exists goodway_address;
 drop table if exists goodway_vehicle_status;
 drop table if exists goodway_vehicle;
 drop table if exists goodway_product;
 drop table if exists goodway_question;
+
 
 create table goodway_address (
       id int not null auto_increment
@@ -186,4 +188,16 @@ CREATE TABLE goodway_question (
   lastmodifiedby_username varchar(50),
 
   PRIMARY KEY(id)
+);
+
+CREATE TABLE goodway_stock (
+      id int NOT NULL AUTO_INCREMENT
+    , name nvarchar(128)
+	, address int not null		   -- Refer to Address
+    , created datetime not null
+    , createdby_username varchar(50) not null
+    , lastmodified datetime
+    , lastmodifiedby_username varchar(50)
+    , PRIMARY KEY(id)
+    , FOREIGN KEY (address) REFERENCES goodway_address(id)
 )
