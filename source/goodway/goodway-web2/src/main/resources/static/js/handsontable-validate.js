@@ -155,10 +155,14 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
 function textValidator (handsontable, row, col, newVal, limit) {
     var valid; 
 
-    if(limit == undefined) {
-        valid = (newVal.length <= 500);
+    if(newVal != '' || newVal != null){
+	    if(limit == undefined) {
+	        valid = (newVal.length <= 500);
+	    } else {
+	    	valid = (newVal.length <= limit);
+	    }
     } else {
-    	valid = (newVal.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
