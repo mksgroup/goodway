@@ -233,15 +233,19 @@
 		
 //       }
 
-
 //      	hotProduct.render();
-		
+
+// 		(!isEmptyColumn(hotProduct,1) || !isEmptyColumn(hotProduct,2)) ? errorSbm = true ;
+
+		if(!isEmptyColumn(hotProduct,1) || !isEmptyColumn(hotProduct,2)) {
+			errorSbm = true;
+		} 
+
 
 
 		if(!isValidTable(hotProduct)){
 			errorSbm = true;
 		}
-		
 		console.log(errorSbm);
 		/**
 		  * kiểm tra nếu errorSbm = true thì không save
