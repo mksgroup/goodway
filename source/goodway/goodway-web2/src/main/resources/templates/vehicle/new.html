@@ -90,22 +90,7 @@
         	loadVehicle();
             
         });
-        	
 
-
-//         	var menuItems = document.getElementsByClassName("htItemWrapper");
-//         	menuItems[6].on('click', function(e) {
-
-//         	    // prevent the default action at first, just to make it clear :)
-//         	    e.preventDefault(); 
-
-//         	    deleteVehicle();
-//         	});
-//         });
-
-
-//         function deleteVehicle(){
-//          }
 
         /**
          * @param vehicleId: -1 means loading all
@@ -163,20 +148,7 @@
             if (isEmptyColumn(hotVehicle, 1)) {
                 ok = false;
                 $('#errorHandsontable').show();
-            }
-
-            // check if row have data but column 'name' doesn't. 
-            if (isEmptyColumn(hotVehicle, 1)) {
-                ok = false;
-                $('#errorHandsontable').show();
-            }
-            
-
-            // check if handsontable have any invalid cell
-            if (!isValidTable(hotVehicle)) {
-                ok = false;
-                $('#errorHandsontable').show();
-            }
+            }            
 
             // Check if handsontable have any data.
             if (isEmptyTable(hotVehicle)) { 
