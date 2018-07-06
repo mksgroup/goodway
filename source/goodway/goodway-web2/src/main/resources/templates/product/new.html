@@ -66,15 +66,19 @@
             beforeRemoveRow: function (index, amount) {
           	  var lastIndex = index + amount;
                 var i;
-                
-                for (i = index; i < lastIndex; i++) {
-                    console.log("dataProducts=" + JSON.stringify(dataProducts));
-                    var deletedProducts = dataProducts[i];
-                    var deletedId = deletedProducts.id;
-                    console.log("Row = " + i + ";deletedId = " + deletedId);
-                    if (deletedId) {                 
-                  	  deletedIds.push(deletedId);
-                    }
+
+
+                var cf = confirm("Bạn có muốn xóa ");
+                if(cf == true) {	
+	                for (i = index; i < lastIndex; i++) {
+	                    console.log("dataProducts=" + JSON.stringify(dataProducts));
+	                    var deletedProducts = dataProducts[i];
+	                    var deletedId = deletedProducts.id;
+	                    console.log("Row = " + i + ";deletedId = " + deletedId);
+	                    if (deletedId) {                 
+	                  	  deletedIds.push(deletedId);
+	                    }
+	                }
                 }
                 console.log("list deletedIds=" + deletedIds);
             },
@@ -97,7 +101,7 @@
 				for (var i = 0; i < changes.length; i++) {
                     var row = changes[i][0];
                     var col = hotProduct.propToCol(changes[i][1]);
-                    var newVal = changes[i][3];
+                    var newVal = changes[i][3];	
                     console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
                     
                     if (col == 1) {
@@ -114,7 +118,9 @@
                       */
                     (col == 3 , col == 4, col == 5, col == 6) ? errorSbm = true : errorSbm = false;
                 }       
-			}
+			},
+
+// 			beforeUndo: function()
 		});
             
 		loadProducts();
@@ -237,7 +243,11 @@
 
 // 		(!isEmptyColumn(hotProduct,1) || !isEmptyColumn(hotProduct,2)) ? errorSbm = true ;
 
-		if(!isEmptyColumn(hotProduct,1) || !isEmptyColumn(hotProduct,2)) {
+		if(!isEmptyColumn(hotProduct,1)) {
+			errorSbm = true;
+		} 
+
+		if(!isEmptyColumn(hotProduct,2)) {
 			errorSbm = true;
 		} 
 
@@ -254,7 +264,7 @@
 		if (errorSbm == false) {
 			$.ajax ({
 				url : _ctx + "product/save",
-				type : "POST",
+				type : "POST",	
 				contentType: "application/json",
 				data: JSON.stringify(frmData),
 				dataType: 'json',
