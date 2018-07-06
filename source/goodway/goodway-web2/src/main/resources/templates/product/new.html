@@ -243,11 +243,7 @@
 
 // 		(!isEmptyColumn(hotProduct,1) || !isEmptyColumn(hotProduct,2)) ? errorSbm = true ;
 
-		if(!isEmptyColumn(hotProduct,1)) {
-			errorSbm = true;
-		} 
-
-		if(!isEmptyColumn(hotProduct,2)) {
+		if(isEmptyColumn(hotProduct,1) || isEmptyColumn(hotProduct,2)) {
 			errorSbm = true;
 		} 
 
