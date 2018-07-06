@@ -218,6 +218,7 @@ function isExceptCol(exceptColumns, col) {
 
 /**
  * Check if row have at least one column have value but others are empty.
+ * If columns undefined check whole row.
  * @param handsontable - instance of handsontable
  * @param columns - list of column you want to check.
  * @returns
