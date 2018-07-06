@@ -89,6 +89,7 @@
 
                           if (col == 1) {
                         	  textValidator(hotCustomer, row, col, newVal, 50);
+                        	  //isValidHumanName(hotCustomer, row, col, newVal);
                               }
                           if (col == 2 || col == 3) {
                         	  textValidator(hotCustomer, row, col, newVal, 10);
@@ -154,8 +155,9 @@
             frmData["deletedIds"] = deletedIds;
 
             var ok = true;
+
 			
-            if (areEmptyColumns(hotCustomer)) {
+            if (isEmptyColumn(hotCustomer, 1) || isEmptyColumn(hotCustomer, 2) || isEmptyColumn(hotCustomer, 5) ) {
                 ok = false;
                 $('#errorHandsontable').show();
             }
@@ -164,6 +166,11 @@
             if (!isValidTable(hotCustomer)) {
                 ok = false;
                 $('#errorHandsontable').show();
+            }
+
+            if (isEmptyTable(hotCustomer)) { 
+                $('#errorEmpty').show();
+                ok = false;
             }
             
             if(ok) {
