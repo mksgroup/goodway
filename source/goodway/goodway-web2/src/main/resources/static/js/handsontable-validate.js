@@ -222,36 +222,21 @@ function isExceptCol(exceptColumns, col) {
  * @param columns - list of column you want to check.
  * @returns
  */
-function areEmptyColumns (handsontable, columns, exceptColumns) {
+function areEmptyColumns (handsontable, columns) {
 	var inValid = false;
 	if (columns) {
-		if (exceptColumns) {
-		    for (var row = 0; row < handsontable.countRows(); row++) {
-		        if (!handsontable.isEmptyRow(row)) {
-		            for (var col = 0; col < handsontable.countCols(); col++) {
-		            	if (isCheckCol(columns, col) && !isExceptCol(exceptColumns, col)) {
-			                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
-			                	inValid = true;                    
-			                    handsontable.getCellMeta(row, col).valid = false;
-			                }
-		            	}
-		            }
-		        }
-		    }
-		} else {
-		    for (var row = 0; row < handsontable.countRows(); row++) {
-		        if (!handsontable.isEmptyRow(row)) {
-		            for (var col = 0; col < handsontable.countCols(); col++) {
-		            	if (isCheckCol(columns, col)) {
-			                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
-			                	inValid = true;                    
-			                    handsontable.getCellMeta(row, col).valid = false;
-			                }
-		            	}
-		            }
-		        }
-		    }
-		}
+	    for (var row = 0; row < handsontable.countRows(); row++) {
+	        if (!handsontable.isEmptyRow(row)) {
+	            for (var col = 0; col < handsontable.countCols(); col++) {
+	            	if (isCheckCol(columns, col)) {
+		                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
+		                	inValid = true;                    
+		                    handsontable.getCellMeta(row, col).valid = false;
+		                }
+	            	}
+	            }
+	        }
+	    }
 	} else {
 	    for (var row = 0; row < handsontable.countRows(); row++) {
 	        if (!handsontable.isEmptyRow(row)) {
