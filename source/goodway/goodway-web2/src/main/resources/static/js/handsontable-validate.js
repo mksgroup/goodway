@@ -134,9 +134,9 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
 		}
 	
 	    if (limit == undefined) {
-	        valid = (floatPattern.test(leftDot));
+	        valid = (floatPattern.test(newVal));
 	    } else {
-	    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+	    	valid = (floatPattern.test(newVal) && leftDot.length <= limit);
 	    }
     } else {
     	valid = true;
@@ -335,9 +335,9 @@ function isDecimalNumber (handsontable, row, col, value, limit) {
 		}
 	
 	    if (limit == undefined) {
-	        valid = (floatPattern.test(leftDot));
+	        valid = (floatPattern.test(value));
 	    } else {
-	    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+	    	valid = (floatPattern.test(value) && leftDot.length <= limit);
 	    }
     } else {
     	valid = true;
