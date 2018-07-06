@@ -156,11 +156,20 @@
             var ok = true;
 
 			
-            if (isEmptyColumn(hotCustomer, 1) || isEmptyColumn(hotCustomer, 2) || isEmptyColumn(hotCustomer, 5) ) {
+            if (isEmptyColumn(hotCustomer, 1)) {
                 ok = false;
                 $('#errorHandsontable').show();
             }
 
+            if (isEmptyColumn(hotCustomer, 2)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+
+            if (isEmptyColumn(hotCustomer, 5)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
             // check if handsontable have any invalid cell
             if (!isValidTable(hotCustomer)) {
                 ok = false;
