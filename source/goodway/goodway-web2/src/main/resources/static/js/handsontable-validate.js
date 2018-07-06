@@ -92,10 +92,14 @@ floatValidator4 = function (value, callback) {
 function integerValidator (handsontable, row, col, newVal, limit) {
     var valid; 
 
-    if(limit == undefined) {
-        valid = (intPattern.test(newVal));
+    if (newVal) {
+	    if (limit == undefined) {
+	        valid = (intPattern.test(newVal));
+	    } else {
+	    	valid = (intPattern.test(newVal) && newVal.length <= limit);
+	    }
     } else {
-    	valid = (intPattern.test(newVal) && newVal.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
@@ -120,18 +124,22 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
     var valid; 
     
 	// trunk the Integer part
-	var dotIdx = newVal.indexOf(".");
+    if (newVal) {
+		var dotIdx = newVal.indexOf(".");
+		
+		if (dotIdx > -1) {
+			var leftDot = newVal.substring(0, dotIdx);
+		} else {
+			leftDot = newVal;
+		}
 	
-	if (dotIdx > -1) {
-		var leftDot = newVal.substring(0, dotIdx);
-	} else {
-		leftDot = newVal;
-	}
-
-    if(limit == undefined) {
-        valid = (floatPattern.test(leftDot));
+	    if (limit == undefined) {
+	        valid = (floatPattern.test(newVal));
+	    } else {
+	    	valid = (floatPattern.test(newVal) && leftDot.length <= limit);
+	    }
     } else {
-    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
@@ -155,8 +163,8 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
 function textValidator (handsontable, row, col, newVal, limit) {
     var valid; 
 
-    if(newVal != '' || newVal != null){
-	    if(limit == undefined) {
+    if (newVal) {
+	    if (limit == undefined) {
 	        valid = (newVal.length <= 500);
 	    } else {
 	    	valid = (newVal.length <= limit);
@@ -260,6 +268,7 @@ function isValidTable (handsontable) {
  * @returns
  */
 function isEmptyTable (handsontable) {
+	
 	return (handsontable.countEmptyRows() == handsontable.countRows());
 }
 
@@ -275,11 +284,15 @@ function isEmptyTable (handsontable) {
  */
 function isWithinLimit (handsontable, row, col, value, limit) {
     var valid; 
-
-    if(limit == undefined) {
-        valid = (value.length <= 500);
+    
+    if (value) {
+	    if (limit == undefined) {
+	        valid = (value.length <= 500);
+	    } else {
+	    	valid = (value.length <= limit);
+	    }
     } else {
-    	valid = (value.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
@@ -310,19 +323,24 @@ function isWithinLimit (handsontable, row, col, value, limit) {
 function isDecimalNumber (handsontable, row, col, value, limit) {
     var valid; 
     
-	// trunk the Integer part
-	var dotIdx = value.indexOf(".");
+    if (value) { 
+    	
+		// trunk the Integer part
+		var dotIdx = value.indexOf(".");
+		
+		if (dotIdx > -1) {
+			var leftDot = value.substring(0, dotIdx);
+		} else {
+			leftDot = value;
+		}
 	
-	if (dotIdx > -1) {
-		var leftDot = value.substring(0, dotIdx);
-	} else {
-		leftDot = value;
-	}
-
-    if(limit == undefined) {
-        valid = (floatPattern.test(leftDot));
+	    if (limit == undefined) {
+	        valid = (floatPattern.test(value));
+	    } else {
+	    	valid = (floatPattern.test(value) && leftDot.length <= limit);
+	    }
     } else {
-    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
@@ -352,10 +370,14 @@ function isDecimalNumber (handsontable, row, col, value, limit) {
 function isIntegerNumber (handsontable, row, col, value, limit) {
     var valid; 
 
-    if(limit == undefined) {
-        valid = (intPattern.test(value));
+    if (value) {
+	    if (limit == undefined) {
+	        valid = (intPattern.test(value));
+	    } else {
+	    	valid = (intPattern.test(value) && value.length <= limit);
+	    }
     } else {
-    	valid = (intPattern.test(value) && value.length <= limit);
+    	valid = true;
     }
     
     if (valid) {
