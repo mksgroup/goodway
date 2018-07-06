@@ -184,23 +184,86 @@ function textValidator (handsontable, row, col, newVal, limit) {
 }
 
 /**
- * Check if row have at least one column have value but others are empty.
- * @param handsontable - instance of handsontable
+ * function check if list of wanted to check column equal specific column
+ * @param columns
+ * @param col
  * @returns
  */
-function areEmptyColumns (handsontable) {
-	var inValid = false;
+function isCheckCol(columns, col) {
+	for (var i = 0; i < columns.length; i++) {
+		if (columns[i] == col) {
+			return true;
+		}
+	}
 	
-    for (var row = 0; row < handsontable.countRows(); row++) {
-        if (!handsontable.isEmptyRow(row)) {
-            for (var col = 0; col < handsontable.countCols(); col++) { 
-                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
-                	inValid = true;                    
-                    handsontable.getCellMeta(row, col).valid = false;
-                }          
-            }
-        }
-    }
+	return false;
+}
+
+
+/**
+ * function check if list of unwanted to check column equal specific column
+ * @param exceptColumns
+ * @param col
+ * @returns
+ */
+function isExceptCol(exceptColumns, col) {
+	for (var i = 0; i < exceptColumns.length; i++) {
+		if (exceptColumns[i] == col) {
+			return true;
+		}
+	}
+	
+	return false;	
+}
+
+/**
+ * Check if row have at least one column have value but others are empty.
+ * @param handsontable - instance of handsontable
+ * @param columns - list of column you want to check.
+ * @returns
+ */
+function areEmptyColumns (handsontable, columns, exceptColumns) {
+	var inValid = false;
+	if (columns) {
+		if (exceptColumns) {
+		    for (var row = 0; row < handsontable.countRows(); row++) {
+		        if (!handsontable.isEmptyRow(row)) {
+		            for (var col = 0; col < handsontable.countCols(); col++) {
+		            	if (isCheckCol(columns, col) && !isExceptCol(exceptColumns, col)) {
+			                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
+			                	inValid = true;                    
+			                    handsontable.getCellMeta(row, col).valid = false;
+			                }
+		            	}
+		            }
+		        }
+		    }
+		} else {
+		    for (var row = 0; row < handsontable.countRows(); row++) {
+		        if (!handsontable.isEmptyRow(row)) {
+		            for (var col = 0; col < handsontable.countCols(); col++) {
+		            	if (isCheckCol(columns, col)) {
+			                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
+			                	inValid = true;                    
+			                    handsontable.getCellMeta(row, col).valid = false;
+			                }
+		            	}
+		            }
+		        }
+		    }
+		}
+	} else {
+	    for (var row = 0; row < handsontable.countRows(); row++) {
+	        if (!handsontable.isEmptyRow(row)) {
+	            for (var col = 0; col < handsontable.countCols(); col++) {
+	                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
+	                	inValid = true;                    
+	                    handsontable.getCellMeta(row, col).valid = false;
+	                }
+	            }
+	        }
+	    }		
+	}
     
     handsontable.render();
     
@@ -393,6 +456,7 @@ function isIntegerNumber (handsontable, row, col, value, limit) {
     }
     
 }
+
 
 
 
