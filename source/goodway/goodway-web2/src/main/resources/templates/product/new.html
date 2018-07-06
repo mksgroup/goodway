@@ -108,6 +108,10 @@
                         textValidator(hotProduct, row, col, newVal, 200);
                      }
 
+                    /**
+                      * Kiểm tra cột cao, rộng, dài, trọng lượng
+                      * nếu là khác số hoặc dấu '.' thì sai.
+                      */
                     (col == 3 , col == 4, col == 5, col == 6) ? errorSbm = true : errorSbm = false;
                 }       
 			}
