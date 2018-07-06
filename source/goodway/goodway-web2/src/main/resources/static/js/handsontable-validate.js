@@ -131,7 +131,7 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
     if(limit == undefined) {
         valid = (floatPattern.test(leftDot));
     } else {
-    	valid = (floatPattern.test(newVal) && leftDot.length <= limit);
+    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
     }
     
     if (valid) {
@@ -288,6 +288,81 @@ function isWithinLimit (handsontable, row, col, value, limit) {
     	handsontable.getCellMeta(row, col).valid = false;
         handsontable.render();	
 
+        return false;
+    }
+    
+}
+
+/**
+ * Check if value is a decimal number,
+ * use this method if you want to show error alert message at specific column.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param value
+ * @param limit
+ * @returns
+ */
+function isDecimalNumber (handsontable, row, col, value, limit) {
+    var valid; 
+    
+	// trunk the Integer part
+	var dotIdx = value.indexOf(".");
+	
+	if (dotIdx > -1) {
+		var leftDot = value.substring(0, dotIdx);
+	} else {
+		leftDot = value;
+	}
+
+    if(limit == undefined) {
+        valid = (floatPattern.test(leftDot));
+    } else {
+    	valid = (floatPattern.test(leftDot) && leftDot.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        handsontable.render();
+        
+        return true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+        handsontable.render();
+        
+        return false;
+    }
+}
+
+/**
+ * Check if value is a integer number,
+ * use this method if you want to show error alert message at specific column.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param value
+ * @param limit
+ * @returns
+ */
+function isIntegerNumber (handsontable, row, col, value, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (intPattern.test(value));
+    } else {
+    	valid = (intPattern.test(value) && value.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        handsontable.render();
+        
+        return true;
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+        handsontable.render();
+        
         return false;
     }
     
