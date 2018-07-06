@@ -115,7 +115,6 @@ function integerValidator (handsontable, row, col, newVal, limit) {
  * @param prop - cell's property
  * @param newVal - the new value user type in.
  * @param limit - limit of newVal's length
- * @returns
  */
 function decimalValidator (handsontable, row, col, newVal, limit) {
     var valid; 
@@ -152,7 +151,6 @@ function decimalValidator (handsontable, row, col, newVal, limit) {
  * @param col
  * @param newVal
  * @param limit
- * @returns
  */
 function textValidator (handsontable, row, col, newVal, limit) {
     var valid; 
@@ -259,6 +257,40 @@ function isValidTable (handsontable) {
  */
 function isEmptyTable (handsontable) {
 	return (handsontable.countEmptyRows() == handsontable.countRows());
+}
+
+/**
+ * Check if cell's value within limit or not.
+ * use this method if you want to show error alert message at specific column
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param value
+ * @param limit
+ * @returns 
+ */
+function isWithinLimit (handsontable, row, col, value, limit) {
+    var valid; 
+
+    if(limit == undefined) {
+        valid = (value.length <= 500);
+    } else {
+    	valid = (value.length <= limit);
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        handsontable.render();	
+
+        return true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+        handsontable.render();	
+
+        return false;
+    }
+    
 }
 
 
