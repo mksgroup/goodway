@@ -19,9 +19,9 @@
 
   <script>
 
-  	
-  	var lenDes = 1024;
-  	var lenName = 128;
+  	var errorSbm = false;
+//   	var lenDes = 1024;
+//   	var lenName = 128;
   	
 	var dataProducts = [];
 	var deletedIds = [];
@@ -44,12 +44,12 @@
             contextMenu: ['remove_row','row_below'],
             columns: [
             	{data: 'id', readOnly: true},
-                {data: 'name', validator: lengthValidateName},
-                {data: 'description', validator: lengthValidateDes},
-                {data: 'height', validator: floatValidator, allowInvalid: false},
-                {data: 'width', validator: floatValidator, allowInvalid: false},
-                {data: 'length', validator: floatValidator, allowInvalid: false},
-                {data: 'weight', validator: floatValidator, allowInvalid: false}
+                {data: 'name'},
+                {data: 'description'},
+                {data: 'height', validator: floatValidator},
+                {data: 'width', validator: floatValidator},
+                {data: 'length', validator: floatValidator},
+                {data: 'weight', validator: floatValidator}
            		],
                   
 			afterChange: function(changes, source){
@@ -89,8 +89,32 @@
 					  */
 					document.getElementById('save').disabled = false;
 				}
-			}
+			},
 
+			beforeChange: function(changes, source) {
+
+				// changes = [[row, prop, oldVal, newVal], ...]
+				for (var i = 0; i < changes.length; i++) {
+                    var row = changes[i][0];
+                    var col = hotProduct.propToCol(changes[i][1]);
+                    var newVal = changes[i][3];
+                    console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+                    
+                    if (col == 1) {
+                       textValidator(hotProduct, row, col, newVal, 128);
+                    }
+
+                    if (col == 2) {
+                        textValidator(hotProduct, row, col, newVal, 200);
+                     }
+
+                    /**
+                      * Kiểm tra cột cao, rộng, dài, trọng lượng
+                      * nếu là khác số hoặc dấu '.' thì sai.
+                      */
+                    (col == 3 , col == 4, col == 5, col == 6) ? errorSbm = true : errorSbm = false;
+                }       
+			}
 		});
             
 		loadProducts();
@@ -133,8 +157,8 @@
     <script>
 	$('#frmHot').submit(function (e, callback) {
 
-         // khi thực hiện bấm submit 
-		var errorSbm = false;
+        // Biến chứa kết quả sau khi bắt lỗi
+// 		var errorSbm = false;
      	$('#errorName').hide();
      	$('#errorDes').hide();
      	$('#errorNull').hide();
@@ -155,63 +179,70 @@
          frmData["data"] = tableData;
          frmData["deletedIds"] = deletedIds;
 
-      	for (var i = 0 ; i < dataProducts.length ; i++ ) {
-      	console.log(i);
 
-      	//nếu khổng phải dòng trống thì kiểm tra .
-      	if (!hotProduct.isEmptyRow(i)) {
+//       	for (var i = 0 ; i < dataProducts.length ; i++ ) {
+//       	console.log(i);
+
+//       	//nếu khổng phải dòng trống thì kiểm tra .
+//       	if (!hotProduct.isEmptyRow(i)) {
       		
-	       	/**
-	       	 * kiểm tra cột tên nếu trống hoặc chưa nhập
-	       	 * độ dài bé hơn 128 ký tự
-	       	 */  
-      		if (hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length > 128) { 
+// 	       	/**
+// 	       	 * kiểm tra cột tên nếu trống hoặc chưa nhập
+// 	       	 * độ dài bé hơn 128 ký tự
+// 	       	 */  
+//       		if (hotProduct.getDataAtCell(i,1) == "" || hotProduct.getDataAtCell(i,1) == null  || hotProduct.getDataAtCell(i,1).length > 128) { 
 
-				/**
-			 	  * errorSbm = true thì sẽ không thực hiện việc save form .
-				  */
-      			errorSbm = true;
+// 				/**
+// 			 	  * errorSbm = true thì sẽ không thực hiện việc save form .
+// 				  */
+//       			errorSbm = true;
       			
-      			// thông báo hiện lỗi.
-      			$('#errorName').show(); 
+//       			// thông báo hiện lỗi.
+//       			$('#errorName').show(); 
       			
-      			// đánh dấu tại nơi bị lỗi 
-      			hotProduct.getCellMeta(i,1).valid = false;
-      		} else {
+//       			// đánh dấu tại nơi bị lỗi 
+//       			hotProduct.getCellMeta(i,1).valid = false;
+//       		} else {
        		
-       		// trả về bình thường nếu như ô đó không còn lỗi.
-      			hotProduct.getCellMeta(i,1).valid = true;
-       		}
+//        		// trả về bình thường nếu như ô đó không còn lỗi.
+//       			hotProduct.getCellMeta(i,1).valid = true;
+//        		}
 
 
-      		/**
-	       	 * kiểm tra cột mô tả nếu trống hoặc chưa nhập
-	       	 * độ dài bé hơn 1024 ký tự
-	       	 */  
-      		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length > 1024 ){
-      			/**
-				  * errorSbm = true thì sẽ không thực hiện việc save form .
-				  */
-      			errorSbm = true;
+//       		/**
+// 	       	 * kiểm tra cột mô tả nếu trống hoặc chưa nhập
+// 	       	 * độ dài bé hơn 1024 ký tự
+// 	       	 */  
+//       		if(hotProduct.getDataAtCell(i,2) == "" || hotProduct.getDataAtCell(i,2) == null  || hotProduct.getDataAtCell(i,2).length > 1024 ){
+//       			/**
+// 				  * errorSbm = true thì sẽ không thực hiện việc save form .
+// 				  */
+//       			errorSbm = true;
 
-      			// thông báo lỗi.
-      			$('#errorDes').show(); 
+//       			// thông báo lỗi.
+//       			$('#errorDes').show(); 
 
-      			// đánh dấu tại nơi bị lỗi 
-      			hotProduct.getCellMeta(i,2).valid = false;
-      		} else {
+//       			// đánh dấu tại nơi bị lỗi 
+//       			hotProduct.getCellMeta(i,2).valid = false;
+//       		} else {
 
-      			// trả về bình thường nếu như ô đó không còn lỗi.
-      			hotProduct.getCellMeta(i,2).valid = true;
-       		}
-      	} 
+//       			// trả về bình thường nếu như ô đó không còn lỗi.
+//       			hotProduct.getCellMeta(i,2).valid = true;
+//        		}
+//       	} 
 		
-      }
+//       }
 
 
-     	hotProduct.render();
+//      	hotProduct.render();
+		
+
+
+		if(!isValidTable(hotProduct)){
+			errorSbm = true;
+		}
+		
 		console.log(errorSbm);
-
 		/**
 		  * kiểm tra nếu errorSbm = true thì không save
 		  * nếu errorSbm = false thì thực hiện quá trình save
@@ -234,6 +265,8 @@
 				    console.log("Error!");
 				}
 			});
+		} else {
+			$('#errorNull').show(); 
 		}
 
 	});
