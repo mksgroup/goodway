@@ -11,11 +11,11 @@
     <th:block th:include="fragments/hnav"></th:block>
   <!-- Horizontal navigation-->
 
-  <th:block th:include="fragments/vehicle/new"></th:block>
+    <th:block th:include="fragments/vehicle/new"></th:block>
   
-  <th:block th:include="fragments/footer"></th:block>
+    <th:block th:include="fragments/footer"></th:block>
 
-  <script th:src="@{/js/handsontable-validate.js}"></script>
+    <script th:src="@{/js/handsontable-validate.js}"></script>
 
     <script>
 
@@ -76,7 +76,7 @@
                             
                             // if column is not name, id 
                             if (col != 0 || col != 1) {
-                               decimalValidator(hotVehicle, row, col, newVal, 3);                              
+                            	decimalValidator(hotVehicle, row, col, newVal, 3);                              
                             }
                             
                             if (col == 1) {
@@ -164,6 +164,13 @@
                 ok = false;
                 $('#errorHandsontable').show();
             }
+
+            // check if row have data but column 'name' doesn't. 
+            if (isEmptyColumn(hotVehicle, 1)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+            
 
             // check if handsontable have any invalid cell
             if (!isValidTable(hotVehicle)) {

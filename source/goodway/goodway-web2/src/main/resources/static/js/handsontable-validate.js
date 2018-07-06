@@ -242,7 +242,7 @@ function areEmptyColumns (handsontable, columns, exceptColumns) {
 		    for (var row = 0; row < handsontable.countRows(); row++) {
 		        if (!handsontable.isEmptyRow(row)) {
 		            for (var col = 0; col < handsontable.countCols(); col++) {
-		            	if (checkCol(columns, col)) {
+		            	if (isCheckCol(columns, col)) {
 			                if (handsontable.getDataAtCell(row, col) == null || handsontable.getDataAtCell(row, col) == "") {
 			                	inValid = true;                    
 			                    handsontable.getCellMeta(row, col).valid = false;
