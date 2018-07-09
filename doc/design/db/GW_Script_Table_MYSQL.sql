@@ -193,11 +193,13 @@ CREATE TABLE goodway_question (
 CREATE TABLE goodway_stock (
       id int NOT NULL AUTO_INCREMENT
     , name nvarchar(128)
-	, address int not null		   -- Refer to Address
+	, cd varchar(64)		        -- mã kho.
+	, address int not null		    -- Refer to Address
+	, is_start boolean default true -- Kho chứa đầy đủ hàng. Có thể làm điểm xuất phát của đội xe giao hàng.
     , created datetime not null
     , createdby_username varchar(50) not null
     , lastmodified datetime
     , lastmodifiedby_username varchar(50)
     , PRIMARY KEY(id)
     , FOREIGN KEY (address) REFERENCES goodway_address(id)
-)
+);
