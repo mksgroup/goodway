@@ -147,7 +147,12 @@
             if (isEmptyColumn(hotVehicle, 1)) {
                 ok = false;
                 $('#errorHandsontable').show();
-            }            
+            }      
+
+            if (!isValidTable(hotVehicle)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }      
 
             // Check if handsontable have any data.
             if (isEmptyTable(hotVehicle)) { 
