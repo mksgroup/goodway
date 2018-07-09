@@ -19,6 +19,7 @@ import mksgroup.goodway.entity.OrderDetailProduct;
 import mksgroup.goodway.entity.OrderMaster;
 import mksgroup.goodway.entity.Product;
 import mksgroup.goodway.entity.Question;
+import mksgroup.goodway.entity.Stock;
 import mksgroup.goodway.entity.Vehicle;
 import mksgroup.goodway.model.AddressModel;
 import mksgroup.goodway.model.CustomerModel;
@@ -26,6 +27,7 @@ import mksgroup.goodway.model.OrderDetailProductModel;
 import mksgroup.goodway.model.OrderModel;
 import mksgroup.goodway.model.ProductModel;
 import mksgroup.goodway.model.QuestionModel;
+import mksgroup.goodway.model.StockModel;
 import mksgroup.goodway.model.VehicleModel;
 import mksgroup.java.common.BeanUtil;
 
@@ -225,5 +227,13 @@ public class AppUtil {
         
         
         return questionList;
+    }
+
+    public static Iterable<Stock> parseStock(@Valid StockModel data) {
+        final String[] HEADERS = {"id", "name", "cd", "address"};
+
+        List<Stock> listStock = (List<Stock>) BeanUtil.getDataList(data.getData(), HEADERS, Stock.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
+        
+        return listStock;
     }
 }

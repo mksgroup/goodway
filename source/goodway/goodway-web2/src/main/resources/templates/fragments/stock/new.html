@@ -1,0 +1,99 @@
+<div class="app-content content">
+    <div class="content-wrapper">
+      <div class="content-header row">
+        <div class="content-header-left col-md-6 col-12 mb-2">
+          <h3 class="content-header-title" th:text="#{stock.screentitle}">Screen title</h3>
+          <!-- Nav of the screen -->
+          <th:block th:include="fragments/stock/navbar"></th:block>
+
+        </div>
+        <div class="content-header-right col-md-6 col-12">
+          <div class="media width-250 float-right">
+            <media-left class="media-middle">
+              <div id="sp-bar-total-sales"><canvas width="152" height="30" style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas></div>
+            </media-left>
+            <div class="media-body media-right text-right">
+              <h3 class="m-0" th:title="#{stock.total}" id="total"></h3>
+              <span class="text-muted" th:text="#{stock.total.desc}">Description</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="content-body">
+        <!-- Basic form layout section start -->
+            <th:block th:include="fragments/stock/toolbar"></th:block>
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-7">
+                        <div class="content-body">
+                           <section id="search-website" class="card overflow-hidden">
+                              <div class="card">
+                                <div class="card-header">
+                                    <h4 class="card-title" th:text="#{stock.newtitle}">Task title</h4>
+                                    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                                    <div class="heading-elements">
+                                        <ul class="list-inline mb-0">
+                                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                            <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                <div id="errorHandsontable" class="alert alert-danger mb-2 hidden-xs" role="alert" style="display: none">
+                                                            <strong th:text="#{error.handsontable.stock}">Dữ liệu bạn nhập không đúng.</strong>
+                                                            </div>    
+                                                            <div id="errorHandsontableEmpty" class="alert alert-danger mb-2 hidden-xs" role="alert" style="display: none">
+                                                            <strong th:text="#{error.empty}">Dữ liệu bạn nhập không đúng.</strong>
+                                                            </div> 
+                                    <div class="card-body pb-0">
+                                    <form id="frmHot" th:action="@{/stock/save}" method="POST" enctype="multipart/form-data">
+                                        <div class="table-responsive scroll-container">
+                                            
+                                                <div id="tableStock" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+                                            
+                                        </div>	
+                                                <div class="col-12">
+                                                    
+                                                    <button class="btn btn-info">
+                                                        <i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+                                                    </button>
+                                                    <div id="result" class="alert alert-success mb-2 hidden-xs" role="alert" style="display: none">
+                                                                    <strong th:text="#{save.ok}">Save OK</strong> 
+                                                     </div>
+                                                    
+                                                </div>
+                                    </form>
+                                    </div>
+                                </div>
+                              </div>
+                        </section>
+                    </div>
+                </div>
+                <!-- // Map -->
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-5">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4 class="card-title" th:text="#{address.select.tasktitle}">Bấm chọn địa điểm</h4>
+                            <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <div id="map" class="height-500"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            </div>
+         <!-- // Basic form layout section end -->
+      </div>
+    </div>
+  </div>
