@@ -83,8 +83,8 @@ floatValidator4 = function (value, callback) {
 /**
  * Check if value is a positive integer number and within limit if there is limit.
  * @param handsontable - instance of handsontable
- * @param row - cell's row
- * @param prop - cell's property
+ * @param row - checking cell's row
+ * @param col - checking cell's col
  * @param newVal - the new value user type in.
  * @param limit - limit of newVal's length
  * @returns
@@ -115,8 +115,8 @@ function integerValidator (handsontable, row, col, newVal, limit) {
 /**
  * Check if value is a positive decimal number and within limit if there is limit.
  * @param handsontable - instance of handsontable
- * @param row - cell's row
- * @param prop - cell's property
+ * @param row - checking cell's row
+ * @param col - checking cell's col
  * @param newVal - the new value user type in.
  * @param limit - limit of newVal's length
  */
