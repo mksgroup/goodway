@@ -172,6 +172,7 @@
         // Load lại danh sách sản phẩm của đơn hàng
         function loadOrderProduct (orderCd) {
             url = _ctx + 'order/load-orderProduct?orderCd=' + orderCd;
+            deletedIds = [];
                 
             $.ajax({
                 url : url,

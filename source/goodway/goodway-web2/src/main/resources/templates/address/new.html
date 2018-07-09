@@ -121,6 +121,8 @@
          * @param addressId: -1 means loading all
          */
         function loadAddress(addressId) {
+            deletedIds = [];
+            
             var url;
             var total = document.getElementById('total');
             

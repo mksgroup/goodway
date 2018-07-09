@@ -95,6 +95,8 @@
          * @param vehicleId: -1 means loading all
          */
         function loadVehicle(vehicleId) {
+            deletedIds = [];
+            
             var url;
             var total = document.getElementById('total');
 

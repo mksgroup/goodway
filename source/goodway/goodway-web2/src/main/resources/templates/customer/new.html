@@ -105,6 +105,7 @@
 
         // Load lại danh sách 
         function loadCustomers() {
+           deletedIds = [];
            var total = document.getElementById('total');
            var url = _ctx + 'customer/load-customer';
                 
@@ -120,7 +121,7 @@
                         dataCustomers = res;
                     }
                     
-                    hotCustomer.loadData(dataCustomers);                    
+                    hotCustomer.loadData(dataCustomers);                  
                 },
                 error : function (e) {
                     console.log("Error: " + e);
@@ -187,6 +188,7 @@
 
                     // reload data
                 	loadCustomers();
+
                 },
                 error : function() {
                     console.log("Error!");

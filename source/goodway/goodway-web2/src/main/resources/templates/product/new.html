@@ -121,6 +121,8 @@
      * @param productId: -1 means loading all
      */
 	function loadProducts (productId) {
+        deletedIds = [];
+        
 		document.getElementById('save').disabled = true;
 		   var url;
 		   var total = document.getElementById('total');
