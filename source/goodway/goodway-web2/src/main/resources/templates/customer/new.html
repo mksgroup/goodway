@@ -86,13 +86,13 @@
                           console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
 
                           if (col == 1) {
-                        	  textValidator(hotCustomer, row, col, newVal, 50);                        
+                        	  nameValidator(hotCustomer, row, col, newVal, 50);                        
                               }
                           if (col == 2 || col == 3) {
                         	  textValidator(hotCustomer, row, col, newVal, 10);
                               }
                           if (col == 4) {
-                        	  integerValidator(hotCustomer, row, col, newVal, 11);                               
+                        	  phoneValidator(hotCustomer, row, col, newVal);                               
                           }
                       }               
                   }

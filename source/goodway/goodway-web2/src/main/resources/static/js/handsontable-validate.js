@@ -2,6 +2,12 @@
 // Mẫu để kiểm tra số thực
 var floatPattern = /^[\d]*[\.]{0,1}[\d]*$/;
 var intPattern = /^[\d]*$/;
+
+// English and vietnamese name pattern for testing.
+//var namePattern = /^[a-zA-Z_àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹýÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ\\s]+$/;
+var namePattern = "^[a-zA-Z_àáãạảăắằẳẵặâấầẩẫậèéẹẻẽêềếểễệđìíĩỉịòóõọỏôốồổỗộơớờởỡợùúũụủưứừửữựỳỵỷỹý" +
+						"ÀÁÃẠẢĂẮẰẲẴẶÂẤẦẨẪẬÈÉẸẺẼÊỀẾỂỄỆĐÌÍĨỈỊÒÓÕỌỎÔỐỒỔỖỘƠỚỜỞỠỢÙÚŨỤỦƯỨỪỬỮỰỲỴỶỸÝ\\s]+$";
+
 /**
  * Check value is a positive integer.
  * 
@@ -181,6 +187,66 @@ function textValidator (handsontable, row, col, newVal, limit) {
     }
     
     handsontable.render();	
+}
+
+/**
+ * Check if value is a vietnamese phone number.
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param newVal
+ * @returns
+ */
+function phoneValidator (handsontable, row, col, newVal) {
+    var valid; 
+
+    if (newVal) {
+    	valid = (intPattern.test(newVal) && (10 <= newVal.length && newVal.length >= 11));
+    } else {
+    	valid = true;
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+    }
+    
+    handsontable.render();	
+}
+
+/**
+ * Check if value is a english or vietnamse name (no special characters, number) and within limit (default 500).
+ * 
+ * @param handsontable
+ * @param row
+ * @param col
+ * @param newVal
+ * @param limit
+ * @returns
+ */
+function nameValidator (handsontable, row, col, newVal, limit) {
+    var valid; 
+
+    if (newVal) {
+	    if (limit == undefined) {
+	        valid = (newVal.match(namePattern) && newVal.length <= 100);
+	    } else {
+	    	valid = (newVal.match(namePattern) && newVal.length <= limit);
+	    }
+    } else {
+    	valid = true;
+    }
+    
+    if (valid) {
+    	handsontable.getCellMeta(row, col).valid = true;
+        
+    } else {
+    	handsontable.getCellMeta(row, col).valid = false;
+    }
+    
+    handsontable.render();		
 }
 
 /**
