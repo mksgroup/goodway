@@ -1,0 +1,78 @@
+<div class="app-content content">
+	<div class="content-wrapper">
+		<div class="content-header row">
+			<div class="content-header-left col-md-6 col-12 mb-2">
+				<h3 class="content-header-title" th:text="#{quicklyReport.screentitle}">Screen
+					title</h3>
+
+			</div>
+			<div class="content-header-right col-md-6 col-12">
+				<div class="media width-250 float-right">
+					<media-left class="media-middle">
+					<div id="sp-bar-total-sales">
+						<canvas width="152" height="30"
+							style="display: inline-block; width: 152px; height: 30px; vertical-align: top;"></canvas>
+					</div>
+					</media-left>
+					<div class="media-body media-right text-right">
+						<h3 class="m-0" th:title="#{quicklyReport.total}" id="total"></h3>
+						<span class="text-muted" th:text="#{quicklyReport.total.desc}">Description</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="content-body">
+			<!-- Basic form layout section start -->
+			<th:block th:include="fragments/quicklyReport/toolbar"></th:block>
+			<div class="content-body">
+				<section id="search-website" class="card overflow-hidden">
+					<div class="card">
+						<div class="card-header">
+							<h4 class="card-title" th:text="#{quicklyReport.newtitle}">Task
+								title</h4>
+							<a class="heading-elements-toggle"><i
+								class="fa fa-ellipsis-v font-medium-3"></i></a>
+							<div class="heading-elements">
+								<ul class="list-inline mb-0">
+									<li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+									<li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+									<li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+									<li><a data-action="close"><i class="ft-x"></i></a></li>
+								</ul>
+							</div>
+						</div>
+						<div class="card-content">
+
+							<div class="card-body pb-0">
+								<div class="table-responsive scroll-container">
+									<form id="frmHot" th:action="@{/quicklyReport/save}" method="POST"
+										enctype="multipart/form-data">
+										<div id="tableQuicklyReport"
+											class="hot handsontable htRowHeaders htColumnHeaders"></div>
+										<div class="col-12">
+											
+											<button class="btn btn-info" id="save">
+												<i class="ft-save"></i>&nbsp;<span th:text="#{save}">Save</span>
+											</button>
+											
+											<div id="result" class="alert alert-success mb-2 hidden-xs"
+												role="alert" style="display: none">
+												<strong th:text="#{save.ok}">Save OK</strong>
+											</div>
+											<a class="btn btn-info" th:href="@{/quicklyReport/export}" target="_blank">
+                                            <i class="fa fa-download"></i>&nbsp;<span th:text="#{export}">Export</span>
+                                       		</a>
+											</div>
+									</form>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+			</div>
+			<!-- // Basic form layout section end -->
+		</div>
+	</div>
+</div>

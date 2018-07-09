@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<th:block th:include="fragments/head"></th:block>
+</head>
+<body
+	class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded"
+	data-open="hover" data-menu="horizontal-menu" data-col="2-columns"
+	style="">
+	<!-- fixed-top-->
+	<th:block th:include="fragments/nav"></th:block>
+	<!-- ////////////////////////////////////////////////////////////////////////////-->
+	<!-- Horizontal navigation-->
+	<th:block th:include="fragments/hnav"></th:block>
+	<!-- Horizontal navigation-->
+
+	<th:block th:include="fragments/quicklyReport/new"></th:block>
+
+	<th:block th:include="fragments/footer"></th:block>
+
+
+	<script>
+  	
+	var dataQuicklyReports = ["", "", "" , "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", ""];
+	var deletedIds = [];
+	var hotQuicklyReport = null;
+	
+	$(function() {
+		var containerQuicklyReport = document.getElementById('tableQuicklyReport');
+
+		hotQuicklyReport = new Handsontable(containerQuicklyReport, {
+			data: dataQuicklyReports,
+            colHeaders: ["ID", "Ảnh", "Họ tên", "Acc", "Email", "Tên doanh nghiệp", "Đơn vị chính", "Đơn vị trực thuộc", "Ngày bắt đầu đánh giá(dd/MM/yyyy)", "Ngày kết thúc đánh giá(dd/MM/yyyy)", "Kỷ luật (40%)", "Hiệu quả công việc (50%)", "Tham gia các hoạt động (10%)", "Kết quả thực tập", "Xếp loại", "Số ngày làm việc", "Nhận xét", "Thời gian cập nhật dữ liệu(dd/MM/yyyy HH:mm:ss)", "Người cập nhật", "Lệnh cập nhật"],
+            colWidths: [50, 150, 250, 100, 100, 100, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120, 120],
+            minRows: 10,
+        	manualColumnResize: true,
+            manualRowResize: true,
+            rowHeaders: true,
+            contextMenu: ['remove_row','row_below'],
+            columns: [
+            	{data: 'id', readOnly: true},
+                {data: 'image'},
+                {data: 'name'},
+                {data: 'account'},
+                {data: 'email'},
+                {data: 'companyName'},
+                {data: 'mainUnit'},
+                {data: 'affiliatedUnit'},
+                {data: 'startTime' , type: 'date', dateFormat: 'DD/MM/YYYY'},
+                {data: 'endTime' , type: 'date', dateFormat: 'DD/MM/YYYY'},
+                {data: 'discinple'},
+                {data: 'jobPerformence'},
+                {data: 'activitiesParticipate'},
+                {data: 'internshipResult'},
+                {data: 'internshipRank'},
+                {data: 'workingDays'},
+                {data: 'comments'},
+                {data: 'updated'},
+                {data: 'updatedUser'},
+                {data: 'updatedCommands'}
+           		],
+                  
+            beforeRemoveRow: function (index, amount) {
+               
+                	var lastIndex = index + amount;
+                    var i;
+	                for (i = index; i < lastIndex; i++) {
+	                    console.log("dataQuicklyReports=" + JSON.stringify(dataQuicklyReports));
+	                    var deletedQuicklyReports = dataQuicklyReports[i];
+	                    var deletedId = deletedQuicklyReports.id;
+	                    console.log("Row = " + i + ";deletedId = " + deletedId);
+	                    if (deletedId) {                 
+	                  	  deletedIds.push(deletedId);
+	                    }
+	                }
+                
+                console.log("list deletedIds=" + deletedIds);
+            },
+// 			beforeUndo: function()
+		});
+            
+		loadQuicklyReports();
+	});
+	
+
+    /**
+     * @param quicklyReportId: -1 means loading all
+     */
+	function loadQuicklyReports(quicklyReportId) {
+		   var url;
+		   var total = document.getElementById('total');
+		   
+		   if (quicklyReportId === undefined) {
+		       url = _ctx + 'quicklyReport/load-quicklyReport';
+		   } else {
+		       url = _ctx + 'quicklyReport/load-quicklyReport?id=' + quicklyReportId;
+		   }
+
+	    $.ajax ({
+	        url : url,
+	        type : 'GET',
+	        dataType : 'json',
+	        contentType : 'application/json',
+	        success : function(res) {
+	            total.innerHTML = res.length;
+	            
+	            // Update data into the handsontable
+	            dataQuicklyReports = res;
+	            hotQuicklyReport.loadData(dataQuicklyReports);
+	        },
+	        error : function (e) {
+	            console.log("Error: " + e);
+	        }
+	    });
+	}
+    </script>
+
+	<script>
+	$('#frmHot').submit(function (e, callback) {
+         e.preventDefault();
+ 
+ 
+         // Get header name
+         var colHeaderData =  hotQuicklyReport.getColHeader();
+         
+         // Get data from Handsontable
+         var tableData = hotQuicklyReport.getData();
+
+         var frmData = {};
+         frmData["header"] = colHeaderData;
+         frmData["data"] = tableData;
+         frmData["deletedIds"] = deletedIds;
+         
+			$.ajax ({
+				url : _ctx + "quicklyReport/save",
+				type : "POST",	
+				contentType: "application/json",
+				data: JSON.stringify(frmData),
+				dataType: 'json',
+				
+				success : function(result) {
+					 $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+					 
+				    // reload data
+					loadQuicklyReports();
+				},
+				error : function() {
+				    console.log("Error!");
+				}
+			});
+	});
+    </script>
+</body>
+</html>
