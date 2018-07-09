@@ -203,3 +203,29 @@ CREATE TABLE goodway_stock (
     , PRIMARY KEY(id)
     , FOREIGN KEY (address) REFERENCES goodway_address(id)
 );
+
+Create TABLE goodway_quickly_report (
+	  id int NOT NULL AUTO_INCREMENT
+    , name nvarchar(128) NOT NULL
+	, account varchar(64)	NOT NULL	        -- Tên tài khoản
+	, email varchar(64)		NOT NULL			-- Email
+	, image varchar(64)		    	-- Ảnh sinh viên
+	, company_name nvarchar(128) NOT NULL -- Tên công ty.
+    , main_unit nvarchar(128) NOT NULL -- Đơn vị chính
+    , affiliated_unit nvarchar(128) NOT NULL -- Đơn vị trực thuộc
+    , start_time date NOT NULL-- Ngày bắt đầu đánh giá
+    , end_time date NOT NULL-- Ngày kết thúc đánh giá
+	, discinple int  -- Điểm kỷ luật
+	, job_performence int  -- Điểm hiệu quả công việc
+	, activities_participate int -- Điểm tham gia các hoạt động
+	, internship_result int  -- Kết quả thực tập
+	, internship_rank nvarchar(128)  -- Xếp loại
+	, working_days int -- Số ngày làm việc
+	, comments nvarchar(1024) -- Nhận xét
+	, created datetime not null
+    , createdby_username varchar(50) not null
+	, lastmodified datetime -- Thời gian cập nhật dữ liệu
+    , lastmodifiedby_username nvarchar(128) -- Người cập nhật
+	, lastmodified_commands varchar(50) -- lệnh cập nhật
+    , PRIMARY KEY(id)
+);
