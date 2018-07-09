@@ -17,9 +17,10 @@
     <th:block th:include="fragments/footer"></th:block>
     <script>
     $(document).ready(function(){
-    	$('input[type=search]').on('keyup'), function(){
+    	$('input[type=search]').on('keyup'), function () {
     		var value = $(this).val().toLowerCase();
-    		$('#resultTable tbody tr').filter(function() {
+            
+    		$('#resultTable tbody tr').filter(function () {
     			$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
     		});
     	};
@@ -31,7 +32,7 @@
     var resultTable = null;
     var customerData;
     
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Khởi tạo Table kết quả
         
      	if (resultTable == null) {
@@ -42,14 +43,8 @@
                 	   { "data": "cd" },
                 	   { "data": "name" },
                 	   { "data": "shortName" }
-
-//                        ,{ "data": "id", 
-//                          "render": function(){
-//                                         return '<input type="radio" name="customerId" value="' + data + '">';
-//                                    }
-//                        }
                        ],
-                	   "initComplete": function(settings, json){ 
+                	   "initComplete": function (settings, json) { 
                            var info = this.api().page.info();
                            total.innerHTML = info.recordsTotal;
                        }
@@ -57,63 +52,6 @@
     	} else {
             resultTable.fnDraw();
         } 
-
-//     	 // Uncheck radio button on start page.
-//         $("input:radio").attr("checked", false);
-//         var customerId = null;
-        
-//        // Delete customer function with radio button's value.
-//        document.getElementById("deleteCustomerIcon").addEventListener("click", deleteCustomer);
-//        function deleteCustomer(){
-//            customerId = $("input[name='customerId']:checked").val();
-//            if(customerId != null){
-//            	 $.ajax({
-//                     url : "/customer/delete?customerId=" + customerId,
-//                     type : 'GET',
-//                     dataType : 'json',
-//                     contentType : 'application/json',
-//                     success : function(result) {
-//                    	 var table = $('#resultTable').DataTable();
-
-//                         // Destroy datatable.
-//                         table.destroy();
-
-//                      	// Empty in case the columns change
-//                         $('#resultTable').empty();
-
-//                         // Init datatable.
-//                         table = $('#resultTable').DataTable({
-//                             "columns": [
-//                          	   { "data": "id",
-//                                  "render": result.id 
-//                                },
-//                          	   { "data": "cd",
-//                                  "render": result.cd
-//                                },
-//                          	   { "data": "name",
-//                             	 "render": result.name
-//                                },
-//                          	   { "data": "shortName",
-//                             	 "render": result.shortName
-//                                },
-//                                { "data": "id", 
-//                                   "render": function(){
-//                                                  return '<input type="radio" name="customerId" value="' + result.id + '">';
-//                                             }
-//                               }
-//                               ]
-//                         });
-//                     },
-//                     error : function() {
-//                         console.log("Error!");
-//                         $("#errorModal").modal()
-                        
-//                     }
-//                 });
-//            } else {
-//                $("#deleteErrorModal").modal();  
-//              }
-//        }
     });
        
 

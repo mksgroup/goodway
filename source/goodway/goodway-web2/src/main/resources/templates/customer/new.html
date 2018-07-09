@@ -24,8 +24,6 @@
         var dataCustomers = [];
         var hotCustomer = null;
         var deletedIds = [];
-        var invalidFeilds = new Set();
-
        
         $(function() {
         	var containerCustomer = document.getElementById('tableCustomer');
@@ -78,9 +76,9 @@
                       console.log("list deletedIds=" + deletedIds);
                   },
                   
-                  beforeChange: function(changes, source) {
+                  beforeChange: function (changes, source) {
                       
-                        // changes = [[row, prop, oldVal, newVal], ...]
+                      // changes = [[row, prop, oldVal, newVal], ...]
                 	  for (var i = 0; i < changes.length; i++) {
                           var row = changes[i][0];
                           var col = hotCustomer.propToCol(changes[i][1]);
@@ -93,13 +91,13 @@
                           if (col == 2 || col == 3) {
                         	  textValidator(hotCustomer, row, col, newVal, 10);
                               }
-                          // if column is phone
                           if (col == 4) {
                         	  integerValidator(hotCustomer, row, col, newVal, 11);                               
                           }
                       }               
                   }
               });
+            
             loadCustomers();
         });
 
@@ -107,12 +105,9 @@
 
         // Load lại danh sách 
         function loadCustomers() {
-           var url;
            var total = document.getElementById('total');
-            
-                url = _ctx + 'customer/load-customer';
-
-
+           var url = _ctx + 'customer/load-customer';
+                
             $.ajax({
                 url : url,
                 type : 'GET',
@@ -135,7 +130,7 @@
     </script>
     
     <script>
-        $('#frmHot').submit(function(e) {
+        $('#frmHot').submit(function (e) {
             e.preventDefault();
     
             var frm = $('#frmHot');
@@ -154,36 +149,30 @@
             frmData["deletedIds"] = deletedIds;
 
             var ok = true;
+            var columns = [1,2,5];
 
-			
-            if (isEmptyColumn(hotCustomer, 1)) {
+			// Check if row have data but columns name, cd, address are empty
+            if (areEmptyColumns(hotCustomer, columns)) {
                 ok = false;
                 $('#errorHandsontable').show();
             }
-
-            if (isEmptyColumn(hotCustomer, 2)) {
-                ok = false;
-                $('#errorHandsontable').show();
-            }
-
-            if (isEmptyColumn(hotCustomer, 5)) {
-                ok = false;
-                $('#errorHandsontable').show();
-            }
-            // check if handsontable have any invalid cell
+            
+            // Check if handsontable have any invalid cell
             if (!isValidTable(hotCustomer)) {
                 ok = false;
                 $('#errorHandsontable').show();
             }
 
+            // Check if table is empty.
             if (isEmptyTable(hotCustomer)) { 
                 $('#errorEmpty').show();
                 ok = false;
             }
             
-            if(ok) {
+            if (ok) {
             	$('#errorHandsontable').hide();
             	$('#errorHandsontable').hide();
+                
                 $.ajax({
                 url : _ctx + "customer/save",
                 type : "POST",
@@ -191,7 +180,8 @@
                 data: JSON.stringify(frmData),
                 dataType: 'json',
 
-                success : function(result) {
+                success : function (result) {
+                    
                 	// Display result information
                     $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
 
@@ -212,10 +202,12 @@
         }    
     </script>
 	<script>
+    
         // Dispay dialog of addresses
         var selectAddressTable = null;
         
-        $(document).ready(function() {
+        $(document).ready(function () {
+            
             // Khởi tạo Table kết quả
         	if (selectAddressTable == null) {
         		selectAddressTable = $("#selectAddressTable").DataTable({
@@ -224,10 +216,12 @@
 //                     select: { style: 'single' },
                     "columns": [
                            {"render": function ( data, type, full, meta ) {
+                               
                                 // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
-                               // Assign address id and displayAddress
+                               // Assign address id and displayAddress                  
                         	   return '<input type="radio" name="addressRow" value="' + full.id + '">';
                            }},  // here's a radio button, modify to use data to populate it
+ 
                     	   { "data": "id" },
                     	   { "data": "displayAddress" }
                     ]
@@ -241,14 +235,14 @@
 
         	var selectedAddrId = $('input[name=addressRow]:checked').val();
 
-            // Get Fulll addres from Id
+            // Get Full addres from Id
             $.ajax({
                 url : _ctx + "address/load-address/" + selectedAddrId,
 
                 success : function(result) {
                 	console.log("Load addr by id =" + selectedAddrId + ";result.addr=" + result.displayAddress);
                     
-                    // fresh address
+                    // refresh address
                 	refreshCustomer(selectedAddrId, result.displayAddress);
                 },
                 error : function() {
@@ -263,26 +257,37 @@
          * @global selectCustomerRow
          */
         function refreshCustomer(addrId, fullAddr) {
+            
             // Set address into Address of the Customer
-            if (selectCustomerRow >=0 && (fullAddr)) {
-                var rowData = dataCustomers[selectCustomerRow];
+            if (selectCustomerRow >= 0 && (fullAddr)) {
+//                 var rowData = dataCustomers[selectCustomerRow];
+//                 console.log("fullAddr=" + fullAddr);
 
-                console.log("fullAddr=" + fullAddr);
-
-                if (addrId) {
-                   
+                if (addrId) {  
                 	dataCustomers[selectCustomerRow].addr = fullAddr;
-//                 	dataCustomers[selectCustomerRow].addrId = addrId;
+                    
                 	// console.log("Current dataCustomers at row " +  selectCustomerRow + ": "+ JSON.stringify(dataCustomers[selectCustomerRow]));
                 } else {
                     console.log("Customer has not inputted yet.");
                     dataCustomers.push(["", "", "", "", "" , fullAddr]);
                 }
 
+                var invalidCells = getInvalidCells(hotCustomer);
+                console.log(invalidCells);
+                
                 console.log("dataCustomers=" + dataCustomers);
             	hotCustomer.loadData(dataCustomers);
-            	//hotCustomer.render();
 
+                // render invalid cell.
+                for (var i = 0; i < invalidCells.length; i++) {
+                    var cell = invalidCells[i];
+                    
+                    if (cell.col != 5) {
+                        hotCustomer.getCellMeta(cell.row, cell.col).valid = false;
+                    }
+                }
+                
+            	hotCustomer.render();
             	
             } else {
             	 console.log("selectedDisplayAddress has no value; selectCustomerRow= " + selectCustomerRow);

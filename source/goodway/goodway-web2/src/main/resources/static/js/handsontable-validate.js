@@ -443,6 +443,30 @@ function isIntegerNumber (handsontable, row, col, value, limit) {
     
 }
 
+/**
+ * get all invalid cells in handsontable.
+ * use this for refresh table after choose data from datatable,
+ * or show error message for specific column.
+ * @param handsontable
+ * @returns
+ */
+function getInvalidCells (handsontable) {
+	var invalidCells = [];
+	
+	for (var row = 0; row < handsontable.countRows(); row++){
+		if (!handsontable.isEmptyRow(row)) {
+			for (var col = 0; col < handsontable.countCols(); col++){
+				if (handsontable.getCellMeta(row, col).valid == false) {
+					
+					invalidCells.push({'row': row, 'col': col});
+				}
+			}
+		}
+	}
+
+	return invalidCells;
+}
+
 
 
 

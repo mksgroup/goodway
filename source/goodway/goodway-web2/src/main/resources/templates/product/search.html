@@ -15,10 +15,11 @@
   
   <th:block th:include="fragments/footer"></th:block>
   <script>
-	$(document).ready(function(){
-		$('input[type=search]').on('keyup'), function(){
+	$(document).ready(function () {
+		$('input[type=search]').on('keyup'), function () {
 			var value = $(this).val().toLowerCase();
-			$('#resultTable tbody tr').filter(function() {
+            
+			$('#resultTable tbody tr').filter(function () {
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		};
@@ -30,7 +31,7 @@
     var resultTable = null;
     var productData;
     
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Khởi tạo Table kết quả
     	if (resultTable == null) {
             $("#resultTable").DataTable({
@@ -44,11 +45,11 @@
                 	   { "data": "length" },
                 	   { "data": "weight" }              	   
                        ],
-                	   "initComplete": function(settings, json){ 
+                	   "initComplete": function (settings, json) { 
                 		    var rows = 0;
-                           var info = this.api().page.info();
-                        	rows = info.recordsTotal;
-                           total.innerHTML = rows;
+                            var info = this.api().page.info();
+                            rows = info.recordsTotal;
+                            total.innerHTML = rows;
                        }
             });
     	} else {

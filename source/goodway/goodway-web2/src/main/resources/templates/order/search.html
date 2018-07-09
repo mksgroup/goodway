@@ -17,10 +17,11 @@
   
   <th:block th:include="fragments/footer"></th:block>
   <script>
-	$(document).ready(function(){
-		$('input[type=search]').on('keyup'), function(){
+	$(document).ready(function () {
+		$('input[type=search]').on('keyup'), function () {
 			var value = $(this).val().toLowerCase();
-			$('#resultTable tbody tr').filter(function() {
+            
+			$('#resultTable tbody tr').filter(function () {
 				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 			});
 		};
@@ -31,7 +32,7 @@
     // Lưu đối tượng table kết quả search
     var resultTable = null;
     
-    $(document).ready(function(){
+    $(document).ready(function () {
         
         if (resultTable == null) {
         	resultTable = $("#resultTable").DataTable({
@@ -39,7 +40,7 @@
                 "columns": [
                     
                        { "data": 1,
-                         "render" : function(data, row, meta){
+                         "render" : function (data, row, meta) {
                                data = '<a href="' + _ctx + 'order/edit/'+ data + '">' + data +'</a>';
                                
                                return data;
@@ -50,12 +51,13 @@
                        { "data": 4 },
                        { "data": 5 },
                        { "data": null,
-                         "render" : function(data, row, meta){                         
+                         "render" : function (data, row, meta) {     
+                                                 
                                return null;
                          }
                        },
                        { "data": 1,
-                         "render" : function(data, row, meta){
+                         "render" : function (data, row, meta) {
                                data = '<i class="fa fa-minus-circle" onClick="deleteOrder(\'' + data + '\')" />';
                                                     
                                return data;
@@ -63,7 +65,7 @@
                        }
                    
                        ],
-                        "initComplete": function(settings, json){ 
+                        "initComplete": function (settings, json) { 
                                 var info = this.api().page.info();
                                 total.innerHTML = info.recordsTotal;
                             }
@@ -73,32 +75,33 @@
         }
     });
     
-    function deleteOrder(orderCd){
+    function deleteOrder(orderCd) {
         
         $('#comfirmDelete').attr('value', orderCd);
-        $('#deleteOrderCd').append(' <strong>' + orderCd + ' ?</strong>');
+        $('#deleteOrderCd').html(' <strong>' + orderCd + ' ?</strong>');
         
         $('#comfirmDeleteModal').modal('show');
     }
 
-    $('#comfirmDelete').click(function(e) {
+    $('#comfirmDelete').click(function (e) {
         var deleteOrderCd = $(this).val();
         console.log(deleteOrderCd);
         
-        if(deleteOrderCd != null || deleteOrderCd != ""){
+        if (deleteOrderCd != null || deleteOrderCd != "") {
+            
             $.ajax({
                 url : _ctx + "order/delete?orderCd="+ deleteOrderCd,
                 type : "GET",
                 contentType: "application/json",
                 dataType: 'json',
-                success : function(result) {
+                success : function  (result) {
                     $('#deleteResult').fadeToggle('slow'); $('#deleteResult').fadeOut(5000); 
                     
 //                  loadDataToOrderTable(result);
                     resultTable.ajax.reload();
                     $('#comfirmDeleteModal').modal('hide');
                 },
-                error : function() {
+                error : function () {
                     console.log("Error!");
                 }
             });

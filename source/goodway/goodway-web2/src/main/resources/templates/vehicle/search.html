@@ -16,9 +16,10 @@
   <th:block th:include="fragments/footer"></th:block>
   <script>
 		$(document).ready(function(){
-			$('input[type=search]').on('keyup'), function(){
+			$('input[type=search]').on('keyup'), function (){
 				var value = $(this).val().toLowerCase();
-				$('#resultTable tbody tr').filter(function() {
+                
+				$('#resultTable tbody tr').filter(function () {
 					$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
 				});
 			};
@@ -30,7 +31,7 @@
     var resultTable = null;
     var vehicleData;
     
-    $(document).ready(function() {
+    $(document).ready(function () {
         // Khởi tạo Table kết quả
     	if (resultTable == null) {
             $("#resultTable").DataTable({
@@ -43,7 +44,7 @@
                 	   { "data": "height" },
                 	   { "data": "capacity" }
                        ],
-                	   "initComplete": function(settings, json){ 
+                	   "initComplete": function (settings, json) { 
                            var info = this.api().page.info();
                            total.innerHTML = info.recordsTotal;
                        }

@@ -27,8 +27,22 @@
 
     <!-- footer -->
     <th:block th:include="fragments/footer"></th:block>
-
+    
+    <script th:src="@{/js/handsontable-validate.js}"></script>
+    
+    
     <script>
+        $('input[type=search]').on('keyup'), function () {
+            var value = $(this).val().toLowerCase();
+            
+            $('#selectProductTable tbody tr').filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        };
+    </script>
+    
+    <script>
+    
         // Dispay dialog of addresses
         var selectProductTable = null;
     
@@ -57,36 +71,11 @@
 
         });
     </script>
-    
-    <script>
-
-		$('input[type=search]').on('keyup'), function(){
-			var value = $(this).val().toLowerCase();
-			$('#selectProductTable tbody tr').filter(function() {
-				$(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-			});
-		};
-	</script>
-    
-    <script>
-        quantityValidator = function (value, callback) {
-          setTimeout(function(){
-                if (/[1-9]+/.test(value) && (value > 0 && value < 1000000)) {
-                  callback(true);
-                }
-                else {
-                  callback(false);
-                }
-                
-          }, 0);
-        };
-    </script>
 
     <script>
         var dataProducts = [];
         var hotProduct = null;
         var deletedIds = [];
-        var invalidFeilds = new Set();
         var existsCustomerId = null;
         
         $(function() {
@@ -111,14 +100,10 @@
                      { "data": "width", readOnly: true },
                      { "data": "length", readOnly: true },
                      { "data": "weight", readOnly: true },     
-                     { "data": "quantity", validator: quantityValidator }
+                     { "data": "quantity" }
                ],
-                hiddenColumns: {
-                     columns: 7,
-                     indicators: true
-                },
-                afterSelection: function(r,c){
-                    if(c==1){
+                afterSelection: function (r,c) {
+                    if (c == 1) {
                         displayDlgSelectProduct();
                     }
                 },
@@ -134,60 +119,50 @@
                         if (deletedId) {
                       	  deletedIds.push(deletedId);
                         }
-                        
-                        // Remove invalid cell of deleting row if exists in invalidFeilds.
-                        for(var col = 0; col < this.countCols(); col++){
-                            if(this.getCellMeta(i, col).valid == false){
-                                invalidFeilds.forEach(function(value) {
-                                      var prop = hotProduct.colToProp(col);
-                                      if(value.row == i && value.col == prop){
-                                          invalidFeilds.delete(value);
-                                      }
-                                });                              
-                            }
-                        }
 
                         // Uncheck selected products.
-                        $("input:checkbox[name=productRow]:checked").each(function(){
-                            if($(this).val() == deletedId){
+                        $("input:checkbox[name=productRow]:checked").each(function () {
+                            if ($(this).val() == deletedId) {
                                 this.checked = false;
                             }
                         });     
                            
                     }
                 },
-                afterValidate: function (isValid, value, row, prop, source) {
-                    console.log(value>0 + ',' + value < 1000000);
-                    if (!isValid) {
-                            var cell = {"row": row, "col": prop};
-                            invalidFeilds.add(cell);
-                            console.log("cell: " + JSON.stringify(cell));
-                    } else {
-                    	invalidFeilds.forEach(function(value) {
-                    		  if(value.row == row && value.col == prop){
-                    			  invalidFeilds.delete(value);
-                    		  }
-                    		});
-                        console.log(invalidFeilds);
-                    }
-                }
+                beforeChange: function(changes, source) {
+                    
+                    // changes = [[row, prop, oldVal, newVal], ...]
+                    for (var i = 0; i < changes.length; i++) {
+                        var row = changes[i][0];
+                        var col = hotProduct.propToCol(changes[i][1]);
+                        var newVal = changes[i][3];
+                        console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+                        
+                        if (col == 1) {
+                            textValidator(hotProduct, row, col, newVal, 120);
+                        } else if (col == 6) {
+                            integerValidator(hotProduct, row, col, newVal, 5);
+                        }
+                        
+                    }               
+                }         
            });
 
             // If editing
-            if(orderCode != ""){   
+            if (orderCode != "") {   
                 loadOrderProduct(orderCode);
 
                 // Load Customer and check Customer's radio button.
                 $.ajax({
                     url : _ctx + "customer/load-customerBy?orderCd=" + orderCode,
 
-                    success : function(result) {
+                    success : function (result) {
                         
                         // Refresh customer
                         refreshCustomer(result);
                         existsCustomerId = result.id;
                     },
-                    error : function() {
+                    error : function () {
                         console.log("Error!");
                     }
                 });
@@ -195,7 +170,7 @@
      });
 
         // Load lại danh sách sản phẩm của đơn hàng
-        function loadOrderProduct(orderCd) {
+        function loadOrderProduct (orderCd) {
             url = _ctx + 'order/load-orderProduct?orderCd=' + orderCd;
                 
             $.ajax({
@@ -203,17 +178,17 @@
                 type : 'GET',
                 dataType : 'json',
                 contentType : 'application/json',
-                success : function(res) {
+                success : function (res) {
                     
                     // Update data into the handsontable
                     dataProducts = res;
                     hotProduct.loadData(dataProducts);
                     
                     //Update checked products                                       
-                    for(var i = 0; i < res.length; i++){
-                        if(res[i].id != null){
-                            $("input:checkbox[name=productRow]").each(function(){  
-                                if($(this).val() == res[i].id){     
+                    for (var i = 0; i < res.length; i++) {
+                        if (res[i].id != null) {
+                            $("input:checkbox[name=productRow]").each(function () {  
+                                if ($(this).val() == res[i].id) {     
                                     this.checked = true;
                                 }
                             }); 
@@ -229,7 +204,7 @@
 
     <!-- Save the order -->
     <script>
-        $('#frmOrder').submit(function(e) {
+        $('#frmOrder').submit(function (e) {
             e.preventDefault();
             
         	$('#errorEmpty').hide();
@@ -243,6 +218,7 @@
             var longitude = $('#longitude').val();
             var customer_id = $('#customer_id').val();
             var customer_name = $('#customer_name').val();
+            
             // Get header name
             var colHeaderData =  hotProduct.getColHeader();
             
@@ -260,69 +236,34 @@
             frmData["deletedIds"] = deletedIds;
 
             var ok = true;
-
-            // Check if handsontable row have data but invalid cell.
-            for(var row = 0; row < hotProduct.countRows(); row++){
-                if(!hotProduct.isEmptyRow(row)){
-                    for(var col = 0; col < hotProduct.countCols(); col++){
-                        if(hotProduct.getDataAtCell(row, col) == null || hotProduct.getDataAtCell(row, col) == ""){
-                        	hotProduct.getCellMeta(row, col).valid = false;
-                            var cell = {"row": row, "col": hotProduct.colToProp(col)};
-                            
-                            invalidFeilds.add(cell);                 
-                        } else {
-                            if(col != 6){
-                                invalidFeilds.forEach(function(value) {
-                                    var prop = hotProduct.colToProp(col);
-                                    
-                                    if(value.row == row && value.col == prop){
-                                        invalidFeilds.delete(value);
-                                    }
-                                });
-                                                                
-                                hotProduct.getCellMeta(row, col).valid = true;
-                            }
-                        }
-                    }
-                } else {
-                    for(var col2 = 0; col2 < hotProduct.countCols(); col2++){
-                        if(hotProduct.getCellMeta(row, col2).valid == false){
-                            invalidFeilds.forEach(function(value) {
-                                var prop = hotProduct.colToProp(col2);
-                                
-                                if(value.row == row && value.col == prop){
-                                    invalidFeilds.delete(value);
-                                }
-                            });
-                                                            
-                            hotProduct.getCellMeta(row, col2).valid = true;                     
-                        }
-                    }
-                }
-            }
-            
-            hotProduct.render();
-            
+ 
             // Check if user didn't choose Customer or enter OrderMaster Code.
-            if(customer_name == "" || customer_id == "" || orderCd == ""){
+            if (customer_name == "" || customer_id == "" || orderCd == "") {
             	$('#errorEmpty').show();
                 ok = false;
             } 
 
+            // Check if row have data but empty column 'name', 'quantity'.
+            var columns = [1, 6];
+            if (areEmptyColumns(hotProduct, columns)) {
+                $('#errorHandsontable').show();
+                ok = false;
+            }
+
             // Check if handsontable have any invalid.
-            if(invalidFeilds.size > 0) {
+            if (!isValidTable(hotProduct)) {
                 $("#errorHandsontable").show();
                 ok = false;
             } 
 
             // Check if handsontable have any data.
-            if(hotProduct.countEmptyRows() == hotProduct.countRows()) { 
+            if (isEmptyTable(hotProduct)) { 
                 $("#errorHandsontableEmpty").show();
                 ok = false;
             } 
             
             console.log(ok);
-            if(ok){
+            if (ok) {
                 $.ajax({
                     url : _ctx + "order/save",
                     type : "POST",
@@ -330,7 +271,7 @@
                     data: JSON.stringify(frmData),
                     dataType: 'json',
     
-                    success : function(result) {
+                    success : function (result) {
                     	$('#errorEmpty').hide();
                     	$('#errorHandsontable').hide();
                     	$('#errorHandsontableEmpty').hide();
@@ -349,7 +290,8 @@
         // Dispay dialog of addresses
         var selectCustomerTable = null;
     
-        $('#btnSelectCustomer').click(function(e) {
+        $('#btnSelectCustomer').click(function (e) {
+            
             // Load dữ liệu khách hàng
         	if (selectCustomerTable == null) {
         		selectCustomerTable = $("#selectCustomerTable").DataTable({
@@ -360,7 +302,7 @@
                                // Assign address id and displayAddress
                                var data;
                                
-                               if(full.id == existsCustomerId){
+                               if (full.id == existsCustomerId) {
                             	   data ='<input type="radio" name="addressRow" checked value="' + full.id + '">';
                                } else {
                             	   data ='<input type="radio" name="addressRow" value="' + full.id + '">';
@@ -382,7 +324,7 @@
         	$("#dlgSearchCustomer").modal('show');
         });
 
-        $('#btnSelectedCustomer').click(function(e) {
+        $('#btnSelectedCustomer').click(function (e) {
 
             var selectedCustomerId = $('input[name=addressRow]:checked').val();
 
@@ -390,13 +332,13 @@
             $.ajax({
                 url : _ctx + "customer/load-customer/" + selectedCustomerId,
 
-                success : function(result) {
+                success : function (result) {
                     console.log("Load customer result =" + JSON.stringify(result));
                     
                     // fresh address
                     refreshCustomer(result);
                 },
-                error : function() {
+                error : function () {
                     console.log("Error!");
                 }
             });
@@ -407,7 +349,8 @@
          * @param fullAddr
          * @global selectCustomerRow
          */
-        function refreshCustomer(customer) {
+        function refreshCustomer (customer) {
+            
             // Set address into Address of the Customer
             $('#customer_id').val(customer.id);
             $('#customer_name').val(customer.name);
@@ -422,20 +365,16 @@
     </script>
 
     <script> 
-        $('#btnShowMap').click(function(e) {
+        $('#btnShowMap').click(function (e) {
             initMap();
         });
-        function initMap(){
+        
+        function initMap () {
             var geocoder = new google.maps.Geocoder();
             var address =  $('#customer_addr').val();
         
-            geocoder.geocode({'address': address}, function(results, status) {
+            geocoder.geocode({'address': address}, function (results, status) {
                   if (status === 'OK') {
-                     console.log(results);
-//     	             var map = new google.maps.Map($('#map_canvas'), {
-//                    zoom: 15,
-//                    center: results[0].geometry.location
-//                 });
                      var myOptions = {
     	                       zoom: 15,
                                center: results[0].geometry.location,
@@ -461,46 +400,50 @@
             $("#dlgSearchProduct").modal('show');
         }
 
-        $('#btnSelectedProduct').click(function(e) {
+        $('#btnSelectedProduct').click(function (e) {
             
             // get selected product's id
             var selectedProducts = [];
-            $("input:checkbox[name=productRow]:checked").each(function(){
+            $("input:checkbox[name=productRow]:checked").each(function () {
                 selectedProducts.push($(this).val());
             });
 
             var unSelectedProducts = [];
-            $("input:checkbox[name=productRow]:not(:checked)").each(function(){
+            $("input:checkbox[name=productRow]:not(:checked)").each(function () {
             	unSelectedProducts.push($(this).val());
             });
 
             // get product's id already exists in handsontable then remove it from selectedProducts.
-            for(var row = 0; row < dataProducts.length; row++){
-                if(!hotProduct.isEmptyRow(row)){
+            for (var row = 0; row < dataProducts.length; row++) {
+                if (!hotProduct.isEmptyRow(row)) {
                     var data = dataProducts[row];
                     console.log(data.id);
 //                 	var index = selectedProducts.indexOf(data.id);
                     
-                    for(var index = 0; index < selectedProducts.length; index++){
+                    for (var index = 0; index < selectedProducts.length; index++) {
                         console.log("index:"+index);
-                        if(selectedProducts[index] == data.id){
+                        
+                        if (selectedProducts[index] == data.id) {
                             console.log(selectedProducts[index]);
                             selectedProducts.splice(index, 1);
                         }
                     }
 
                     // remove from handsontable if uncheck from selectProductTable
-                    for(var index2 = 0; index2 < unSelectedProducts.length; index2++){
-                        if(unSelectedProducts[index2] == data.id){
+                    for (var index2 = 0; index2 < unSelectedProducts.length; index2++) {
+                        if (unSelectedProducts[index2] == data.id) {
                             console.log(unSelectedProducts[index2] + "-" + row);
                         	dataProducts.splice(row, 1);
+                            row = row - 1;
+
+                            deletedIds.push(data.id);
                         }
                     }      
                 }
             } 
             
-            console.log(selectedProducts);
-            console.log(unSelectedProducts);
+            console.log("select" + selectedProducts);
+            console.log("unselect " + unSelectedProducts);
             
             // get product in database
             $.ajax({
@@ -509,43 +452,50 @@
                 contentType: "application/json",
                 dataType: 'json',
                 
-                success : function(result) {
+                success : function (result) {
+
+                    var invalidCells = getInvalidCells(hotProduct);
                   
                     for (var i = 0; i < result.length; i++) {
-                        var res = result[i];
-                        for(var j = 0; j < selectedProducts.length; j++){
+                        var product = result[i];
+                        
+                        for (var j = 0; j < selectedProducts.length; j++) {
                             var checkedId = selectedProducts[j];
                             
-                            if(res.id == checkedId){
-                                for(var row = 0; row < dataProducts.length; row++){
-//                                         dataProducts.push(res);
+                            if (product.id == checkedId) {
+                                for (var row = 0; row < dataProducts.length; row++) {
+//                                         dataProducts.push(product);
     
-                                 // add product to handsontable where row's data = null
-                                     if(hotProduct.isEmptyRow(row)){
-                                        dataProducts.splice(row, 0, res);
+                                     // add product to handsontable where row's data = null
+                                     if (hotProduct.isEmptyRow(row)) {
+                                        dataProducts.splice(row, 0, product);
+    
                                         break;
                                      }
                                  }
+                                
+                                break;
                             }
                         }
                     }
                     
                     hotProduct.loadData(dataProducts);
+
+                    for (var i = 0; i < invalidCells.length; i++) {
+                        var cell = invalidCells[i];
+                        
+                        if (cell.col != 1) {
+                            hotProduct.getCellMeta(cell.row, cell.col).valid = false;
+                        }
+                    }
+
+                    hotProduct.render();
                 },
-                error : function() {
-                    console.log("Error!");
+                error : function (e) {
+                    console.log("Error!" + e);
                 }
             });
         });    
-//         var product = {"id": res.id,
-//                 "name": res.name,
-//                 "height": res.height,
-//                 "width": res.width,
-//                 "length": res.length,
-//                 "weight": res.weight,
-//                 "quantity": ""
-//                };
-//  dataProduct.push(product);
   </script>
 
 </body>
