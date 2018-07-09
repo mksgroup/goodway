@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import mksgroup.goodway.entity.DeliveryBatch;
 
 @Repository
-public interface DeliveryBatchRepository extends CrudRepository<DeliveryBatch, Long> {
+public interface DeliveryBatchRepository extends CrudRepository<DeliveryBatch, Integer> {
     
 }

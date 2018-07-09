@@ -7,6 +7,7 @@ package mksgroup.goodway.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +23,8 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 /**
  *
@@ -39,6 +42,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Stock.findByLastmodified", query = "SELECT s FROM Stock s WHERE s.lastmodified = :lastmodified")
     , @NamedQuery(name = "Stock.findByLastmodifiedbyUsername", query = "SELECT s FROM Stock s WHERE s.lastmodifiedbyUsername = :lastmodifiedbyUsername")})
 public class Stock implements Serializable {
+
+    @Column(name = "cd", length = 64)
+    private String cd;
+    @Column(name = "is_start")
+    private Boolean isStart;
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -62,6 +70,7 @@ public class Stock implements Serializable {
     private String lastmodifiedbyUsername;
     @JoinColumn(name = "address", referencedColumnName = "id", nullable = false)
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JsonBackReference
     private Address address;
 
     public Stock() {
@@ -156,6 +165,22 @@ public class Stock implements Serializable {
     @Override
     public String toString() {
         return "mksgroup.goodway.entity.Stock[ id=" + id + " ]";
+    }
+
+    public String getCd() {
+        return cd;
+    }
+
+    public void setCd(String cd) {
+        this.cd = cd;
+    }
+
+    public Boolean getIsStart() {
+        return isStart;
+    }
+
+    public void setIsStart(Boolean isStart) {
+        this.isStart = isStart;
     }
     
 }

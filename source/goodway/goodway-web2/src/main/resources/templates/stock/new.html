@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html class="loading" lang="en" data-textdirection="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <th:block th:include="fragments/head"></th:block>
+</head>
+<body class="horizontal-layout horizontal-top-icon-menu 2-columns   menu-expanded" data-open="hover" data-menu="horizontal-menu" data-col="2-columns">
+  <!-- fixed-top-->
+    <th:block th:include="fragments/nav"></th:block>
+  <!-- ////////////////////////////////////////////////////////////////////////////-->
+  <!-- Horizontal navigation-->
+    <th:block th:include="fragments/hnav"></th:block>
+  <!-- Horizontal navigation-->
+
+  <th:block th:include="fragments/stock/new"></th:block>
+  
+  <!-- Modal -->
+  <th:block th:include="fragments/footer"></th:block>
+  <th:block th:include="fragments/address/select"></th:block>
+  
+  <script th:src="@{/js/handsontable-validate.js}"></script>
+   <script>
+        // Dòng Khách hàng đang chọn địa chỉ
+        var selectStockRow;
+        var dataStocks = [];
+        var hotStock = null;
+        var deletedIds = [];
+        var invalidFeilds = new Set();
+
+       
+        $(function() {
+        	var containerStock = document.getElementById('tableStock');
+        	
+        	hotStock = new Handsontable(containerStock, {
+                data: dataStocks,
+                colHeaders: ["ID", "Tên Kho", "Mã Kho", "Địa chỉ", "", ""],
+                colWidths: [50, 300, 150, 400],
+                rowHeaders: true,
+                minRows: 10,
+            	manualColumnResize: true,
+                manualRowResize: true,
+                contextMenu: true,
+                columns: [
+                	{ data: "id", readOnly: true },
+                    { data: "name"},
+                    { data: "cd"},
+             	    { data: "address", readOnly: true  },
+             	    { data: "latitude", readOnly: true  },
+             	    { data: "longitude", readOnly: true  }
+                ],
+                hiddenColumns: {
+            	    columns: [4, 5],
+            	    indicators: true
+            	},
+                  afterSelection: function (r, c, r2, c2, preventScrolling, selectionLayerLevel) {
+
+                     // Display the dialog to search address
+                     if (c == 3) {
+                    	 selectStockRow = r;
+//                          console.log("Selected selectStockRow=" + selectStockRow)
+                         displayDlgSelectAddress();
+                     }
+
+                     // Hiển thị địa điểm được chọn tại trung tâm bản đồ
+                     var lat = dataStocks[r].latitude;
+                     var lng = dataStocks[r].longitude;
+
+                     if (lat && lng) {
+                         var latLng = {lat: lat, lng: lng };
+
+                         // Display icon stock of selected one into the map
+                         placeMarkerAndPanTo(latLng, map, dataStocks[r].cd , dataStocks[r].name, true);
+                         //map.setCenter(latLng);
+                     }
+                  },
+                  beforeRemoveRow: function (index, amount) {
+                      console.log("Removed row index =" + index + ";amount=" + amount);                
+                      console.log("index=" + index);
+                      
+                      var lastIndex = index + amount;
+                      var i;
+                      for (i = index; i < lastIndex; i++) {
+                          console.log("dataStocks=" + JSON.stringify(dataStocks));
+                          var deletedstock = dataStocks[i];
+                          var deletedId = deletedstock.id;
+
+                          console.log("Row = " + i + ";deletedId = " + deletedId);
+                          if (deletedId) {
+                              deletedIds.push(deletedId);
+                          }
+                      }
+
+                      console.log("list deletedIds=" + deletedIds);
+                  },
+                  
+                  beforeChange: function(changes, source) {
+                      
+                        // changes = [[row, prop, oldVal, newVal], ...]
+                	  for (var i = 0; i < changes.length; i++) {
+                          var row = changes[i][0];
+                          var col = hotStock.propToCol(changes[i][1]);
+                          var newVal = changes[i][3];
+                          console.log("row: " + row + "; col: " + col + "; newVal: " + newVal);
+
+                          if (col == 1) {
+                        	  textValidator(hotStock, row, col, newVal, 50);                        
+                              }
+                          if (col == 2 || col == 3) {
+                        	  textValidator(hotStock, row, col, newVal, 10);
+                              }
+                          // if column is phone
+                          if (col == 4) {
+                        	  integerValidator(hotStock, row, col, newVal, 11);                               
+                          }
+                      }
+                  }
+              });
+            // Hide 2 columns
+//         	var plugin = hotStock.getPlugin('hiddenColumns');
+//         	plugin.hideColumn(4, 5);
+            
+            loadStocks();
+        });
+
+
+
+        // Load lại danh sách 
+        function loadStocks() {
+           var url;
+           var total = document.getElementById('total');
+            
+                url = _ctx + 'stock/load-stock';
+
+
+            $.ajax({
+                url : url,
+                type : 'GET',
+                dataType : 'json',
+                contentType : 'application/json',
+                success : function(res) {
+                	total.innerHTML = res.length;
+
+                	if (res && res.length > 0) {
+                        dataStocks = res;
+                    }
+                    
+                    hotStock.loadData(dataStocks);                    
+                },
+                error : function (e) {
+                    console.log("Error: " + e);
+                }
+            });
+        }
+    </script>
+    
+    <script>
+        $('#frmHot').submit(function(e) {
+            e.preventDefault();
+    
+            var frm = $('#frmHot');
+    
+            // Get header name
+            var colHeaderData =  hotStock.getColHeader();
+            
+            // Get data from Handsontable
+            var tableData = hotStock.getData();
+
+            var frmData = {};
+            frmData["header"] = colHeaderData;
+            frmData["data"] = tableData;
+            frmData["deletedIds"] = deletedIds;
+
+            var ok = true;
+
+			
+            if (isEmptyColumn(hotStock, 1)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+
+            if (isEmptyColumn(hotStock, 2)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+
+            if (isEmptyColumn(hotStock, 5)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+            // check if handsontable have any invalid cell
+            if (!isValidTable(hotStock)) {
+                ok = false;
+                $('#errorHandsontable').show();
+            }
+
+            if (isEmptyTable(hotStock)) { 
+                $('#errorEmpty').show();
+                ok = false;
+            }
+            
+            if(ok) {
+            	$('#errorHandsontable').hide();
+            	$('#errorHandsontable').hide();
+                $.ajax({
+                    url : _ctx + "stock/save",
+                    type : "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(frmData),
+                    dataType: 'json',
+    
+                    success : function(result) {
+                    	// Display result information
+                        $('#result').fadeToggle('slow'); $('#result').fadeOut(5000); 
+    
+                        // reload data
+                    	loadStocks();
+                    },
+                    error : function() {
+                        console.log("Error!");
+                    }
+                });
+            }
+        });
+    </script>
+    <!--  Scripts for select address -->
+    <script>
+        function displayDlgSelectAddress() {
+        	$("#dlgSearchAddress").modal('show');
+        }    
+    </script>
+	<script>
+        // Dispay dialog of addresses
+        var selectAddressTable = null;
+        
+        $(document).ready(function() {
+            // Khởi tạo Table kết quả
+        	if (selectAddressTable == null) {
+        		selectAddressTable = $("#selectAddressTable").DataTable({
+                    ajax: {'url': _ctx + 'address/load-address', 'dataSrc': ''},
+//                     autoFill: true,
+//                     select: { style: 'single' },
+                    "columns": [
+                           {"render": function ( data, type, full, meta ) {
+                                // return '<input type="radio" name="addressRow" value="' + full.displayAddress + '">';
+                               // Assign address id and displayAddress
+                        	   return '<input type="radio" name="addressRow" value="' + full.id + '">';
+                           }},  // here's a radio button, modify to use data to populate it
+                    	   { "data": "id" },
+                    	   { "data": "displayAddress" }
+                    ]
+                });
+        	} else {
+        		// selectAddressTable.fnDraw();
+            }
+        });
+
+        $('#btnSelectAddress').click(function(e) {
+
+        	var selectedAddrId = $('input[name=addressRow]:checked').val();
+
+            // Get Fulll addres from Id
+            $.ajax({
+                url : _ctx + "address/load-address/" + selectedAddrId,
+
+                success : function(result) {
+                	console.log("Load addr by id =" + selectedAddrId + ";result address=" + JSON.stringify(result));
+                    
+                    // fresh address
+                	refreshStock(selectedAddrId, result.displayAddress, result.latitude, result.longitude);
+                },
+                error : function() {
+                    console.log("Error!");
+                }
+            });
+        });
+
+        /**
+         * @param addrId
+         * @param fullAddr
+         * @global selectStockRow
+         */
+        function refreshStock(addrId, fullAddr, latitude, longitude) {
+            // Set address into Address of the stock
+            if (selectStockRow >=0 && (fullAddr)) {
+                var rowData = dataStocks[selectStockRow];
+
+                console.log("fullAddr=" + fullAddr);
+
+                if (addrId) {
+                   
+                	dataStocks[selectStockRow].address = fullAddr;
+                	dataStocks[selectStockRow].latitude = latitude;
+                	dataStocks[selectStockRow].longitude = longitude;
+//                 	dataStocks[selectStockRow].addrId = addrId;
+                	// console.log("Current dataStocks at row " +  selectStockRow + ": "+ JSON.stringify(dataStocks[selectStockRow]));
+                } else {
+                    console.log("stock has not inputted yet.");
+                    dataStocks.push(["", "", "", fullAddr, latitude, longitude]);
+                }
+
+                console.log("dataStocks=" + dataStocks);
+            	hotStock.loadData(dataStocks);
+            	//hotStock.render();
+
+            	
+            } else {
+            	 console.log("selectedDisplayAddress has no value; selectStockRow= " + selectStockRow);
+            }
+        }
+    </script>
+    <script async defer th:src="@{https://maps.googleapis.com/maps/api/js?key=} + ${map_key} + @{&callback=initMap}">
+    </script>
+    <script th:src="@{/js/map.js}"></script>
+    <script>
+        var gmarkers = [];
+        function placeMarkerAndPanTo(latLng, map, label, title, isPan) {
+            var marker = new google.maps.Marker({
+              position: latLng,
+              label: label,
+              title: title,
+              map: map
+            });
+            if (isPan) {
+              map.panTo(latLng);
+            }
+    
+            // Save to array of makers
+            gmarkers.push(marker);
+        }
+    </script>
+</body>
+</html>

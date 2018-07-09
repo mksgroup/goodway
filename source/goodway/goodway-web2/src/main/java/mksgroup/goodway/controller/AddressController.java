@@ -33,13 +33,10 @@ import mksgroup.goodway.util.AppUtil;
  * @author ThachLN
  */
 @Controller
-public class AddressController {
+public class AddressController extends BaseController {
 
 	/** For logging. */
 	private final static Logger LOG = LoggerFactory.getLogger(VehicleController.class);
-
-    @Value("${map.key}")
-    String mapKey;
 
 	@Autowired
 	private AddressBiz addressBiz;
@@ -107,4 +104,22 @@ public class AddressController {
 
 		return address;
 	}
+
+    @Override
+    String getFilename() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    String getTemplate() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    Iterable<?> getDownloadData() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

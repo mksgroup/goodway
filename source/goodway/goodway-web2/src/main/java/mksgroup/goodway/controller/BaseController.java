@@ -23,6 +23,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -42,6 +43,10 @@ abstract public class BaseController {
     private final static Logger LOG = LoggerFactory.getLogger(BaseController.class);
 
     private static final String TMP_DIR = System.getProperty("java.io.tmpdir");
+
+
+    @Value("${map.key}")
+    String mapKey;
 
     @Autowired
     private ServletContext servletContext;
