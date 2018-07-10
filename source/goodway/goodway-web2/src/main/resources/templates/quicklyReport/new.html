@@ -47,8 +47,8 @@
                 {data: 'companyName'},
                 {data: 'mainUnit'},
                 {data: 'affiliatedUnit'},
-                {data: 'startTime' , type: 'date', dateFormat: 'DD/MM/YYYY'},
-                {data: 'endTime' , type: 'date', dateFormat: 'DD/MM/YYYY'},
+                {data: 'startTime' , type: 'date', dateFormat: 'YYYY-MM-DD'},
+                {data: 'endTime' , type: 'date', dateFormat: 'YYYY-MM-DD'},
                 {data: 'discinple'},
                 {data: 'jobPerformence'},
                 {data: 'activitiesParticipate'},
@@ -56,7 +56,7 @@
                 {data: 'internshipRank'},
                 {data: 'workingDays'},
                 {data: 'comments'},
-                {data: 'updated'},
+                {data: 'updated', type: 'date', dateFormat: 'YYYY-MM-DD'},
                 {data: 'updatedUser'},
                 {data: 'updatedCommands'}
            		],
@@ -89,6 +89,7 @@
      */
 	function loadQuicklyReports(quicklyReportId) {
 		   var url;
+		   deletedIds = [];
 		   var total = document.getElementById('total');
 		   
 		   if (quicklyReportId === undefined) {

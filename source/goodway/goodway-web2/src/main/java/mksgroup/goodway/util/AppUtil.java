@@ -240,7 +240,7 @@ public class AppUtil {
     }
     
     public static Iterable<QuicklyReport> parseQuicklyReport(@Valid QuicklyReportModel data) {
-        final String[] HEADERS = {"id", "image", "name", "account", "email", "companyName", "mainUnit", "affiliatedUnit", "startTime", "endTime", "discinple", "jobPerformence", "activitiesParticipate", "internshipResult", "internshipRank", "workingDays", "comments", "updated", "updatedUser", "updatedCommands"};
+        final String[] HEADERS = {"id", "image", "name", "account", "email", "companyName", "mainUnit", "affiliatedUnit", "{name: startTime , format: yyyy-MM-dd}", "{name: endTime , format: yyyy-MM-dd}", "discinple", "jobPerformence", "activitiesParticipate", "internshipResult", "internshipRank", "workingDays", "comments", "updated ", "updatedUser", "updatedCommands"};
        
         LOG.info("Quickly report data=" + data.getData());
         List<QuicklyReport> listQuicklyReport = (List<QuicklyReport>) BeanUtil.getDataList(data.getData(), HEADERS, QuicklyReport.class, SKIP_EMPTYROW, "createdbyUsername", "SYSTEM", "created");
